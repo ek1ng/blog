@@ -120,7 +120,7 @@ sidebar:
       display: [desktop]
       header:
         icon: fad fa-clock WISTERIA
-        title: 最近更新
+        title: 随机推荐
     toc:
       display: [desktop, mobile]
       header:
