@@ -211,8 +211,8 @@ plugins:
 
 analytics:
   leancloud: # 请使用自己的 id & key 以防止数据丢失
-    app_Id: ThEuM29Rc9YmToV1iVFhGyAQ-gzGzoHsz
-    app_Key: yOtNPLW34jnOwf7vlJuOiEFL
+    app_Id: spgPB98cUYCSdjwtF7Y9bfQT-MdYXbMMI
+    app_Key: 4WSqT5tcqWtutjV9fHa9rzjY
 
 custom_css:
   cursor:
