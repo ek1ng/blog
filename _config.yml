@@ -97,9 +97,14 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: volantis
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  - type: git
+    repo: https://GitHub用户名:上一步获取的token@github.com/GitHub用户名/GitHubpages对应的仓库.git
+    branch: master #GitHubpages对应的仓库存放的分支2020年十二月以后默认分支为main注意修改
+  - type: git
+    repo: git@服务器ip:/home/git/blog.git #仓库地址
+    branch: master'
