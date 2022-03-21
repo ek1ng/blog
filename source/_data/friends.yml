@@ -1,15 +1,34 @@
 - group: Vidar-team # 分组标题
-  description: 协会的朋友们 # 分组描述
   items:
+    - title: Vidar-team
+      url: https://vidar.club/
+      avatar: https://vidar.club/favicon.ico
     - title: chuj # 名称
+      url: https://cjovi.icu/ # 链接
       avatar: https://www.cjovi.icu/usr/uploads/fixed/headpicture.png # 头像
-      url: https://cjovi.icu/ # 链接 
-      screenshot: # 截图
-      keywords: # 关键词
-      description: Vidar-team | Pwn # 描述
-    - title: # 名称
-      avatar: # 头像
-      url: # 链接
-      screenshot: # 截图
-      keywords: # 关键词
-      description: # 描述
+    - title: Summ3r
+      url: https://blog.summ3r.top/
+      avatar: https://thirdqq.qlogo.cn/g?b=sdk&k=4y6zxTBSB3cbseeyPvQWng&s=640
+    - title: r0gerThat
+      url: https://wr-web.github.io/
+      avatar: https://thirdqq.qlogo.cn/g?b=sdk&k=p1TD1qwKfEK8NZExRDqic1A&s=640
+    - title: 小吴玉麒麟
+      url: https://blog.mjclouds.com/
+      avatar: https://thirdqq.qlogo.cn/g?b=sdk&k=nnzEWNwxMS88jKYre5fOjg&s=640
+    - title: atom
+      url: https://homeboyc.cn/
+      avatar: https://homeboyc.cn/img/avatar.jpg
+    - title: t0hka
+      url: https://blog.t0hka.top/
+      avatar: https://avatars.githubusercontent.com/u/88968902?v=4
+    - title: h4kuy4
+      url: https://www.hakuya.work/
+      avatar: https://www.hakuya.work/wp-content/uploads/2022/02/85036989_p0_master1200.jpg
+- group: Friends
+  items:
+    - title: NiC
+      url: https://nc-77.top/
+      avatar: https://avatars.githubusercontent.com/u/55619895?v=4
+    - title: Legrandk
+      url: https://www.legr4ndk.top/
+      avatar: https://www.legr4ndk.top/images/avatar.jpg
