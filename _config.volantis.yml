@@ -208,7 +208,7 @@ plugins:
     room: hexo-theme-volantis/community
   wordcount:
     enable: true
-
+    
 analytics:
   leancloud: # 请使用自己的 id & key 以防止数据丢失
     app_Id: spgPB98cUYCSdjwtF7Y9bfQT-MdYXbMMI

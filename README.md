@@ -8,7 +8,7 @@
 - [ ] 添加计划表
 - [ ] 添加闲言碎语 by Artitalk
 - [ ] 添加RSS订阅功能
-- [ ] 添加pv cv by LeanCloud
+- [ ] 修复PV UV无法查看的bug
 - [ ] 域名备案
 - [ ] 优化SEO
 
