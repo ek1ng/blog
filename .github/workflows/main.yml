@@ -25,7 +25,6 @@ jobs:
 
     - name: 构建Hexo
       run: |
-        hexo --debug
         hexo clean
         hexo generate
         
