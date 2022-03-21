@@ -210,7 +210,7 @@ plugins:
     enable: true
 
 analytics:
-  busuanzi: /libs/busuanzi/js/busuanzi.pure.mini.js https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js
+  busuanzi: https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js
 
 custom_css:
   cursor:
