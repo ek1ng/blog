@@ -6,8 +6,9 @@
 
 ## Todo
 - [ ] 添加计划表
-- [ ] 添加闲言碎语
-- [ ] 添加评论功能
+- [ ] 添加闲言碎语 by Artitalk
 - [ ] 添加RSS订阅功能
+- [ ] 添加pv cv by LeanCloud
 - [ ] 域名备案
+- [ ] 优化SEO
 
