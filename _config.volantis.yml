@@ -223,13 +223,11 @@ plugins:
     enable: true
   gitter:
     room: hexo-theme-volantis/community
+  wordcount:
+    enable: true
 
 analytics:
-  busuanzi: #https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js
-  leancloud:
-    app_id: GCYDRKI6XRkyC7EuEhJv90ia-MdYXbMMI
-    app_key: 4xKBXGBj6BgecU62vff5rJHs
-    custom_api_server: # 一般不需要写，除非自定义了 API Server
+  busuanzi: /libs/busuanzi/js/busuanzi.pure.mini.js #https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js
 
 custom_css:
   cursor:
