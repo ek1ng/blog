@@ -10,6 +10,7 @@ keywords:
 author: ek1ng
 language: zh-CN
 timezone: Asia/Shanghai
+favicon: img/default/avatar.ico
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

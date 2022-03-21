@@ -10,7 +10,7 @@ navbar:
   logo: # choose [img] or [icon + title]
     img: '' #https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png
     icon:
-    title: ek1ng 
+    title: ek1ng
   search: 想找些什么~
   menu:
     - name: 首页
@@ -22,15 +22,15 @@ navbar:
       url: /archives/
 
     - name: 标签
-      icon: fad fa-folder-open TURQUOISE faa-vertical
+      icon: fad fa-folder-open CONCRETE faa-vertical
       url: /tags/
 
     - name: 友链
-      icon: fad fa-stamp ALIZARIN faa-vertical
+      icon: fad fa-stamp POMEGRANATE faa-vertical
       url: /friends/  
 
     - name: 关于
-      icon: fad fa-drafting-compass SUNFLOWER faa-vertical
+      icon: fad fa-drafting-compass WISTERIA faa-vertical
       url: /about/
 
     - name: 更多
@@ -48,24 +48,24 @@ navbar:
 
 cover:
   # height_scheme: full # full, half
-  title: 'ek1ng'
-  subtitle: 'foucs on security and web development'
+  title: ek1ng's blog
+  subtitle: Foucs on security and web development
   background: # https://bing.ioliu.cn/v1/rand?w=1920&h=1200
   features:
     - name: 首页
       icon: fad fa-home CARROT faa-vertical
       url: /
     - name: 文章
-      icon: fad fa-archive
+      icon: fad fa-archive PETERRIVE faa-vertical
       url: /archives/
     - name: 标签
-      icon: fad fa-folder-open TURQUOISE faa-vertical
+      icon: fad fa-folder-open CONCRETE faa-vertical
       url: /tags/
     - name: 友链
-      icon: fad fa-stamp
+      icon: fad fa-stamp POMEGRANATE faa-vertical
       url: /friends/
     - name: 关于
-      icon: fad fa-drafting-compass
+      icon: fad fa-drafting-compass WISTERIA faa-vertical
       url: /about/
 
 article:
@@ -119,138 +119,51 @@ comments:
     repo: volantis-x/community  
     issue-number: 115
 sidebar:
-  for_page: [qgroup, post, category, guide]
+  for_page: [blogger, lastupdate, tagcloud, webinfo]
   for_post: [toc]
   widget_library:
-    toc:
-      class: toc
-      display: [desktop, mobile] # [desktop, mobile]
-      header:
-        icon: fa-solid fa-list
-        title: 本文目录
-      list_number: true
-      min_depth: 2
-      max_depth: 5
-    post:
-      class: text
-      display: [desktop, mobile] # [desktop, mobile]
-      header:
-        icon: fa-solid fa-plus
-        title: 社区活动
-        url: /contributors/
-      content:
-        - '**如何让自己的文章收录到这里？**<br>官方网站是开源的，只要您的文章与 Hexo 博客搭建相关，就可以自助进行收录，详细的操作步骤请见：「[**发布与分享文章**](/contributors/#发布与分享文章)」。'
-    # 文档导航
-    guide:
-      class: grid
-      display: [desktop, mobile] # [desktop, mobile]
-      header:
-        icon: fa-solid fa-map-signs
-        title: 分类导航
-      fixed: true # 固定宽度
-      rows:
-        - name: 常见问题
-          icon: fa-solid fa-question-circle
-          url: /faqs/
-        - name: 示例博客
-          icon: fa-solid fa-play-circle
-          url: /examples/
-        - name: 特别感谢
-          icon: fa-solid fa-handshake
-          url: /contributors/
-        - name: 测试博文
-          icon: fa-solid fa-file-alt
-          url: /archives/
-        - name: 主题源码
-          icon: fa-solid fa-file-code
-          url: https://github.com/volantis-x/hexo-theme-volantis/
-          rel: external nofollow noopener noreferrer
-          target: _blank
-        - name: 更新日志
-          icon: fa-solid fa-tags
-          url: https://github.com/volantis-x/hexo-theme-volantis/releases/
-          rel: external nofollow noopener noreferrer
-          target: _blank
-
-    # qrcode widget
-    qrcode:
-      class: qrcode
+    blogger:
+      class: blogger
       display: [desktop] # [desktop, mobile]
+      avatar: /img/avatar.jpg
+      shape: circle # circle, rectangle
+      url: /about/
+      title: ek1ng
+      subtitle: 
+      jinrishici: false # Poetry Today. You can set a string, and it will be displayed when loading fails.
+      social:
+    lastupdate:
+      class: lastupdate
+      display: [desktop]
       header:
-        icon: fa-solid fa-mobile
-        title: 手机观看
-      height: #64px  # Automatic height if not set
-      fancybox: #true
-      images:
-        - https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png
-
-    qgroup:
-      class: text
-      display: [desktop, moblie]
-      header:
-        icon: fa-brands fa-qq
-        title: '加入 QQ 群'
-      content:
-        - '如果你在使用中遇到问题，请到 [Github Issues](https://github.com/volantis-x/hexo-theme-volantis/issues) 或者 [留言板](/faqs/#comments) 进行反馈，你也可以加入 **QQ 群**，验证码：vlts-2021<br>[![](https://bu.dusays.com/2021/09/24/ae832f0aadee8.png)](https://qm.qq.com/cgi-bin/qm/qr?k=FpexWW5GCLWOM3jF3LG-YWfllXuv7cMs&jump_from=webapi)'
-
-    help:
-      class: page
+        icon: fad fa-clock WISTERIA
+        title: 最近更新
+    toc:
       display: [desktop, mobile]
       header:
-        icon: fa-solid fa-headset
-        title: 帮助
-      pid: faq
-      content: excerpt # excerpt, more, content
-
-    news:
-      class: list
-      display: [desktop, mobile] # [desktop, mobile]
+        icon: fad fa-list ASBESTOS
+    tagcloud:
+      display: [desktop]
       header:
-        icon: fa-solid fa-exclamation-triangle
-        title: 近期公告
-      rows:
-        - name: 关于主题与文档的更新
-          icon: fa-solid fa-info-circle
-          url: https://github.com/volantis-x/hexo-theme-volantis/issues/215
-        - name: 升级小助手
-          icon: fa-solid fa-angle-double-up
-          url: /v3/getting-started/#升级小助手
-
-    docs-v2:
-      class: group
-      display: [desktop, mobile] # [desktop, mobile]
+        title: 标签列表
+        icon: fad fa-tags WISTERIA 
+        url: /tags/
+      max_font: 24
+      min_font: 16
+    webinfo:
+      display: [desktop]
       header:
-        icon: fa-duotone fa-list-alt
-        title: 文档导航 v2
-
-    docs-v3:
-      class: group
-      display: [desktop, mobile] # [desktop, mobile]
-      header:
-        icon: fa-duotone fa-list-alt
-        title: 文档导航 v3
-
-    docs-v4:
-      class: group
-      display: [desktop, mobile] # [desktop, mobile]
-      header:
-        icon: fa-duotone fa-list-alt
-        title: 文档导航 v4
-
-    docs-latest:
-      class: group
-      display: [desktop, mobile] # [desktop, mobile]
-      header:
-        icon: fa-duotone fa-book
-        title: 文档导航 v5.0
-
-    docs-volantis-latest:
-      class: group
-      display: [desktop, mobile] # [desktop, mobile]
-      seo_title: Volantis
-      header:
-        icon: fa fa-book
-        title: 文档导航 v5.0
+        icon: fad fa-award NEPHRITIS
+      type:
+        runtime:
+          data: '2021/3/15'
+        wordcount:
+          unit: ''
+        visitcounter:
+          siteuv:
+            enable: true
+          sitepv:
+            enable: true
 
 tag_plugins:
   note:
