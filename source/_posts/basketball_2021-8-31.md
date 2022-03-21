@@ -2,8 +2,6 @@
 title: 校队集训日记1
 date: 2021-08-31 22:06:00
 tags: 🏀
-top_img: img/basketball1.jpeg
-cover: img/basketball1.jpeg
 
 ---
 

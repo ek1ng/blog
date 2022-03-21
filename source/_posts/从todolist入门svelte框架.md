@@ -1,9 +1,7 @@
 ---
 title: 从Todolist入门Svelte框架
 date: 2021-10-08 15:55:00
-tags: front-end
-top_img: img/svelte.png
-cover: img/svelte.png
+tags: [front-end,Svelte]
 ---
 
 # 从Todolist入门Svelte框架

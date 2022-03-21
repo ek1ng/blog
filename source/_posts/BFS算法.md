@@ -1,9 +1,7 @@
 ---
-title: BFS算法
+title: BFS
 date: 2021-08-10 00:00:00
-tags: leetcode
-top_img: img/leetcode.jpg
-cover: img/leetcode.jpg
+tags: [leetcode,algorithm]
 ---
 # BFS算法
 

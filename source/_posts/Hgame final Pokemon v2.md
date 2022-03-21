@@ -2,8 +2,6 @@
 title: HGAME 2022 Final Pokemon v2 writeup
 date: 2022-03-16 15:58:00
 tags: [ctf,security]
-cover: https://w.wallhaven.cc/full/0q/wallhaven-0q2jwr.jpg
-top_img: false
 ---
 
 # Hgame final Pokemon v2 writeup

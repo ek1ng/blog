@@ -2,8 +2,6 @@
 title: HCTF 2018 WarmUP writeup
 date: 2022-03-7 22:47:00
 tags: [ctf,security]
-cover: https://w.wallhaven.cc/full/j3/wallhaven-j3qq15.jpg
-top_img: false
 ---
 # HCTF 2018 WarmUp writeup
 

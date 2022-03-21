@@ -1,9 +1,7 @@
 ---
 title: 浅谈开发中的cors限制
 date: 2021-11-19 12:19:00
-tags: front-end
-cover: https://miro.medium.com/max/1200/1*fFOeYqrSmQc5WCVqBazQKw.jpeg
-top_img: false
+tags: [front-end,cors]
 ---
 
 # 浅谈开发中的cors限制

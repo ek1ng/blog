@@ -2,8 +2,6 @@
 title: HGAME 2022 Final writeup
 date: 2022-03-12 20:10:00
 tags: [ctf,security]
-cover: https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/logo_2022.png
-top_img: false
 ---
 
 # HGAME 2022 Final writeup by ek1ng

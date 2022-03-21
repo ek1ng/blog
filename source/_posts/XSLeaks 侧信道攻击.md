@@ -2,8 +2,6 @@
 title: XSLeaks 侧信道攻击 (unfinished)
 date: 2022-03-14 22:46:00
 tags: [ctf,security]
-cover: https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/dfa0-article-211123-xs-leak-browser-body-text.png
-top_img: false
 ---
 
 # XSLeaks 侧信道攻击

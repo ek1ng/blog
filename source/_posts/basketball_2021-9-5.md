@@ -2,10 +2,6 @@
 title: 校队集训日记2
 date: 2021-09-5 22:53:00
 tags: 🏀
-top_img: img/basketball2.jpg
-cover: img/basketball2.jpg
-
-
 ---
 
 # 🏀集训日记2
