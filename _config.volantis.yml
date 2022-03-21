@@ -1,0 +1,370 @@
+use_cdn: false
+navbar:
+  logo: # choose [img] or [icon + title]
+    img: '' #https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png
+    icon:
+    title: 'Volantis 5.0 <sup style="color:#ff9800">alpha</sup>'
+  menu:
+    - name: 文档
+      icon: fa-duotone fa-book faa-tada
+      url: /v5/getting-started/
+      target: _self
+
+    - name: 示例
+      icon: fa-duotone fa-play-circle faa-tada
+      url: /examples/
+
+    - name: 帮助
+      icon: fa-duotone fa-question-circle faa-tada
+      url: /faqs/
+
+    - name: 鸣谢
+      icon: fa-duotone fa-heart
+      url: /contributors/
+
+    - name: 更多
+      icon: fa-duotone fa-ellipsis-v
+      rows:
+        - name: 暗黑模式
+          icon: fa-solid fa-moon
+          toggle: darkmode
+        - name: hr
+        - name: 本站源码
+          url: https://github.com/volantis-x/volantis-docs/
+        - name: 主题源码
+          url: https://github.com/volantis-x/hexo-theme-volantis/
+        - name: hr
+        - name: 更新日志
+          url: https://github.com/volantis-x/hexo-theme-volantis/releases/
+        - name: 博客文章
+          url: /archives/
+        - name: hr
+        - name: 旧版文档 v4
+          url: /v4/getting-started/
+        - name: 旧版文档 v3
+          url: /v3/getting-started/
+        - name: 旧版文档 v2
+          url: /v2/getting-started/
+
+
+
+cover:
+  # height_scheme: full # full, half
+  title: 'Volantis'
+  subtitle: '中文创作者社区'
+  background: # https://bing.ioliu.cn/v1/rand?w=1920&h=1200
+  features:
+    - name: 博客
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4f0.svg
+      url: /
+    - name: 文档
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f516.svg
+      url: /v5/getting-started/
+      target: _self
+    - name: 示例
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4af.svg
+      url: /examples/
+    - name: 帮助
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4ac.svg
+      url: /faqs/
+    - name: 鸣谢
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f497.svg
+      url: /contributors/
+    - name: 归档
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f5c3.svg
+      url: /archives/
+    - name: 源码
+      img: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f9ec.svg
+      url: https://github.com/volantis-x/hexo-theme-volantis/
+      target: _self
+
+article:
+  preview:
+    scheme: landscape # landscape
+    # pin icon for post
+    pin_icon: # https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg
+    # auto generate title if not exist
+    auto_title: false # false, true
+    # auto generate excerpt if not exist
+    auto_excerpt: false # false, true
+    author: true
+    # show readmore button
+    readmore: auto # auto, always
+  body:
+    meta_library:
+      author:
+        avatar: https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/avatar.jpg
+        name: Volantis Team
+        url: https://github.com/volantis-x/
+      updated:
+        title: '本页文档最后更新于：'
+
+
+comments:
+  service: giscus
+  giscus:
+    theme:
+      light: "light"
+      dark: "dark"
+    repo: volantis-x/hexo-theme-volantis
+    repo-id: MDEwOlJlcG9zaXRvcnkxMDgwNzM2MzQ=
+    mapping: "number"
+    term: "539"
+    reactions-enabled: "1"
+    emit-metadata: "0"
+    lang: "zh-CN"
+    input-position: "top"
+  disqus:
+    shortname: volantis
+    path: /
+  valine:
+    appId: FIKAgh6n0pUM08JXxhJHChVQ-MdYXbMMI
+    appKey: RJGiOYFc1fBvfox4frBPpRzU
+    path: /
+  utterances:
+    repo: volantis-x/community
+    issue-number: 115
+  beaudar:
+    repo: volantis-x/community  
+    issue-number: 115
+sidebar:
+  for_page: [qgroup, post, category, guide]
+  for_post: [toc]
+  widget_library:
+    toc:
+      class: toc
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-solid fa-list
+        title: 本文目录
+      list_number: true
+      min_depth: 2
+      max_depth: 5
+    post:
+      class: text
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-solid fa-plus
+        title: 社区活动
+        url: /contributors/
+      content:
+        - '**如何让自己的文章收录到这里？**<br>官方网站是开源的，只要您的文章与 Hexo 博客搭建相关，就可以自助进行收录，详细的操作步骤请见：「[**发布与分享文章**](/contributors/#发布与分享文章)」。'
+    # 文档导航
+    guide:
+      class: grid
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-solid fa-map-signs
+        title: 分类导航
+      fixed: true # 固定宽度
+      rows:
+        - name: 常见问题
+          icon: fa-solid fa-question-circle
+          url: /faqs/
+        - name: 示例博客
+          icon: fa-solid fa-play-circle
+          url: /examples/
+        - name: 特别感谢
+          icon: fa-solid fa-handshake
+          url: /contributors/
+        - name: 测试博文
+          icon: fa-solid fa-file-alt
+          url: /archives/
+        - name: 主题源码
+          icon: fa-solid fa-file-code
+          url: https://github.com/volantis-x/hexo-theme-volantis/
+          rel: external nofollow noopener noreferrer
+          target: _blank
+        - name: 更新日志
+          icon: fa-solid fa-tags
+          url: https://github.com/volantis-x/hexo-theme-volantis/releases/
+          rel: external nofollow noopener noreferrer
+          target: _blank
+
+    # qrcode widget
+    qrcode:
+      class: qrcode
+      display: [desktop] # [desktop, mobile]
+      header:
+        icon: fa-solid fa-mobile
+        title: 手机观看
+      height: #64px  # Automatic height if not set
+      fancybox: #true
+      images:
+        - https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png
+
+    qgroup:
+      class: text
+      display: [desktop, moblie]
+      header:
+        icon: fa-brands fa-qq
+        title: '加入 QQ 群'
+      content:
+        - '如果你在使用中遇到问题，请到 [Github Issues](https://github.com/volantis-x/hexo-theme-volantis/issues) 或者 [留言板](/faqs/#comments) 进行反馈，你也可以加入 **QQ 群**，验证码：vlts-2021<br>[![](https://bu.dusays.com/2021/09/24/ae832f0aadee8.png)](https://qm.qq.com/cgi-bin/qm/qr?k=FpexWW5GCLWOM3jF3LG-YWfllXuv7cMs&jump_from=webapi)'
+
+    help:
+      class: page
+      display: [desktop, mobile]
+      header:
+        icon: fa-solid fa-headset
+        title: 帮助
+      pid: faq
+      content: excerpt # excerpt, more, content
+
+    news:
+      class: list
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-solid fa-exclamation-triangle
+        title: 近期公告
+      rows:
+        - name: 关于主题与文档的更新
+          icon: fa-solid fa-info-circle
+          url: https://github.com/volantis-x/hexo-theme-volantis/issues/215
+        - name: 升级小助手
+          icon: fa-solid fa-angle-double-up
+          url: /v3/getting-started/#升级小助手
+
+    docs-v2:
+      class: group
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-duotone fa-list-alt
+        title: 文档导航 v2
+
+    docs-v3:
+      class: group
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-duotone fa-list-alt
+        title: 文档导航 v3
+
+    docs-v4:
+      class: group
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-duotone fa-list-alt
+        title: 文档导航 v4
+
+    docs-latest:
+      class: group
+      display: [desktop, mobile] # [desktop, mobile]
+      header:
+        icon: fa-duotone fa-book
+        title: 文档导航 v5.0
+
+    docs-volantis-latest:
+      class: group
+      display: [desktop, mobile] # [desktop, mobile]
+      seo_title: Volantis
+      header:
+        icon: fa fa-book
+        title: 文档导航 v5.0
+
+site_footer:
+  layout: [aplayer, social, source, analytics, copyright]
+  copyright: '[Copyright © 2017-2021 Volantis Team](https://github.com/volantis-x/)'
+  social:
+    - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/020-rss.svg
+      url: atom.xml
+    - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/029-github.svg
+      url: https://github.com/volantis-x/
+    - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/010-facebook.svg
+      url: /
+    - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/018-twitter.svg
+      url: /
+    - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/045-telegram.svg
+      url: /
+    - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/006-youtube.svg
+      url: /
+
+
+tag_plugins:
+  # {% note text %}
+  note: # style for default note:
+    iconfont: 'Font Awesome 6 Pro'
+
+plugins:
+  clipboard:
+    enable: true
+  fontawesome: /libs/@fortawesome/fontawesome-pro/css/all.min.css
+  parallax:
+    enable: true
+  aplayer:
+    enable: true
+    autoplay: false
+    volume: 0.4
+    order: random
+    # id: 4917530132 # vol red
+    # id: 4917524698 # vol blue
+    # id: 76244489 # vol white
+    # id: 5135845906 # for Volantis 3.0
+    id: 5062959861 # TOP 30
+  message:          # 音乐通知，播放、暂停、失败 时的图标
+    enable: true
+    icon:     # 默认图标，支持对图标添加颜色，可选值：see：/source/css/_plugins/message.styl
+      default: fa-light fa-info-circle light-blue
+      quection: fa-light fa-question-circle light-blue
+    copyright:  # 是否在复制时弹出版权提示
+      enable: false
+      title: '知识共享许可协议'
+      message: '请遵守 CC BY-NC-SA 4.0 协议。'
+      icon: 'fa-brands fa-creative-commons light-blue'
+    aplayer:
+      enable: true
+      play: fa-light fa-play light-blue
+      pause: fa-light fa-pause light-blue
+      error: fa-light fa-exclamation-square red
+  darkmode:
+    enable: true
+  gitter:
+    room: hexo-theme-volantis/community
+
+analytics:
+  busuanzi: #https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js
+  leancloud:
+    app_id: GCYDRKI6XRkyC7EuEhJv90ia-MdYXbMMI
+    app_key: 4xKBXGBj6BgecU62vff5rJHs
+    custom_api_server: # 一般不需要写，除非自定义了 API Server
+
+custom_css:
+  cursor:
+    enable: true
+  font_smoothing: true
+  sidebar:
+    effect: [shadow] # [shadow, floatable, blur]
+  body:
+    effect: [shadow] # [shadow, floatable, blur]
+  fontfamily:
+    logofont:
+      fontfamily: 'Dosis, "PingFang SC", "Microsoft YaHei", Helvetica, Arial'
+      name: 'Dosis'
+      url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts@20.5.30/Dosis/Dosis-Medium.ttf
+      weight: normal
+      style: normal
+    bodyfont:
+      fontfamily: 'Dosis, "PingFang SC", "Microsoft YaHei", Helvetica, Arial'
+      name: 'Dosis'
+      url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts@20.5.30/Dosis/Dosis-Medium.ttf
+      weight: normal
+      style: normal
+
+rightmenu:
+  enable: true
+  faicon: fa-duotone PETERRIVE
+  print:
+    icon: fa-duotone fa-print TURQUOISE
+  darkmode:
+    icon: fa-duotone fa-eclipse-alt WISTERIA
+  reading:
+    icon: fa-duotone fa-book-open EMERALD
+  help:
+    icon: fa-duotone fa-question EMERALD
+  examples:
+    icon: fa-duotone fa-rss PETERRIVE
+  contributors:
+    icon: fa-duotone fa-fan fa-spin AMETHYST
+  source_docs:
+    icon: fa-duotone fa-code-branch WETASPHALT
+  source_theme:
+    icon: fa-duotone fa-file-code CONCRETE
