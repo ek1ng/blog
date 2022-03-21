@@ -12,9 +12,9 @@ archive: false
 安全方向的学习主要是以赛代练，不停的打比赛然后复现题目，这是我这一阶段的主要学习方向。
 ### 近期比赛
 {% checkbox checked:: 虎符CTF %}
-{% checkbox DASCTF %}
-{% checkbox picoCTF %}
-{% checkbox plaidCTF %}
+{% checkbox DASCTF 3.26 %}
+{% checkbox picoCTF 3.15 - 3.29 %}
+{% checkbox plaidCTF 4.9 - 4.11 %}
 ### Web安全组的任务
 {% checkbox 写个vue+php在线聊天室 %}
 ## CSAPP lab
