@@ -8,7 +8,7 @@ valine:
 ---
 
 HDU 大二在读 CTFer
-focus on security and web development
+Focus on security and web development
 Vidar-team成员 
 校男篮成员
 

@@ -1,0 +1,456 @@
+InconfontFlag: true
+
+default:
+  avatar: /img/default/avatar.svg
+  link: /img/default/link.svg
+  cover: /img/default/cover.svg
+  image: /img/default/image.svg
+
+cdn:
+  enable: true
+  prefix: https://static.inkss.cn
+  set:
+    js:
+      app: /js/app.js
+      rightMenu: /js/plugins/rightMenu.js
+      iconfontInkss: /js/thirdparty/iconfontInkss.js
+    css:
+      style: /css/style.css
+
+navbar:
+  logo:
+      img:
+      title: INKSS
+  search: 想找些什么~
+  menu:
+    - name: 首页
+      icon: fad fa-home CARROT faa-vertical
+      url: /
+    - name: 导航
+      icon: fad fa-cube NEPHRITIS
+      rows:
+        - name: 分类列表
+          icon: fad fa-folder-open TURQUOISE faa-vertical
+          url: /categories/
+        - name: 文章归档
+          icon: fad fa-archive PETERRIVE faa-vertical
+          url: /archives/
+        - name: 个人笔记
+          icon: fad fa-books CARROT faa-vertical
+          url: /page/notes/
+    - name: 功能
+      icon: fad fa-anchor GREENSEA faa-vertical
+      rows:
+        - name: 关于
+          icon: fad fa-drafting-compass SUNFLOWER faa-vertical
+          url: /page/about/
+        - name: 小伙伴
+          icon: fad fa-stamp ALIZARIN faa-vertical
+          url: /page/friends/   
+        - name: 博客历史
+          icon: fad fa-leaf-heart POMEGRANATE faa-vertical
+          url: /page/timeline/
+        - name: hr  
+        - name: RSS 订阅
+          icon: fad fa-rss SUNFLOWER faa-vertical
+          url: /page/atom/
+        - name: Start 列表
+          description: 有用的开源软件列表
+          icon: fad fa-star-half-alt WISTERIA faa-vertical
+          url: /page/start/
+    - name: 更多
+      icon: fad fa-umbrella POMEGRANATE faa-vertical
+      description: 站外资源列表
+      rows:
+        - name: BT
+          description: 宝塔面板
+          icon: fad fa-spider-web SUNFLOWER faa-vertical
+          url: https://web.adc.ink/
+        - name: Github
+          description: 少年，来一份星星不？
+          icon: fad fa-code-merge WISTERIA faa-vertical
+          url: https://github.com/inkss
+        - name: Blog
+          description: 这是一份记录文字的博客站点
+          icon: fad fa-stream BELIZEHOLE faa-vertical
+          url: https://szyink.com
+    - name: 虫洞
+      description: 十年之约，探索虫洞
+      icon: fad fa-bullseye-pointer BELIZEHOLE faa-vertical
+      url: https://www.foreverblog.cn/go.html
+
+cover:
+  height_scheme: full
+  layout_scheme: blank
+  display:
+    home: false
+    archive: false
+    others: false
+  background: /img/bkg/wallhaven-8oj7wk.png
+  search: 想找些什么？
+  features:
+    - name: 关于
+      icon: fad fa-drafting-compass
+      url: /page/about/
+    - name: 友链
+      icon: fad fa-stamp
+      url: /page/friends/
+    - name: 留言
+      icon: fad fa-comment-alt-smile
+      url: /page/info/
+    - name: 归档
+      icon: fad fa-archive
+      url: /archives/
+
+pages:
+  friends:
+    layout_scheme: traditional 
+
+article:
+  preview:
+    line_style: hidden
+  body:
+    top_meta: [author, wordcount, counter, updated]
+    bottom_meta: [category, tags, date]
+    meta_library:
+      author:
+        avatar: https://static.inkss.cn/img/avatar.jpg
+        name: 枋柚梓
+        url: /
+      date:
+        icon: fad fa-calendar-alt TURQUOISE
+      updated:
+        icon: fad fa-edit GREENSEA
+      category:
+        icon: fad fa-folder-open EMERALD
+      counter:
+        icon: fad fa-eye NEPHRITIS
+      valinecount:
+        icon: fad fa-comment-dots NEPHRITIS
+      walinecount:
+        icon: fad fa-comment-dots NEPHRITIS
+      wordcount:
+        icon_wordcount: fad fa-keyboard PETERRIVE
+        icon_duration: fad fa-hourglass-half BELIZEHOLE
+      tags:
+        icon: fad fa-hashtag CARROT
+    footer_widget:
+      references:
+        icon: fad fa-quote-left CONCRETE
+      copyright:
+        enable: true
+        content:
+          - '博客内容遵循 <a href="/page/cc">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)</a> 协议。'
+
+comments:
+  title: <i class='fad fa-comments POMEGRANATE'></i> 评论
+  service: 
+  disqus:
+    shortname: inkss
+  twikoo:
+    js: https://static.szyink.com/common/js/twikoo.js # 建议锁定版本 v1.4.4
+    envId: twikoo-web-4g84uta0261cb889 # 腾讯云环境id
+  beaudar:
+    repo: inkss/blog-comments
+    branch: master
+
+sidebar:
+  for_page: [blogger, navigation, lastupdate, webinfo]
+  for_post: []
+  widget_library:
+    blogger:
+      class: blogger
+      display: [desktop] # [desktop, mobile]
+      avatar: /img/avatar.jpg
+      shape: circle # circle, rectangle
+      url: /page/about/
+      title:
+      subtitle: 言语道断，非物所拘。
+      jinrishici: false # Poetry Today. You can set a string, and it will be displayed when loading fails.
+      social:
+    lastupdate:
+      class: lastupdate
+      display: [desktop]
+      header:
+        icon: fad fa-clock WISTERIA
+        title: 最近更新
+    toc:
+      display: [desktop, mobile]
+      header:
+        icon: fad fa-list ASBESTOS
+    category:
+      display: [desktop]
+      header:
+        icon: fad fa-folder-open ASBESTOS
+        url: /categories/
+    tagcloud:
+      display: [desktop]
+      header:
+        title: 标签列表
+        icon: fad fa-tags WISTERIA 
+        url: /tags/
+      max_font: 24
+      min_font: 16
+    webinfo:
+      display: [desktop]
+      header:
+        icon: fad fa-award NEPHRITIS
+      type:
+        runtime:
+          data: '2018/03/15'
+        wordcount:
+          unit: ''
+        visitcounter:
+          siteuv:
+            enable: false
+          sitepv:
+            enable: false
+    notice:
+      class: text
+      display: [desktop]
+      header:
+        icon: fad fa-ghost PETERRIVE 
+        title: 公共信息
+      content:
+        - '缺失'
+    updateList:
+      class: text
+      display: [desktop]
+      header:
+        icon: fad fa-wrench SUNFLOWER 
+        title: 更新日志
+      content:
+        - 暂无
+    # 自定义 站内导航    
+    navigation:
+      class: grid
+      display: [desktop]
+      header:
+        icon: fad fa-map-signs POMEGRANATE 
+        title: 站内导航
+      fixed: true # 固定宽度
+      rows:
+        - name: 文档笔记
+          icon: fad fa-books GREENSEA
+          url:  /page/notes/
+        - name: 关于本站
+          icon: fad fa-drafting-compass NEPHRITIS
+          url: /page/about/  
+        - name: 建站历史
+          icon: fad fa-history POMEGRANATE
+          url: /page/timeline/
+        - name: 文章归档
+          icon: fad fa-archive PETERRIVE faa-vertical
+          url: /archives/
+        - name: 小伙伴们
+          icon: fad fa-stamp CONCRETE
+          url: /page/friends/
+        - name: 十年之约
+          icon: fad fa-glass-cheers PETERRIVE
+          url: /page/foreverblog/
+    wiki-hexo-theme:
+      class: list
+      display: [desktop]
+      header:
+        icon: fad fa-flower-daffodil ASBESTOS
+        title: 笔记本
+        url: /page/notes/index.html
+
+tag_plugins:
+  note:
+    iconfont: 'Font Awesome 6 Pro'
+  link:
+    placeholder:  /img/default/chrome.png
+
+site_footer:
+  layout: [icp, cpy, me, icon]
+  lic: '<div class="footerMax560"><p>博客内容遵循 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">「署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)」</a> 协议</p></div>'
+  inf: '<div class="footerMax490">本站使用 <a href="https://github.com/volantis-x/hexo-theme-volantis" target="_blank" class="codename" rel="external nofollow noopener noreferrer">Volantis</a> 作为主题 | <span> 由 <a href="https://webify.cloudbase.net" target="_blank" class="codename" rel="external nofollow noopener noreferrer">CloudBase Webify</a> 提供网站托管服务</span></div>'
+  icp: '<div class="footerMax490">皖 ICP 备 <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow" style="cursor:wait;">2021008088</a> 号 | <span>辽公网安备 <a href="https://www.beian.gov.cn/" rel="nofollow" target="_blank" style="cursor:wait;">21021702000331</a> 号</span></div>'
+  cpy: '<div class="footerMax490">Copyright 2018 - 2022 szyink. All Rights Reserved</div>'
+  me: '<a href="/">枋柚梓的猫会发光</a> '
+  icon: '<i class="fad fa-heartbeat POMEGRANATE faa-flash faa-slow animated"></i>'
+
+plugins:
+  fontawesome: https://static.szyink.com/fontawesome/css/all.min.css
+  fancybox:
+    css: /js/szyink/fancybox.css
+    js: /js/szyink/fancybox.umd.js
+  sitesjs:
+    enable: false
+  friendsjs:
+    enable: false
+  contributorsjs:
+    enable: false
+  preload:
+    enable: false
+    service: instant_page
+  lazyload:
+    js: /js/szyink/lazyload.min.js
+    enable: true
+    onlypost: false
+  scrollreveal:
+    enable: false
+  highlightjs:
+    enable: false
+  fontawesome_animation:
+    enable: false
+    css: /css/szyink/font-awesome-animation.min.css
+  wordcount:
+    enable: true
+  aplayer:
+    enable: false
+    js:
+      aplayer: https://static.szyink.com/common/js/aplayer.min.js
+      meting: https://static.szyink.com/common/js/Meting.min.js
+    server: tencent
+    id: 7716882294
+  pjax:
+    js: /js/szyink/pjax.min.js
+    cover: false
+    animation: false
+  killOldVersionsOfIE:
+    enable: false
+  killNoScript:
+    enable: false
+  darkmode:
+    enable: true
+  darkmodejs:
+    enable: true
+  backstretch:
+    enable: false
+  tag_plugin_load_on_demand:
+    enable: false
+  message:
+    enable: true
+    icon:     # 默认图标，支持对图标添加颜色，可选值：see：/source/css/_plugins/message.styl
+      default: fad fa-info-circle light-blue
+      quection: fad fa-question-circle light-blue
+    copyright:  # 是否在复制时弹出版权提示
+      enable: true
+      title: '知识共享许可协议'
+      message: '请遵守 CC BY-NC-SA 4.0 协议。'
+      icon: 'fab fa-creative-commons light-blue'
+    aplayer:
+      enable: true
+      play: fad fa-play light-blue
+      pause: fad fa-pause light-blue
+      error: fad fa-exclamation-square red
+
+rightmenu:
+  enable: true
+  faicon: fad PETERRIVE      #   笔记   好友     归档   关于
+  layout: [copy, navigation, hr, notes, friends, text, about, print, reading, darkmode]
+  customPicUrl:
+    enable: false  
+  darkmode:
+    name: 暗黑模式
+    icon: fad fa-eclipse-alt WISTERIA
+  print:
+    name: 打印页面
+    icon: fad fa-print TURQUOISE
+    defaultStyles: true
+  reading:
+    name: 阅读模式
+    icon: fad fa-book-open EMERALD
+  foreverblog:
+    name: 十年之约
+    icon: fad fa-glass-cheers PETERRIVE
+    url: /page/foreverblog/
+  friends:
+    name: 我的朋友们
+    icon: fad fa-flower-daffodil AMETHYST
+    url: /page/friends/
+  info:
+    name: 留言板
+    icon: fad fa-fish CARROT
+    url: /page/info/
+  notes:
+    name: 文档笔记
+    icon: fad fa-books GREENSEA
+    url: /page/notes/
+  text:
+    name: 文章归档
+    icon: fad fa-globe-asia CONCRETE
+    url: /archives/
+  about:
+    name: 关于我
+    icon: fad fa-gingerbread-man WISTERIA
+    url: /page/about/
+
+color_scheme:
+  common:
+    selection: '#ddf4ff'
+  light:
+    site_bg: '#f7f9fe'
+    meta: '#666'
+    site_footer: '#444'
+  dark:
+    site_bg: '#21252b'
+    site_footer: '#abb2bf'
+    card: '#282c34'
+    text: '#abb2bf'
+    block: '#21252b'
+    h1: '#979fad'
+    h2: '#979fad'
+    h3: '#979fad'
+    h4: '#979fad'
+    h5: '#979fad'
+    h6: '#979fad'
+    p: '#abb2bf'
+
+custom_css:
+  toc_smooth: true # TOC 目录平滑滚动效果
+  cursor:
+    enable: true
+    text: https://static.szyink.com/common/cursor/text.png
+    pointer: https://static.szyink.com/common/cursor/pointer.png
+    default: https://static.szyink.com/common/cursor/left_ptr.png
+    not-allowed: https://static.szyink.com/common/cursor/circle.png
+    zoom-out: https://static.szyink.com/common/cursor/zoom-out.png
+    zoom-in: https://static.szyink.com/common/cursor/zoom-in.png
+    grab: https://static.szyink.com/common/cursor/openhand.png
+  scrollbar:
+    size: 4px
+    border: 2px  
+  fontsize:
+    root: 16px
+    footnote: .78rem
+  body:
+    effect: [floatable] # [shadow, floatable, blur]  
+  navbar:
+    effect: [floatable]
+  sidebar:
+    effect: [floatable] # [shadow, floatable, blur]  
+  max_width: 1080px
+  fontfamily:
+    logofont:
+      fontfamily: 'SentyGoldenBell, JetBrainsMono, "Noto Serif SC","Microsoft YaHei",Helvetica,Arial'
+      url: ''
+    bodyfont:
+      fontfamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"'
+      url: ''
+    codefont:
+      fontfamily: 'JetBrainsMono, ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace'
+      url: ''
+
+analytics:
+  leancloud:
+    app_id:
+    app_key:
+
+
+open_graph:
+  image: icon/cat192.png
+
+structured_data:
+  enable: true
+  # 以下是覆盖配置, 默认配置见 scripts/helpers/structured-data/lib/config.js
+  data:
+    person:
+      sns:
+        - https://github.com/inkss
+    logo:
+      path: icon/cat192.png
+      width: 192
+      height: 192
