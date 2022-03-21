@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: ek1ng's Blog
 subtitle: ''
-description: ''
+description: foucs on security and web development
 keywords:
-author: John Doe
-language: en
-timezone: ''
+author: ek1ng
+language: zh-CN
+timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://ek1ng.com
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -102,9 +102,4 @@ theme: volantis
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  - type: git
-    repo: https://GitHub用户名:上一步获取的token@github.com/GitHub用户名/GitHubpages对应的仓库.git
-    branch: master #GitHubpages对应的仓库存放的分支2020年十二月以后默认分支为main注意修改
-  - type: git
-    repo: git@服务器ip:/home/git/blog.git #仓库地址
-    branch: master'
+  - type: 
