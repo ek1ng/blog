@@ -42,7 +42,7 @@ navbar:
           url: https://www.foreverblog.cn/go.html
 
         - name: 源码
-          icon: https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f9ec.svg
+          icon: fad fa-code-merge WISTERIA faa-vertical
           url: https://github.com/ek1ng/blog
 
 
