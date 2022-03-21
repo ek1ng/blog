@@ -3,7 +3,7 @@ navbar:
   logo: # choose [img] or [icon + title]
     img: '' #https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png
     icon:
-    title: 'Volantis 5.0 <sup style="color:#ff9800">alpha</sup>'
+    title: 'ek1ng's blog <sup style="color:#ff9800">beta</sup>'
   menu:
     - name: 文档
       icon: fa-duotone fa-book faa-tada
@@ -368,3 +368,8 @@ rightmenu:
     icon: fa-duotone fa-code-branch WETASPHALT
   source_theme:
     icon: fa-duotone fa-file-code CONCRETE
+
+pages:
+  # 友链页面配置
+  friends:
+    layout_scheme: traditional # simple: 简单布局, traditional: 传统布局

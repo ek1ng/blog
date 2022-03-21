@@ -1,0 +1,15 @@
+- group: Vidar-team # 分组标题
+  description: 协会的朋友们 # 分组描述
+  items:
+    - title: chuj # 名称
+      avatar: https://www.cjovi.icu/usr/uploads/fixed/headpicture.png # 头像
+      url: https://cjovi.icu/ # 链接 
+      screenshot: # 截图
+      keywords: # 关键词
+      description: Vidar-team | Pwn # 描述
+    - title: # 名称
+      avatar: # 头像
+      url: # 链接
+      screenshot: # 截图
+      keywords: # 关键词
+      description: # 描述
