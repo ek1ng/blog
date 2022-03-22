@@ -5,7 +5,7 @@
 2022.3.21 博客主题 butterfly -> volantis 并且部署至阿里云ECS
 
 ## Todo
-- [ ] 添加计划表
+- [x] 添加计划表
 - [ ] 添加闲言碎语 by Artitalk
 - [ ] 添加RSS订阅功能
 - [ ] 修复PV UV无法查看的bug
