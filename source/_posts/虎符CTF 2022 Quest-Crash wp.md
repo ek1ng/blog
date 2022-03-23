@@ -1,10 +1,10 @@
 ---
-title: 虎符CTF 2022 Quest-Crash
+title: 虎符CTF 2022 Quest-Crash Writeup
 date: 2022-03-21 17:00:00
 tags: [ctf,security]
 ---
 
-# Quest-Crash
+# 虎符CTF 2022 Quest-Crash Writeup
 
 加入协会后的第一场CTF，出了一个简单的misc，记录一下
 
