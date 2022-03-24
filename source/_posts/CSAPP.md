@@ -16,10 +16,10 @@ archive: true
 - [ ] Data lab
 
 ## 前置材料
-[CSAPP的bilibili翻译课程](https://www.bilibili.com/video/BV1iW411d7hd?from=search&seid=14100643096477102310&spm_id_from=333.337.0.0)<br>
-一本CSAPP <br>
-[实验材料](http://csapp.cs.cmu.edu/3e/labs.html)<br>
-一些他人经验参考：https://hansimov.gitbook.io/csapp/publish-info/about-authors https://www.zhihu.com/question/20402534 <br>
+[CSAPP的bilibili翻译课程](https://www.bilibili.com/video/BV1iW411d7hd?from=search&seid=14100643096477102310&spm_id_from=333.337.0.0)
+一本CSAPP
+[实验材料](http://csapp.cs.cmu.edu/3e/labs.html)
+一些他人经验参考：https://hansimov.gitbook.io/csapp/publish-info/about-authors https://www.zhihu.com/question/20402534
 
 ## 我想做些什么
 开设这个仓库是想记录我做CSAPP的lab的过程，也顺便将踩坑过程分享，帮助后人少走弯路，我预期跟着bilibili的翻译课程完成CSAPP的课本内容学习并且完成CSAPP的lab，我会在README中精简的记录我的学习过程，并且以章节为单位将详细的笔记发在我的博客上，当然以笔记形式的内容并不一定适合别人参考，参考的人们应该更需要一些精简的学习过程和汇集好的材料以及我具体的实验代码，当你发现其中某部分可能对你有用的时候，自然会去博客中看详细的学习过程，这应该是一个不错的分享方式。
