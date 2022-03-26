@@ -1,5 +1,5 @@
 ---
-title: HGAME 2022 Final writeup
+title: HGAME 2022 Final writeup (unfinished)
 date: 2022-03-12 20:10:00
 tags: [ctf,security]
 
