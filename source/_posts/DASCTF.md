@@ -88,6 +88,8 @@ if (isset($_POST['cmd'])) {
 
 根据源代码我当时是找了这样一条反序列化的POP链
 
+fin \_\_destruct -> what  \_\_toString() -> mix run() -> crow \_\_invoke -> fin __call -> mix get_flag -> crow eval(#\nsystem('cat *');)
+
 下面是四个魔法方法
 
 __invoke()  当尝试以调用函数的方式调用一个对象时
@@ -216,7 +218,6 @@ hackbar我用这个payload
 
 遇到这种问题还是基本功不扎实，说实现我现在也还是不特别了解url编码的作用和底层原理，会再好好研究一下然后再写一篇文章的。
 
-fin \_\_destruct -> what  \_\_toString() -> mix run() -> crow \_\_invoke -> fin __call -> mix get_flag -> crow eval(#\nsystem('cat *');)
 
 #### \_\_destruct报错为什么不用管？
 
