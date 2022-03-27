@@ -38,6 +38,12 @@ archive: true
 ## Timeline
 {% timeline %}
 
+{% timenode 2022-03-27 %}
+
+完成lecture04 floats，主要内容是浮点数，包括IEEE754的浮点数表示方法和设计原理，浮点数的运算，舍入方法，C语言对浮点数的设计，大概这些内容，到这里信息表示与处理这一章节就学完了，接下来会开始做data lab。
+
+{% endtimenode %}
+
 {% timenode 2022-03-25 %}
 
 完成lecture03 Bits Bytes and integer，主要内容是整数运算和信息存储，包括机器字长，大小端，整数加减乘除运算与溢出等内容，感觉课堂习题的例子非常不错，对整数运算与溢出有了更深刻的了解。
