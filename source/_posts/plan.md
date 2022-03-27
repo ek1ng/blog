@@ -14,7 +14,10 @@ archive: false
 ### 近期比赛
 {% checkbox checked:: 虎符CTF %}
 {% checkbox checked:: DASCTF 3.26 %}
-{% checkbox picoCTF 3.15 - 3.29 %}
+{% checkbox checked:: picoCTF 3.15 - 3.29 %}
+{% checkbox 补虎符CTF的web题 %}
+{% checkbox 补DASCTF的upgdstore和misc %}
+{% checkbox 等picoCTF的wp复现一下做不出来的web题 %}
 {% checkbox plaidCTF 4.9 - 4.11 %}
 ### Web安全组的任务
 {% checkbox 写个vue+php在线聊天室 %}
