@@ -1,11 +1,9 @@
 ---
-title: HGAME 2022 Final writeup (unfinished)
-date: 2022-03-12 20:10:00
+title: picoCTF writeup(unfinished)
+date: 2022-03-28 11:00:00
 tags: [ctf,security]
 
 ---
-
-# picoCTF writeup(unfinished)
 
 picoCTF是CMU举办的新手赛，主要做了一下web题，感觉都是比较简单，有几题遇到了坑简单记录一下啦
 
