@@ -216,8 +216,6 @@ hackbar我用这个payload
 
 ![image-20220326220630847](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220326220630847.png)
 
-遇到这种问题还是基本功不扎实，说实现我现在也还是不特别了解url编码的作用和底层原理，会再好好研究一下然后再写一篇文章的。
-
 以下是能打通的POC
 
 ```php
@@ -312,6 +310,9 @@ $cmd-> f1 -> a -> m1 -> v1 -> f1 ->m1 = '/n cat flag';
 echo urlencode(serialize($cmd));
 ```
 
+#### 为什么要url编码才能打?
+
+Url中只允许包含英文字母（a-zA-Z）、数字（0-9）、-_.~4个特殊字符以及所有保留字符。简单来说，就是有些字符不允许出现在URL中，因此要进行编码。原payload中/n大括号什么的都不行，所以打不通。
 
 #### \_\_destruct报错为什么不用管？
 
