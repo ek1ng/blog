@@ -17,8 +17,8 @@ archive: true
 - [ ] Data lab
 
 ## 前置材料
-[CSAPP的bilibili翻译课程](https://www.bilibili.com/video/BV1iW411d7hd?from=search&seid=14100643096477102310&spm_id_from=333.337.0.0)
 一本CSAPP
+[CSAPP的bilibili翻译课程](https://www.bilibili.com/video/BV1iW411d7hd?from=search&seid=14100643096477102310&spm_id_from=333.337.0.0)
 [实验材料](http://csapp.cs.cmu.edu/3e/labs.html)
 [参考经验贴1](https://hansimov.gitbook.io/csapp/publish-info/about-authors) 
 [参考经验贴2](https://www.zhihu.com/question/20402534)
