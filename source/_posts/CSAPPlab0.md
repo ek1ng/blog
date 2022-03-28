@@ -3,7 +3,6 @@ title: CSAPP lab0 实验环境搭建
 date: 2022-03-28 11:55:00
 tags: [CSAPP,计算机组成原理]
 description: CMU 15-213 lab0 实验环境搭建
-pin: true
 archive: true
 
 ---
