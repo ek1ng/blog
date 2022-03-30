@@ -7,7 +7,7 @@ archive: true
 ---
 
 # CSAPP Lab1 DataLab
-
+{% ghcard ek1ng/CSAPPlab %}
 >
 >
 >参考:
