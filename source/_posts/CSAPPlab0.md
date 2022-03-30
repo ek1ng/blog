@@ -4,10 +4,9 @@ date: 2022-03-28 11:55:00
 tags: [CSAPP,计算机组成原理]
 description: CMU 15-213 lab0 实验环境搭建
 archive: true
-
 ---
 
-# CSAPP lab0 实验环境搭建
+# CSAPP Lab0 实验环境搭建
 
 这是csapp lab开始的第一步，就是搭建实验环境。
 
