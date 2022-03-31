@@ -14,7 +14,10 @@ archive: true
 ## Todo
 - [x] Bilibili翻译课程 lecture 1-4
 - [x] 搭建实验环境
-- [ ] Data lab
+- [x] Data lab
+- [ ] Bilibili翻译课程 lecture 5-9
+- [ ] Bomb lab
+- [ ] Attack lab
 
 ## 前置材料
 一本CSAPP
@@ -29,14 +32,13 @@ archive: true
 ## 学习过程（以Lab为单位总结）
 简单查阅别的学习经验后，大多数人的分享都说看书再多遍也不如做lab学到的多，lab是课程的精髓，我已经粗略的学过编译原理，计算机组成原理和操作系统，所以我会比较快速的过一遍网课然后开始lab，目标3个月完成大多数的lab（也许有一些实在不感兴趣的lab会跳过）
 
-### 0.搭建实验环境（尚未开工）
-
-
-### 1.Data lab （尚未开工）
-关于计算机信息的表示，主要是位操作、整数和浮点数的内容。
-
 ## Timeline
 {% timeline %}
+{% timenode 2022-03-30 %}
+
+完成[Datalab](https://ek1ng.com/2022/03/30/CSAPPlab1/)
+
+{% endtimenode %}
 
 {% timenode 2022-03-28 %}
 

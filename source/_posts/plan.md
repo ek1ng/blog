@@ -17,7 +17,6 @@ archive: false
 {% checkbox checked:: picoCTF 3.15 - 3.29 %}
 {% checkbox 补虎符CTF的web题 %}
 {% checkbox 补DASCTF的upgdstore和misc %}
-{% checkbox 等picoCTF的wp复现一下做不出来的web题 %}
 {% checkbox plaidCTF 4.9 - 4.11 %}
 ### Web安全组的任务
 {% checkbox 写个vue+php在线聊天室 %}
