@@ -7,7 +7,7 @@ description: The Missing Semester of Your CS Education shell
 
 # The Missing Semester of Your CS Education 课程概览与 shell
 
-主要是想起来自己vim还不太会用，所以说记得这个课程的vim教学不错，干脆就花一晚上时间看看整套课程，重点看一下vim的使用，我看的版本是https://missing-semester-cn.github.io/，是社区的中文翻译版的文档，这些工具大多我都已经能够熟练使用了，所以就没去看英文的视频感觉有点浪费时间。
+主要是想起来自己vim还不太会用，所以说记得这个课程的vim教学不错，干脆就花一晚上时间看看整套课程，重点看一下vim的使用，我看的版本是是社区的[中文翻译版](https://missing-semester-cn.github.io/)的文档，这些工具大多我都已经能够熟练使用了，所以就没去看英文的视频感觉有点浪费时间。
 
 shell确实是经常使用，但是又不那么会使用，学一学一些不太常用的shell命令可以比较高的提升自己的效率。
 
