@@ -239,24 +239,28 @@ custom_css:
 
 rightmenu:
   enable: true
-  faicon: fa-duotone PETERRIVE
-  print:
+  faicon: fa-duotone PETERRIVE             # 公共图标类型 fa fal fas fad
+  # hr: 分割线, music: 音乐控制器
+  layout: [home, hr, print, reading, darkmode, music]
+  ### 可选功能项 ###
+  print:                  # 只有文章页才允许自定义打印
+    name: 打印页面
     icon: fa-duotone fa-print TURQUOISE
-  darkmode:
+    defaultStyles: true   # 是否使用预制的打印样式
+    # js:                 # 自定义 js ，可用于修饰打印样式~， 右键剔除了对 Jquery 的依赖，所以此处你只能使用原生 js
+    #  - document.querySelector('article#comments').remove()  # 移除评论
+  darkmode:        # 需开启 plugins.darkmodejs
+    name: 暗黑模式
     icon: fa-duotone fa-eclipse-alt WISTERIA
+  customPicUrl:    # 右键的图片复制：只有 Chrome 支持，且只支持 PNG 格式的图片。
+    enable: false  # 如果使用了对象存储且开启了自适应 Webp，那么可以提供额外的链接用以替换图片的访问地址
+    old: #https://static.inkss.cn/img/article/
+    new: #https://cdn.jsdelivr.net/gh/inkss/inkss-cdn@master/img/article/  
+  ### 自定义菜单 ###
   reading:
-    icon: fa-duotone fa-book-open EMERALD
-  help:
-    icon: fa-duotone fa-question EMERALD
-  examples:
-    icon: fa-duotone fa-rss PETERRIVE
-  contributors:
-    icon: fa-duotone fa-fan fa-spin AMETHYST
-  source_docs:
-    icon: fa-duotone fa-code-branch WETASPHALT
-  source_theme:
-    icon: fa-duotone fa-file-code CONCRETE
-
+    name: 阅读模式
+    icon: fa-duotone fa-book-open PETERRIVE
+  
 pages:
   # 友链页面配置
   friends:
