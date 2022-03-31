@@ -211,9 +211,10 @@ plugins:
     enable: true
     
 analytics:
+  busuanzi: /libs/busuanzi/js/busuanzi.pure.mini.js
   leancloud: # 请使用自己的 id & key 以防止数据丢失
-    app_Id: spgPB98cUYCSdjwtF7Y9bfQT-MdYXbMMI
-    app_Key: 4WSqT5tcqWtutjV9fHa9rzjY
+    app_Id: 
+    app_Key: 
 
 custom_css:
   cursor:
