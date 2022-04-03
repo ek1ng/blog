@@ -143,10 +143,15 @@ sidebar:
         wordcount:
           unit: ''
         visitcounter:
+          service: busuanzi
           siteuv:
             enable: true
+            text: '本站访客数：'
+            unit: '人'
           sitepv:
             enable: true
+            text: '本站总访问量：'
+            unit: '次'
 
 tag_plugins:
   note:
