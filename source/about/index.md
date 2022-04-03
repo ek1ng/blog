@@ -8,7 +8,7 @@ valine:
   placeholder: 有什么想对我说的呢？
 ---
 ## About me
-HDU 大二在读 CTFer
+HDU 计科大二在读 CTFer
 Focus on security and web development
 Vidar-team成员 
 校男篮成员
