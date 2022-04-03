@@ -1,13 +1,11 @@
 ---
-title: The Missing Semester of Your CS Education vim
+title: The Missing Semester of Your CS Education(vim)
 date: 2022-04-02 22:40:00
 tags: [The Missing Semester of Your CS]
 description: 计算机教育中缺失的一课 The Missing Semester of Your CS Education
 ---
 
-# The Missing Semester of Your CS Education
-
-
+# vim
 
 首先vim的学习对我来说确实是比较刚需，随着linux的使用越来越多，我目前就只会进入插入模式，然后用dd删除，:wq或者:q退出，其他都不咋会用，很有必要研究一下vim的使用
 
