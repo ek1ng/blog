@@ -89,7 +89,7 @@ ssh -l root 39.108.253.105 journalctl | grep sshd | grep "Disconnected from"| se
 
 好难....确实没啥动力看下面的内容了，感觉光看有点难学明白，大概懂个意思过两天也忘了
 
-## lab
+## 课后练习
 
 >1. 学习一下这篇简短的 [交互式正则表达式教程](https://regexone.com/).
 
