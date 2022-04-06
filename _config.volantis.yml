@@ -68,28 +68,119 @@ cover:
       icon: fad fa-drafting-compass WISTERIA faa-vertical
       url: /about/
 
+# 文章布局
 article:
+  # 文章列表页面的文章卡片布局方案
   preview:
-    # scheme: landscape # landscape
-    # # pin icon for post
-    # pin_icon: # https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg
-    # # auto generate title if not exist
-    # auto_title: false # false, true
-    # # auto generate excerpt if not exist
-    # auto_excerpt: false # false, true
-    # author: true
-    # # show readmore button
-    # readmore: auto # auto, always
-      line_style: hidden
+    scheme: landscape # landscape
+    # pin icon for post
+    pin_icon: /media/twemoji/assets/svg/1f4cc.svg # https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg
+    # auto generate title if not exist
+    auto_title: true # false, true
+    # auto generate excerpt if not exist
+    auto_excerpt: true # false, true
+    # hide excerpt
+    hide_excerpt: false
+    # show split line or not
+    line_style: hidden # hidden, solid, dashed, dotted
+    # show author
+    author: false # true, false
+    # show readmore button
+    readmore: auto # auto, always
+  # 文章详情页面的文章卡片本体布局方案
   body:
+    # 文章顶部信息
+    # 从 meta_library 中取
+    top_meta: [author, category, date, counter] #启用评论数量需在此添加
+    # ----------------
+    # 文章页脚组件
+    footer_widget:
+      # ----------------
+      # 参考资料、相关资料等 (for layout: post/docs)
+      references:
+        title: 参考资料
+        icon: fa-solid fa-quote-left
+        # 在 front-matter 中:
+        #   references:
+        #     - title: 某篇文章
+        #       url: https://
+        # 即可显示此组件。
+      # ----------------
+      # 相关文章，需要安装插件 (for layout: post)
+      # npm i hexo-related-popular-posts
+      related_posts:
+        enable: false
+        title: 相关文章
+        icon: fa-solid fa-bookmark
+        max_count: 5
+        # 设为空则不使用文章头图
+        placeholder_img: https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture
+      # ----------------
+      # 版权声明组件 (for layout: post)
+      copyright:
+        enable: true
+        permalink: '本文永久链接是：'
+        content:
+          - '博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议'
+          - permalink
+      # ----------------
+      # 打赏组件 (for layout: post)
+      donate:
+        enable: false
+        images:
+          - /media/org.volantis/blog/qrcode/github@volantis.png # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png
+          - /media/org.volantis/blog/qrcode/github@volantis.png # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png
+    # 文章底部信息
+    # 从 meta_library 中取
+    bottom_meta: [updated, tags, share]
+    # meta library
     meta_library:
+      # 默认文章作者（可在 _data/author.yaml 中增加其他作者，并在 front-matter 中设置）
+      # https://volantis.js.org/advanced-settings/#多人协同
       author:
-        avatar: https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/avatar.jpg
+        avatar: /media/org.volantis/blog/favicon/apple-touch-icon.png # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/favicon/apple-touch-icon.png
         name: ek1ng
-        url: https://github.com/ek1ng/
+        url: /
+      # 文章创建日期
+      date:
+        icon: fa-solid fa-calendar-alt
+        title: '发布于：'
+        format: 'll' # 日期格式 http://momentjs.com/docs/
+      # 文章更新日期
       updated:
-        title: '本页文档最后更新于：'
-
+        icon: fa-solid fa-edit
+        title: '更新于：'
+        format: 'll' # 日期格式 http://momentjs.com/docs/
+      # 文章分类
+      category:
+        icon: fa-solid fa-folder-open
+      # 文章浏览计数
+      counter:
+        icon: fa-solid fa-eye
+        unit: '次浏览'
+      # waline 文章评论数量
+      walinecount:
+        icon: fa-solid fa-comment-dots
+        desc: '' # 条评论
+      # 文章字数和阅读时长
+      wordcount:
+        icon_wordcount: fa-solid fa-keyboard
+        icon_duration: fa-solid fa-hourglass-half
+      # 文章标签
+      tags:
+        icon: fa-solid fa-hashtag
+      # 分享
+      share:
+        - id: qq
+          img:  /media/org.volantis/logo/128/qq.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png
+        - id: qzone
+          img: /media/org.volantis/logo/128/qzone.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png
+        - id: weibo
+          img: /media/org.volantis/logo/128/weibo.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png
+        - id: # qrcode # 当id为qrcode时需要安装插件  npm i hexo-helper-qrcode
+          img: # /media/org.volantis/logo/128/wechat.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/wechat.png
+        - id: # telegram
+          img: # /media/org.volantis/logo/128/telegram.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png
 
 comments:
   service: valine

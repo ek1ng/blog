@@ -2,7 +2,7 @@
 title: The Missing Semester of Your CS Education(vim)
 date: 2022-04-02 22:40:00
 tags: [The Missing Semester of Your CS]
-description: 计算机教育中缺失的一课 The Missing Semester of Your CS Education
+description: 计算机教育中缺失的一课 vim的使用
 ---
 
 # vim
