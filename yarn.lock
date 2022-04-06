@@ -1345,9 +1345,9 @@ hexo-theme-landscape@^0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/hexo-theme-landscape/-/hexo-theme-landscape-0.0.3.tgz"
 
-hexo-theme-volantis@^5.0.0-rc.4:
-  version "5.0.0-rc.4"
-  resolved "https://registry.yarnpkg.com/hexo-theme-volantis/-/hexo-theme-volantis-5.0.0-rc.4.tgz#4cf76c02eacc72422dd20e7effe15a00cf29df2d"
+hexo-theme-volantis@^5.0.0-rc.5:
+  version "5.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/hexo-theme-volantis/-/hexo-theme-volantis-5.0.0-rc.5.tgz#41ad6e82204808f8eda8ad9bea791155b1381a03"
 
 hexo-util@^2.0.0, hexo-util@^2.5.0, hexo-util@^2.6.0, hexo-util@latest:
   version "2.6.0"
