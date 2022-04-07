@@ -1,6 +1,7 @@
 ---
 title: HGAME 2022 复盘 writeup
-date: 2022-02-19 23:1:00
+date: 2022-02-19 23:01:00
+updated: 2022-02-19 23:01:00
 tags: ctf
 ---
 # HGAME 2022 复盘 writeup by ek1ng

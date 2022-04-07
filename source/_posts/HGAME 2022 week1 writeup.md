@@ -1,6 +1,7 @@
 ---
 title: HGAME 2022 Week1 writeup
 date: 2022-01-28 20:00:00
+updated: 2022-01-28 20:00:00
 tags: ctf
 ---
 # HGAME 2022 Week1 writeup by ek1ng

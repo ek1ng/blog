@@ -1,6 +1,7 @@
 ---
 title: HGAME 2022 Week4 writeup
 date: 2022-02-18 20:00:00
+updated: 2022-02-18 20:00:00
 tags: ctf
 ---
 # HGAME 2022 Week4 writeup by ek1ng

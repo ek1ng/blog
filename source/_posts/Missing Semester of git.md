@@ -1,6 +1,7 @@
 ---
 title: The Missing Semester of Your CS Education(git)
 date: 2022-04-05 22:35:00
+updated: 2022-04-05 22:35:00
 tags: [The Missing Semester of Your CS]
 description: 计算机教育中缺失的一课 版本控制
 ---

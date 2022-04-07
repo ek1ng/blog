@@ -1,6 +1,7 @@
 ---
 title: 如何反弹shell
 date: 2022-03-29 11:15:00
+updated: 2022-03-29 11:15:00
 tags: [ctf,security]
 description: reverse shell
 archive: false

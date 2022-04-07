@@ -1,6 +1,7 @@
 ---
 title: CSAPP lab1 DataLab
 date: 2022-03-30 14:54:00
+updated: 2022-03-30 14:54:00
 tags: [CSAPP,计算机组成原理]
 description: CMU 15-213 Lab1 DataLab
 archive: true

@@ -1,6 +1,7 @@
 ---
 title: DASCTF X SU 2022 writeup
 date: 2022-03-26 23:06:00
+updated: 2022-03-26 23:06:00
 tags: [ctf,security]
 
 ---
