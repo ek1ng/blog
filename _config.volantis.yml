@@ -211,7 +211,7 @@ sidebar:
       display: [desktop]
       header:
         icon: fad fa-clock WISTERIA
-        title: 随机推荐
+        title: 近期更新
     toc:
       display: [desktop, mobile]
       header:
