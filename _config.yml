@@ -128,3 +128,13 @@ neat_js:
   exclude:
     - '**/*.min.js'
     - '**/index.js'
+
+#RSS订阅
+# Extensions
+plugins:
+  hexo-generator-feed
+#Feed Atom
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20

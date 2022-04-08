@@ -252,13 +252,13 @@ tag_plugins:
 
 site_footer:
   layout: [aplayer, social, source, analytics, copyright]
-  copyright: '[Copyright © 2017-2021 Volantis Team](https://github.com/volantis-x/) [浙ICP备2021038365号-2
+  copyright: '[Copyright © 2020-2022 ek1ng](https://github.com/ek1ng/) [浙ICP备2021038365号-2
 ](https://beian.miit.gov.cn/)'
   social:
     - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/020-rss.svg
       url: atom.xml
     - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/029-github.svg
-      url: https://github.com/volantis-x/
+      url: https://github.com/ek1ng/
     - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/010-facebook.svg
       url: /
     - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/018-twitter.svg

@@ -18,6 +18,12 @@ Vidar-team成员 CTFer
 
 {% timeline %}
 
+{% timenode 2022-04-08 %}
+
+博客新增RSS订阅，优化SEO，修复uv、pv显示bug
+
+{% endtimenode %}
+
 {% timenode 2022-03-21 %}
 
 博客新增评论、计划表、字数统计、Timeline等功能，基本完成主题迁移
