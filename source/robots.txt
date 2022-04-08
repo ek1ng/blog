@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/
+Allow: /about/
+
+Sitemap: https://ek1ng.com/sitemap.xml
+Sitemap: https://ek1ng.com/baidu_sitemap.xml
