@@ -111,24 +111,6 @@ sitemap:
 baidusitemap:
   path: baidusitemap.xml
 
-# 开启压缩
-neat_enable: true
-neat_html:
-  enable: true
-  exclude:
-neat_css:
-  enable: true
-  exclude:
-    - '**/*.min.css'
-neat_js:
-  enable: true
-  mangle: true
-  output:
-  compress:
-  exclude:
-    - '**/*.min.js'
-    - '**/index.js'
-
 #RSS订阅
 # Extensions
 plugins:
