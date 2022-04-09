@@ -243,6 +243,11 @@ sidebar:
             enable: true
             text: '本站总访问量：'
             unit: '次'
+        lastupd:
+          enable: false
+          friendlyShow: true    # 更友好的时间显示
+          text: '最后活动时间：'
+          unit: '日'
 
 tag_plugins:
   note:
@@ -251,9 +256,11 @@ tag_plugins:
     placeholder:  /img/default/chrome.png
 
 site_footer:
-  layout: [aplayer, social, source, analytics, copyright]
-  copyright: '[Copyright © 2020-2022 ek1ng](https://github.com/ek1ng/) [浙ICP备2021038365号-2
+  layout: [aplayer, social, copyright]
+  copyright: '[Copyright © 2020-2022](https://github.com/ek1ng/) [浙ICP备2021038365号-2
 ](https://beian.miit.gov.cn/)'
+    # site source
+  source: https://github.com/ek1ng/blog
   social:
     - img: https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1/icon/1322024-social-media/020-rss.svg
       url: atom.xml
