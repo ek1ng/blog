@@ -1,5 +1,5 @@
 ---
-title: 从0到1：CTFer成长之路 N1BOOK of web afr_3 writeup
+title: N1BOOK of web afr_3 writeup
 date: 2022-04-11 14:34:00
 updated: 2022-04-11 22:35:00
 tags: [ctf,security,<<从0到1：CTFer成长之路>]
