@@ -2,7 +2,7 @@
 title: N1BOOK of web XSS闯关 writeup
 date: 2022-04-13 14:07:00
 updated: 2022-04-13 16:04:00
-tags: [ctf,security,<<从0到1：CTFer成长之路>]
+tags: [ctf,security,<<从0到1：CTFer成长之路>>]
 description: <<从0到1：CTFer成长之路>>配套题目 web相关题目的做题记录 N1BOOK of web 死亡ping命令 writeupcahttps://blog.csdn.net/qq_45414878/article/details/109672659
 ---
 
