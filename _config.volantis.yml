@@ -329,17 +329,19 @@ custom_css:
     effect: [shadow] # [shadow, floatable, blur]
   fontfamily:
     logofont:
-      fontfamily: 'JetBrainsMono,ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace'
+      fontfamily: 'Roboto,"Noto Serif SC","Microsoft Yahei",sans-serif,Menlo,Monaco,monospace,sans-serif'
       name: 'Dosis'
       url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts@20.5.30/Dosis/Dosis-Medium.ttf
       weight: normal
       style: normal
     bodyfont:
-      fontfamily: 'JetBrainsMono,ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace'
+      fontfamily: 'Roboto,"Noto Serif SC","Microsoft Yahei",sans-serif,Menlo,Monaco,monospace,sans-serif'
       name: 'Dosis'
       url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts@20.5.30/Dosis/Dosis-Medium.ttf
       weight: normal
       style: normal
+    codefont:
+      fontfamily: 'JetBrainsMono,ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace'
 
 rightmenu:
   enable: true
