@@ -5,10 +5,9 @@ updated: 2022-03-29 11:15:00
 tags: [ctf,security]
 description: reverse shell
 archive: false
-
 ---
 
-# 如何反弹shell
+# 浅谈如何反弹shell
 
 ## linux下常见网络工具🧀
 
