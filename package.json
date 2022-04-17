@@ -29,7 +29,7 @@
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-server": "^3.0.0",
     "hexo-theme-landscape": "^0.0.3",
-    "hexo-theme-volantis": "^5.0.0-rc.4",
+    "hexo-theme-volantis": "^5.0.0-rc.10",
     "hexo-wordcount": "^6.0.1"
   }
 }

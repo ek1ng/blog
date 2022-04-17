@@ -176,14 +176,24 @@ article:
           img: # /media/org.volantis/logo/128/telegram.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png
 
 comments:
-  service: valine
-  valine:
-    # js: https://npm.elemecdn.com/valine@1.4/dist/Valine.min.js
-    path: /
-    placeholder: 快来评论吧~  # 评论占位提示
-    # 其他配置项按照yml格式继续填写即可 除了 [el path placeholder emojiCDN emojiMaps] 选项
-    appId: ThEuM29Rc9YmToV1iVFhGyAQ-gzGzoHsz
-    appKey: yOtNPLW34jnOwf7vlJuOiEFL
+  service: giscus
+  # giscus
+  # https://giscus.app
+  # https://github.com/laymonage/giscus
+  giscus:
+    # 以下配置按照 yml 格式增删填写即可
+    repo: ek1ng/blog
+    # repo-id: 
+    # category: xxx
+    # category-id: xxx
+    mapping: "title"
+    # reactions-enabled: "1"
+    # emit-metadata: "0"
+    lang: "zh-CN"
+    # 以上配置按照 yml 格式增删填写即可
+    theme:
+      light: "light" # https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/css/giscus/light.css
+      dark: "dark" # https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/css/giscus/dark.css
 
 sidebar:
   for_page: [blogger, lastupdate, tagcloud, webinfo]
