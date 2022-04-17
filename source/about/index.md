@@ -53,9 +53,9 @@ Vidar-team成员 CTFer
 ## Todo
 {% checkbox checked ::添加置顶计划表 %}
 {% checkbox checked ::域名备案(备案中) %}
-{% checkbox 样式参数（可选）::添加闲言碎语 by Artitalk %}
-{% checkbox 样式参数（可选）::添加RSS订阅功能 %}
-{% checkbox 样式参数（可选）::优化SEO %}
+{% checkbox checked ::添加闲言碎语 by Artitalk %}
+{% checkbox checked ::添加RSS订阅功能 %}
+{% checkbox checked ::优化SEO %}
 
 
 
