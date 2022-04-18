@@ -4,8 +4,6 @@ seo_title: 关于
 bottom_meta: false
 cover: true
 sidebar: [blogger, lastupdate, tagcloud, webinfo]
-valine:
-  placeholder: 有什么想对我说的呢？
 ---
 ## About me
 HDU 计科大二在读 
@@ -53,7 +51,6 @@ Vidar-team成员 CTFer
 ## Todo
 {% checkbox checked ::添加置顶计划表 %}
 {% checkbox checked ::域名备案(备案中) %}
-{% checkbox checked ::添加闲言碎语 by Artitalk %}
 {% checkbox checked ::添加RSS订阅功能 %}
 {% checkbox checked ::优化SEO %}
 
