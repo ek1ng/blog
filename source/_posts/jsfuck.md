@@ -94,4 +94,5 @@ description: 基于隐式类型转换的jsfuck编码
 
 ## 利用jsfuck绕过过滤
 
-因为jsfuck只用6个字符编码，这样的话很多时候可以绕过一些对恶意代码的检测，但是我也没怎么看到过jsfuck绕过过滤的ctf题目，只看到过一段js代码里面就直接是flag的题，因此也没有机会仔细研究一下，也许明年hgame可以出个有意思的题考考新生hhh。
+​		因为jsfuck只用6个字符编码，这样的话很多时候可以绕过一些对恶意代码的检测，看到渗透测试中大多数对jsfuck的运用就是绕XSS的过滤，比如[这篇文章](https://www.anquanke.com/post/id/188836)，文章中xss的payload结合jsfuck编码绕过对`alert`等一些危险函数的利用。ctf中我也没怎么看到过jsfuck绕过过滤的题目，只看到过一段js代码里面就直接是flag的题，因此也没有机会仔细研究一下，也许明年hgame可以出个有意思的题考考新生hhh。
+
