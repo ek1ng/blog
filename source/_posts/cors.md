@@ -1,7 +1,7 @@
 ---
 title: 浅谈开发中的cors限制
 date: 2021-11-19 12:19:00
-updated: 2021-11-19 12:19:00
+updated: 2022-05-12 20:14:00
 tags: [front-end,cors]
 ---
 
