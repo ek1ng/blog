@@ -109,4 +109,3 @@ devServer: {
 这时候可以使用ngix，配置一下server就可以啦
 
 confnginx.conf是ngix的配置文件，在其中location /api 就是ngnix的代理。意思与测试环境的意思相同，我们就能成功解决开发和生产环境下的cors问题了。
-
