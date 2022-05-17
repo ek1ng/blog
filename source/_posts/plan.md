@@ -28,7 +28,8 @@ archive: false
 {% checkbox checked:: DASCTF Apr X FATE 2022 4.23 %}
 {% checkbox checked:: ångstromCTF 2022 4.30 - 5.05 %}
 {% checkbox checked:: Mini LCTF 2022 4.30 - 5.07 %}
+{% checkbox checked:: cyber-apocalypse 2022 5.14 - 5.20 %}
 
 #### ToDo
 
-{% checkbox cyber-apocalypse 2022 5.14 - 5.20 %}
+{% checkbox DASCTF x May 2022 5.21 %}
