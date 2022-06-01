@@ -8,15 +8,15 @@ description: 基于隐式类型转换的jsfuck编码
 
 >参考:
 >
->https://zh.wikipedia.org/wiki/JSFuck
+><https://zh.wikipedia.org/wiki/JSFuck>
 >
->https://blog.csdn.net/qq_36539075/category_7591719.html
+><https://blog.csdn.net/qq_36539075/category_7591719.html>
 >
->https://chinese.freecodecamp.org/news/javascript-implicit-type-conversion/
+><https://chinese.freecodecamp.org/news/javascript-implicit-type-conversion/>
 
 ## 前言
 
-​		第一次看到jsfuck编码还是在hgame 2022的week1中一个[在线小游戏](https://ek1ng.com/HGAME%202022%20week1%20writeup.html#Tetris-plus)的ctf题目，只是在注释中发现了一段有很多[]的内容，搜索后发现是jsfuck编码，在控制台中执行就得到了flag，其实也不是很懂jsfuck的原理，只是单纯觉得比较神奇，今天又在一篇安全相关的文章中看到了[jsfuck cheat sheet](https://websec.readthedocs.io/zh/latest/language/javascript/jsfuck.html)于是就想深入了解一下jsfuck。
+第一次看到jsfuck编码还是在hgame 2022的week1中一个[在线小游戏](https://ek1ng.com/HGAME%202022%20week1%20writeup.html#Tetris-plus)的ctf题目，只是在注释中发现了一段有很多[]的内容，搜索后发现是jsfuck编码，在控制台中执行就得到了flag，其实也不是很懂jsfuck的原理，只是单纯觉得比较神奇，今天又在一篇安全相关的文章中看到了[jsfuck cheat sheet](https://websec.readthedocs.io/zh/latest/language/javascript/jsfuck.html)于是就想深入了解一下jsfuck。
 
 ## 什么是jsfuck
 
@@ -58,8 +58,6 @@ description: 基于隐式类型转换的jsfuck编码
 
 ![image-20220428223328684](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220428223328684.png)
 
-
-
 但是26个字母其他的又该怎么实现呢，我们这里看一下[jsfuck的官方仓库](https://github.com/aemkei/jsfuck/blob/master/jsfuck.js)中是如何获取指定字符的，那更多的字符就需要去看jsfuck的源码啦
 
 ```javascript
@@ -94,5 +92,4 @@ description: 基于隐式类型转换的jsfuck编码
 
 ## 利用jsfuck绕过过滤
 
-​		因为jsfuck只用6个字符编码，这样的话很多时候可以绕过一些对恶意代码的检测，看到渗透测试中大多数对jsfuck的运用就是绕XSS的过滤，比如[这篇文章](https://www.anquanke.com/post/id/188836)，文章中xss的payload结合jsfuck编码绕过对`alert`等一些危险函数的利用。ctf中我也没怎么看到过jsfuck绕过过滤的题目，只看到过一段js代码里面就直接是flag的题，因此也没有机会仔细研究一下，也许明年hgame可以出个有意思的题考考新生hhh。
-
+​  因为jsfuck只用6个字符编码，这样的话很多时候可以绕过一些对恶意代码的检测，看到渗透测试中大多数对jsfuck的运用就是绕XSS的过滤，比如[这篇文章](https://www.anquanke.com/post/id/188836)，文章中xss的payload结合jsfuck编码绕过对`alert`等一些危险函数的利用。ctf中我也没怎么看到过jsfuck绕过过滤的题目，只看到过一段js代码里面就直接是flag的题，因此也没有机会仔细研究一下，也许明年hgame可以出个有意思的题考考新生hhh。
