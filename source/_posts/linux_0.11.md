@@ -83,7 +83,7 @@ jmpi是一个段间跳转指令，表示跳转到0x9000:go处执行，段基址�
 下面这些mov指令很容易看懂，把cs给ax,把ax给ds，es,ss,给sp赋值0xff00。
 
 我们来理一理现在各个寄存器的值和它们对应的作用。
-![图 1](https://s2.loli.net/2022/06/02/x75ioKZgly3VFzE.png)  
+![图 2](https://s2.loli.net/2022/06/02/x75ioKZgly3VFzE.png)  
 cs寄存器是代码段寄存器，CPU当前正在执行的代码在内存中的位置，就是cs:ip这组寄存器配合指向的。因为之前执行了`jmpi go,0x90000`这条段间跳转指令，所以cs寄存器的值就是0x90000,ip寄存器里的值是go这个标签的偏移地址，那么上面的三条mov指令把cs的值赋值给了ax,ds,es,ss,这些寄存器的值现在都是0x90000。
 
 ds是数据段寄存器，一开始我们给他赋值了0x07c0,并且说主要的作用是方便通过基址访问对应数据，现在代码被移动到0x90000这段地址上面了，自然ds也应该赋值为0x90000。
@@ -349,11 +349,13 @@ end_move:
 ![图 6](https://s2.loli.net/2022/06/04/UbvwIDKX3qx7WSu.png)  
 在保护模式下，段寄存器(ex ds,ss,cs..)里面存储的是段选择子，段选择子去全局描述符表GDT中寻找段描述符，从中取出段基址，段基址加上偏移地址就是实际访问的物理地址。
 
+所以到这里明白GDT的作用了么？就是为了从16位实模式切换到32位保护模式后，能从GDT中找到段描述符，拼凑成最终的物理地址。具体的例子我们后面转换到32位保护模式后，会再举实际例子来解释的，这里先理清楚思路就好。
+
 接下来我们详细说一说GDT是如何被设置的
 
 首先GDT的**地址**被存储在一个叫gdtr寄存器中，这是寄存器的结构。
 ![图 7](https://s2.loli.net/2022/06/04/dibOte3JKYyEuNF.png)  
-我们结合代码来看看gdtr寄存器是如何使用的。
+我们结合代码来看看如何设置GDT
 
 继续看setup.s endmove后的内容。
 
@@ -374,6 +376,7 @@ end_move:
  out #0x60,al
  call empty_8042
 ```
+
 这里`lidt idt_48`咱们先不管，先看下面这句`lgdt gdt_48`，`lgdt gdt_48`把值`gdt_48`放在gdtr寄存器中，`gdt_48`在这里是个标签。
 
 ```asm
@@ -416,8 +419,267 @@ gdt:
 ### 进入保护模式
 
 设置完GDT后，接下来就要从16位实模式切换到32位保护模式啦。
+我们接着往下看setup.s
 
+```asm
+end_move:
+ mov ax,#SETUPSEG ; right, forgot this at first. didn't work :-)
+ mov ds,ax
+ lidt idt_48  ; load idt with 0,0
+ lgdt gdt_48  ; load gdt with whatever appropriate
+
+; that was painless, now we enable A20
+
+ call empty_8042
+ mov al,#0xD1  ; command write
+ out #0x64,al
+ call empty_8042
+ mov al,#0xDF  ; A20 on
+ out #0x60,al
+ call empty_8042
+
+; well, that went ok, I hope. Now we have to reprogram the interrupts :-(
+; we put them right after the intel-reserved hardware interrupts, at
+; int 0x20-0x2F. There they won't mess up anything. Sadly IBM really
+; messed this up with the original PC, and they haven't been able to
+; rectify it afterwards. Thus the bios puts interrupts at 0x08-0x0f,
+; which is used for the internal hardware interrupts as well. We just
+; have to reprogram the 8259's, and it isn't fun.
+
+ mov al,#0x11  ; initialization sequence
+ out #0x20,al  ; send it to 8259A-1
+ .word 0x00eb,0x00eb  ; jmp $+2, jmp $+2
+ out #0xA0,al  ; and to 8259A-2
+ .word 0x00eb,0x00eb
+ mov al,#0x20  ; start of hardware int's (0x20)
+ out #0x21,al
+ .word 0x00eb,0x00eb
+ mov al,#0x28  ; start of hardware int's 2 (0x28)
+ out #0xA1,al
+ .word 0x00eb,0x00eb
+ mov al,#0x04  ; 8259-1 is master
+ out #0x21,al
+ .word 0x00eb,0x00eb
+ mov al,#0x02  ; 8259-2 is slave
+ out #0xA1,al
+ .word 0x00eb,0x00eb
+ mov al,#0x01  ; 8086 mode for both
+ out #0x21,al
+ .word 0x00eb,0x00eb
+ out #0xA1,al
+ .word 0x00eb,0x00eb
+ mov al,#0xFF  ; mask off all interrupts for now
+ out #0x21,al
+ .word 0x00eb,0x00eb
+ out #0xA1,al
+
+
+; well, that certainly wasn't fun :-(. Hopefully it works, and we don't
+; need no steenking BIOS anyway (except for the initial loading :-).
+; The BIOS-routine wants lots of unnecessary data, and it's less
+; "interesting" anyway. This is how REAL programmers do it.
+;
+; Well, now's the time to actually move into protected mode. To make
+; things as simple as possible, we do no register set-up or anything,
+; we let the gnu-compiled 32-bit programs do that. We just jump to
+; absolute address 0x00000, in 32-bit protected mode.
+
+ mov ax,#0x0001 ; protected mode (PE) bit
+ lmsw ax  ; This is it;
+ jmpi 0,8  ; jmp offset 0 of segment 8 (cs)
+```
+
+还是endmove,我们之前看到通过idt_48和gdt_48设置了中断描述符表和全局描述符表，接下来执行`call empty_8042`，我们来看看这个标签对应的汇编
+
+```asm
+; This routine checks that the keyboard command queue is empty
+; No timeout is used - if this hangs there is something wrong with
+; the machine, and we probably couldn't proceed anyway.
+empty_8042:
+ .word 0x00eb,0x00eb
+ in al,#0x64 ; 8042 status port
+ test al,#2  ; is input buffer full?
+ jnz empty_8042 ; yes - loop
+ ret
+```
+
+根据注释我们也可以看出，此例程检查键盘命令队列是否为空，如果超时那么挂起例程，则说明机器有问题可能无法继续。
+
+继续往下看，根据注释结合汇编，看得出这里几句是打开A20地址线，突破地址信号线20位的宽度，变成32位可用。20位这个问题我们之前多次提到，这是因为8086CPU只有20位的地址线，但是从CPU进入32位时代后，要兼容以前16位CPU只能用20位地址线的模式，因此如果不开启，那么即便你有32位的地址线，默认只使用低20位。
+
+接下来有很长一片注释，看起来非常唬人，其实用处不大。大概内容就是这里是对可编程中断控制器8259芯片进行的编程，因为中断号是不能冲突的，Intel把0到0x19号中断都作为保留中断，比如0号中断就规定为除零一场，软件自定义的中断都应在放在这之后，但是IBM在原PC机中和保留中断号发生了冲突也没有处理，因此这里不得不对其重新编程。
+
+endmove中这里最后三句非常重要，我们拎出来单独看看。
+
+```asm
+ mov ax,#0x0001 ; protected mode (PE) bit
+ lmsw ax  ; This is it;
+ jmpi 0,8  ; jmp offset 0 of segment 8 (cs)
+```
+
+模式这个状态字保存在机器状态字寄存器cr0中，当我们准备好切换到保护模式时，前两行汇编做的就是将cr0这个寄存器的位0置1,我们就从实模式切换到保护模式了。
+
+![图 13](https://s2.loli.net/2022/06/04/EefroIPzC4NcXK3.png)  
+
+接下来是`jump 0,8`，8表示代码段寄存器cs的值，0表示偏移地址，需要注意我们现在是保护模式下的内存寻址方式。
+
+![图 14](https://s2.loli.net/2022/06/04/QeUIzr3ZDytsdc6.png)  
+8用二进制表示为`00000,0000,0000,1000`,所以描述符索引的值是1,也就是我们要去gdt中找第一项段描述符，那我们看看我们当时设置gdt时里面的内容是啥。
+
+```asm
+gdt:
+ .word 0,0,0,0  ; dummy
+
+ .word 0x07FF  ; 8Mb - limit=2047 (2048*4096=8Mb)
+ .word 0x0000  ; base address=0
+ .word 0x9A00  ; code read/exec
+ .word 0x00C0  ; granularity=4096, 386
+
+ .word 0x07FF  ; 8Mb - limit=2047 (2048*4096=8Mb)
+ .word 0x0000  ; base address=0
+ .word 0x9200  ; data read/write
+ .word 0x00C0  ; granularity=4096, 386
+```
+
+第0项是空值，第一项是代码段描述符，可读可执行，第二项是数据段描述符，是可读可写段，段基址都是0.所以我们这里取的第一项段描述符就是代码段描述符，它现在的段基址是0,我们加的偏移也是0,所以这个`jump 0,8`会跳转到内存地址的0x0处开始执行。
+
+零地址处里面是什么呢？再来看看我们现在的内存布局图，和之前加载完内核后一样对吧设置GDT和切换模式肯定是没改变什么位置存放了啥的。
+
+![图 15](https://s2.loli.net/2022/06/04/tfWGPJiDwusjqTH.png)  
+所以0地址处存放的是system，那system是怎么来的呢，我们在加载内核中提到过操作系统的编译，system内核的代码的编译是由Makefile文件主导的，我们来看一下Makefile中的关键部分,发现是用head.s和main.c以及其他各模块的操作系统代码编译出来的结果。
+
+```makefile
+tools/system: boot/head.o init/main.o \
+ $(ARCHIVES) $(DRIVERS) $(MATH) $(LIBS)
+ $(LD) $(LDFLAGS) boot/head.o init/main.o \
+ $(ARCHIVES) \
+ $(DRIVERS) \
+ $(MATH) \
+ $(LIBS) \
+ -o tools/system > System.map
+```
+
+所以我们接下来应该看看head.s中的内容了，head.s这个文件是为了进入用c编写的main.c做的准备
+
+```asm
+_pg_dir:
+startup_32:
+ movl $0x10,%eax
+ mov %ax,%ds
+ mov %ax,%es
+ mov %ax,%fs
+ mov %ax,%gs
+ lss _stack_start,%esp
+ call setup_idt
+ call setup_gdt
+ movl $0x10,%eax  ; reload all the segment registers
+ mov %ax,%ds  ; after changing gdt. CS was already
+ mov %ax,%es  ; reloaded in 'setup_gdt'
+ mov %ax,%fs
+ mov %ax,%gs
+ lss _stack_start,%esp
+ xorl %eax,%eax
+1: incl %eax  ; check that A20 really IS enabled
+ movl %eax,0x000000 ; loop forever if it isn't
+ cmpl %eax,0x100000
+ je 1b
+/*
+ * NOTE! 486 should set bit 16, to check for write-protect in supervisor
+ * mode. Then it would be unnecessary with the "verify_area()"-calls.
+ * 486 users probably want to set the NE (#5) bit also, so as to use
+ * int 16 for math errors.
+ */
+ movl %cr0,%eax  # check math chip
+ andl $0x80000011,%eax # Save PG,PE,ET
+/* "orl $0x10020,%eax" here for 486 might be good */
+ orl $2,%eax  # set MP
+ movl %eax,%cr0
+ call check_x87
+ jmp after_page_tables
+```
+
+pg_dir这个标签表示页目录，之后设置分页机制时，页目录会存放在这个位置。
+
+接下来的`mov`操作给ds、es、fs、gs这几个段寄存器复制0x10,根据段描述符的结构，0x10表示GDT中的第二个段描述符，也就是数据段描述符。
+
+最后`lss`改变了栈顶指针的位置，之前栈顶指针指向的位置是`0x9FF00`，`lss`指令让`ss:esp`这个栈顶指针指向了`_stack_start`这个标号的位置。`_stack_start`标号在`sched.c`中，让我们来看看。
+
+```asm
+struct {
+ long * a;
+ short b;
+ } stack_start = { & user_stack [PAGE_SIZE>>2] , 0x10 };
+```
+
+首先`stack_start`中高位8Byte是0x10,会赋值给ss,低位16Byte是`user_stack`数组的最后一个元素的地址也就是栈顶地址，会赋值给esp寄存器。ss被赋值0x10,按照保护模式下的段选择子寻址，指向GDT中的第二个段描述符，数据段描述符，段基址为0。esp被赋值为栈顶地址，栈顶地址指向`user_stack + 0`。
+
+继续看head.s,两个`call`语句设置了中断描述符表IDT和全局描述符表GDT，然后后面又是重新执行了一遍前面的代码，为什么要重新设置段寄存器的值呢？因为上面修改了GDT,要重新设置才能生效，那么为什么要设置IDT和GDT呢？
+
+首先IDT我们之前没设置过具体值，只是告诉了idtr,idt在哪，所以我们后面要用的话，给IDT设置值是理所应当的。先来看看给IDT设置成了什么
+
+```asm
+setup_idt:
+ lea ignore_int,%edx
+ movl $0x00080000,%eax
+ movw %dx,%ax  /* selector = 0x0008 = cs */
+ movw $0x8E00,%dx /* interrupt gate - dpl=0, present */
+
+ lea _idt,%edi
+ mov $256,%ecx
+rp_sidt:
+ movl %eax,(%edi)
+ movl %edx,4(%edi)
+ addl $8,%edi
+ dec %ecx
+ jne rp_sidt
+ lidt idt_descr
+ ret
+
+idt_descr:
+ .word 256*8-1  # idt contains 256 entries
+ .long _idt
+.align 2
+.word 0
+
+_idt: .fill 256,8,0  # idt is uninitialized
+```
+
+和GDT类似，中断描述符表idt里面存储的是中断描述符，每个中断号对应一个中断描述符，而中断描述符里面存储着主要是中断程序的地址，这样CPU就可以根据中断号寻找到对应的中断程序并且执行。
+
+这段程序的作用就是设置了256个中断描述符，并且让每个中断描述符中的中断程序例程都指向一个`ignore_int`的函数地址，相当于是初始化了idt,`ignore_int`是默认的中断处理程序，之后会被对应的中断程序覆盖，不过现在还没覆盖过去，所以现在任何中断都指向`ignore_int`，都还是没法用的。
+
+这里对idt的设置就讲完了，接下来也对gdt做了设置，来看看设置后的gdt。
+
+```asm
+_gdt: .quad 0x0000000000000000 /* NULL descriptor */
+ .quad 0x00c09a0000000fff /* 16Mb */
+ .quad 0x00c0920000000fff /* 16Mb */
+ .quad 0x0000000000000000 /* TEMPORARY - don't use */
+ .fill 252,8,0   /* space for LDT's and TSS's etc */
+```
+
+这和我们先前设置的gdt一样，也是代码描述符和数据段描述符，第四项没有用，最后留了252项的空间，这些空间之后会用来放置人物状态描述符TSS和局部描述符LDT。
+![图 16](https://s2.loli.net/2022/06/05/JpNdBYRZzPOfGeD.png)  
+那既然一模一样，为什么还需要重新设置gdt呢？因为原来设置的gdt在setup程序中，之后这块地址会被缓冲区覆盖掉，因此需要在head程序中重新设置一遍，head中的内存区域就不会被其他程序覆盖啦。
+
+![图 17](https://s2.loli.net/2022/06/05/sZrAEOW7vcNedam.png)  
+
+继续往下看head.s,发现下一句是`jmp after_page_tables`，没错，接下来就是分页机制啦
 
 ### 分页机制
+
+来看看`after_page_tables`这个标签
+
+```asm
+after_page_tables:
+ pushl $0  # These are the parameters to main :-)
+ pushl $0
+ pushl $0
+ pushl $L6  # return address for main, if it decides to.
+ pushl $_main
+ jmp setup_paging
+L6:
+ jmp L6   # main should never return here, but
+```
 
 ### 跳转到内核

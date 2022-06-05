@@ -12,19 +12,19 @@ description: 浅谈svelte框架
 
 ### Svelte-重编译框架-编译器即框架
 
-​		Svelte和React、Vue这些JavaScript框架类似，希望开发者更好的去构建交互式界面，但不同的是Svelte在**构建/编译阶段**将应用程序转换为理想的 JavaScript 应用，而不是在*运行阶段* 解释应用程序的代码。
+​  Svelte和React、Vue这些JavaScript框架类似，希望开发者更好的去构建交互式界面，但不同的是Svelte在**构建/编译阶段**将应用程序转换为理想的 JavaScript 应用，而不是在*运行阶段* 解释应用程序的代码。
 
 ### Why Svelte?
 
-​		**体积+性能**：Svelte在编译期做静态分析来生成功能，从而减小了打包后得代码体积。Svelte也没有采用Vue、React等流行框架都采用的虚拟DOM而是直接编译生成DOM，可以避免diff操作，理论上性能和手写原生js相同。
+​  **体积+性能**：Svelte在编译期做静态分析来生成功能，从而减小了打包后得代码体积。Svelte也没有采用Vue、React等流行框架都采用的虚拟DOM而是直接编译生成DOM，可以避免diff操作，理论上性能和手写原生js相同。
 
-​		**上手难度低**：话说，Svelte的官方教程真是相当友好，有中文的官方文档以及入门教程，有聊天室来随时交流问题，甚至还有[Svelte for new developers](https://www.sveltejs.cn/blog/svelte-for-new-developers)这样的详细到让没有使用过node.js的开发者初始化框架的教程。
+​  **上手难度低**：话说，Svelte的官方教程真是相当友好，有中文的官方文档以及入门教程，有聊天室来随时交流问题，甚至还有[Svelte for new developers](https://www.sveltejs.cn/blog/svelte-for-new-developers)这样的详细到让没有使用过node.js的开发者初始化框架的教程。
 
-​		**生态尚未成熟**：生态上不够完善，连一套完整的组件库都没有。如果想要在大型项目中使用Svelte，从考虑长期开发效率和维护角度目前都不是非常好的选择，主流的Vue和React以及angular会是更好的选择，不过目前尚处学生阶段，而Svelte虽是新起之秀不够成熟，也值得开发者学习思想。
+​  **生态尚未成熟**：生态上不够完善，连一套完整的组件库都没有。如果想要在大型项目中使用Svelte，从考虑长期开发效率和维护角度目前都不是非常好的选择，主流的Vue和React以及angular会是更好的选择，不过目前尚处学生阶段，而Svelte虽是新起之秀不够成熟，也值得开发者学习思想。
 
-​		
+​  
 
-​		以上这些都是在大致浏览完Svelte的官方文档以及相关文章后对Svelte的一些看法，然后我会尝试用Svelte写一个TODOList，它会包括基础的增加删除完成以及拓展的修改、回收站、添加删除分组、使用indexdb来缓存历史数据等功能，写TODOList虽然是助手的二面任务，但是我此前也有使用todolist的习惯并且对微软的Microsoft To Do的使用逻辑觉得不太习惯，希望自己写一个demo的时候能让自己满意，简单说我希望做一个比较简约风格的todolist。
+​  以上这些都是在大致浏览完Svelte的官方文档以及相关文章后对Svelte的一些看法，然后我会尝试用Svelte写一个TODOList，它会包括基础的增加删除完成以及拓展的修改、回收站、添加删除分组、使用indexdb来缓存历史数据等功能，写TODOList虽然是助手的二面任务，但是我此前也有使用todolist的习惯并且对微软的Microsoft To Do的使用逻辑觉得不太习惯，希望自己写一个demo的时候能让自己满意，简单说我希望做一个比较简约风格的todolist。
 
 ## TODOLIST
 
@@ -53,67 +53,63 @@ description: 浅谈svelte框架
 实现：通过svelte框架在html中写if-else判断，点击状态按钮使当前todo对象的状态值改变，然后根据不同的状态值加载不同的html标签，在写的过程中遇到一个神奇的问题
 
 ```html
-				{#if user.loggedIn}
-				<button on:click={toggle}>
-					Log out
-				</button>
-				{/if}
-				{#if !user.loggedIn}
-				<button on:click={toggle}>
-					Log in
-				</button>
+    {#if user.loggedIn}
+    <button on:click={toggle}>
+     Log out
+    </button>
+    {/if}
+    {#if !user.loggedIn}
+    <button on:click={toggle}>
+     Log in
+    </button>
 ```
-
-
 
 ```js
 <script>
-	let user = { loggedIn: false };
+ let user = { loggedIn: false };
 
-	function toggle() {
-		user.loggedIn = !user.loggedIn;
-	}
+ function toggle() {
+  user.loggedIn = !user.loggedIn;
+ }
 </script>
 ```
 
 如上写法可以成功通过点击来切换log in/log out，但是这种写法却不行。
 
 ```html
-				{#if todo.status == "unfinished"}
-				<button class="unfinished" on:click={changeStatus(todo)}>
-					To do
-				</button>
-				{:else if todo.status == "inprogress"}
-				<button class="inprogress" on:click={changeStatus(todo)}>
-					In progress
-				</button>
-				{:else if todo.status == "paused"}
-				<button class="paused" on:click={changeStatus(todo)}>
-					Paused
-				</button>
-				{/if}
+    {#if todo.status == "unfinished"}
+    <button class="unfinished" on:click={changeStatus(todo)}>
+     To do
+    </button>
+    {:else if todo.status == "inprogress"}
+    <button class="inprogress" on:click={changeStatus(todo)}>
+     In progress
+    </button>
+    {:else if todo.status == "paused"}
+    <button class="paused" on:click={changeStatus(todo)}>
+     Paused
+    </button>
+    {/if}
 ```
 
-
-
 ```js
-	//改变状态
-	function changeStatus(todo) {
-		if (todo.status == 'unfinished'){
-			todo.status = 'inprogress';
-		}else if (todo.status == 'inprogress'){
-			todo.status = 'paused';
-		}else if (todo.status == 'paused'){
-			todo.status = 'unfinished';
-		}
-	}
+ //改变状态
+ function changeStatus(todo) {
+  if (todo.status == 'unfinished'){
+   todo.status = 'inprogress';
+  }else if (todo.status == 'inprogress'){
+   todo.status = 'paused';
+  }else if (todo.status == 'paused'){
+   todo.status = 'unfinished';
+  }
+ }
 ```
 
 通过调试发现能成功通过click事件改变当前todo的status但是这个if判断的逻辑语句却没有办法在变量值改变后去加载改变后的html标签导致无法实现功能，而上面的写法if却可以监测到变量改变，通过调试之后发现可能是这个对象的原因，猜测是我写在todos这个数组里，而在if块的位置todos数组已经加载过了就不会再加载？然后我就尝试了一些别的渲染方法，比如
 
 ```html
 <button class="status" on:click={changeStatus(todo)}>
-	{todo.status}
+ {todo.status}
 </button>
 ```
 
@@ -142,33 +138,29 @@ foo.bar = 'baz';
 
 # 浅谈Svelte框架
 
-​		前端领域是发展迅速，各种轮子层出不穷的行业。最近这些年，随着三大框架`React`、`Vue`、`Angular`版本逐渐稳定，前端技术栈的迭代貌似逐渐缓慢下来，如果将目光放得更加长远来关注谁未来更有可能成为主流技术栈，也许会是新兴的重编译框架Svelte，我希望写一写在我初步了解Svelte后，以Svelte对比主流的前端框架，看一看Svelte产生的背景以及与其他框架对比Svelte的优劣情况。
+​  前端领域是发展迅速，各种轮子层出不穷的行业。最近这些年，随着三大框架`React`、`Vue`、`Angular`版本逐渐稳定，前端技术栈的迭代貌似逐渐缓慢下来，如果将目光放得更加长远来关注谁未来更有可能成为主流技术栈，也许会是新兴的重编译框架Svelte，我希望写一写在我初步了解Svelte后，以Svelte对比主流的前端框架，看一看Svelte产生的背景以及与其他框架对比Svelte的优劣情况。
 
 ## Svelte的设计理念
 
-​		`Svelte`作者是 Rich Harris，同时也是 Rollup 的作者。他设计 Svelte 的核心『**通过静态编译减少框架运行时的代码量**』，也就是说Vue 和 react 这类传统的框架，都必须引入运行时 (runtime) 代码，用于虚拟dom、diff 算法。而Svelte直接编译生成DOM,理论上性能和手写原生js相同。Svelte应用所有需要的运行时代码都包含在`bundle.js`里面了，除了引入这个组件本身，你不需要再额外引入一个运行代码。因此Svelte具有体积小、运行速度快等特点。
+​  `Svelte`作者是 Rich Harris，同时也是 Rollup 的作者。他设计 Svelte 的核心『**通过静态编译减少框架运行时的代码量**』，也就是说Vue 和 react 这类传统的框架，都必须引入运行时 (runtime) 代码，用于虚拟dom、diff 算法。而Svelte直接编译生成DOM,理论上性能和手写原生js相同。Svelte应用所有需要的运行时代码都包含在`bundle.js`里面了，除了引入这个组件本身，你不需要再额外引入一个运行代码。因此Svelte具有体积小、运行速度快等特点。
 
 ## Svelte的优势
 
 ### 体积小（no runtime）
 
-​		当前的框架无论是 React Angular 还是 Vue，不管你怎么编译，使用的时候必然需要『引入』框架本身，也就是所谓的运行时 (runtime)。，当用户在你的页面进行各种操作改变组件的状态时，框架的运行时会根据新的组件状态计算出哪些DOM节点需要被更新，从而更新视图。这就意味着，框架本身所依赖的代码也会被打包到最终的构建产物中,因此Vue和React等框架打包后的体积相较于Svelte会相对更大。
+​  当前的框架无论是 React Angular 还是 Vue，不管你怎么编译，使用的时候必然需要『引入』框架本身，也就是所谓的运行时 (runtime)。，当用户在你的页面进行各种操作改变组件的状态时，框架的运行时会根据新的组件状态计算出哪些DOM节点需要被更新，从而更新视图。这就意味着，框架本身所依赖的代码也会被打包到最终的构建产物中,因此Vue和React等框架打包后的体积相较于Svelte会相对更大。
 
-​		但是用 Svelte 就不一样，一个 Svelte 组件编译了以后，所有需要的运行时代码都包含在里面了，除了引入这个组件本身，你不需要再额外引入一个所谓的框架运行时。
+​  但是用 Svelte 就不一样，一个 Svelte 组件编译了以后，所有需要的运行时代码都包含在里面了，除了引入这个组件本身，你不需要再额外引入一个所谓的框架运行时。
 
-​		下面是`Jacek Schae`的统计，使用市面上主流的框架，来编写同样的Realword 应用的体积：
+​  下面是`Jacek Schae`的统计，使用市面上主流的框架，来编写同样的Realword 应用的体积：
 
 ![svelte bundle size](https://miro.medium.com/max/2000/1*6HK361f-UDqNpWuTA68jHw.png)
-
-
 
 ### 代码量小
 
 举个例子，`Svelte`中，可以直接使用赋值操作符更新状态，而在`React`中，我们要么使用`useState`钩子，要么使用`setState`设置状态。在此前写Todolist中也我也发现Svelte不需要依赖模板文件，这不仅对代码量来说是减轻对于开发者来说学习成本同样也降低了。
 
 下面是`Jacek Schae`的统计，使用市面上主流的框架，来编写同样的Realword 应用的行数，可以看出Vue和React在代码量上基本齐头并进而Svelte明显要少很多。
-
-
 
 ![sveltelesscode](https://miro.medium.com/max/2000/1*X6JjPo0y6L02KB7F0RvVlg.png)
 
@@ -180,9 +172,8 @@ foo.bar = 'baz';
 
 ## Svelte尚未成熟
 
-​		虽然Svelte具有上述诸多优势，但在开发大型项目时，Svelte没有像AntDesign、ElementUI这样成熟的UI库，原生脚手架没有目录划分，原生不支持预处理器等等，以及于**大型项目必要的单元测试并没有完整的方案**等一系列问题都让目前开发者难以使用Svelte来开发大型项目。
+​  虽然Svelte具有上述诸多优势，但在开发大型项目时，Svelte没有像AntDesign、ElementUI这样成熟的UI库，原生脚手架没有目录划分，原生不支持预处理器等等，以及于**大型项目必要的单元测试并没有完整的方案**等一系列问题都让目前开发者难以使用Svelte来开发大型项目。
 
 ## 如何选型实践
 
-​		Svelte 是否适合在大型项目中应用，还有待观察。虽然核心思想是不需要 “运行时”，但是项目组件越多，运行时的代码量也就越多，且组件间的代码重复率也就越高，除此之外，现阶段的生态确实处于尚未成熟。但是一来作为尚在学校的学生目前接手的项目并不算大型，二来Svelte的优势也确实让人值得相信，或许几年后在诸多开发者的支持下随着Svelte的生态逐步完善，大型项目开发者也会逐渐使用Svelte。
-
+​  Svelte 是否适合在大型项目中应用，还有待观察。虽然核心思想是不需要 “运行时”，但是项目组件越多，运行时的代码量也就越多，且组件间的代码重复率也就越高，除此之外，现阶段的生态确实处于尚未成熟。但是一来作为尚在学校的学生目前接手的项目并不算大型，二来Svelte的优势也确实让人值得相信，或许几年后在诸多开发者的支持下随着Svelte的生态逐步完善，大型项目开发者也会逐渐使用Svelte。
