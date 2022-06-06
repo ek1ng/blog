@@ -682,4 +682,30 @@ L6:
  jmp L6   # main should never return here, but
 ```
 
+`after_page_tables`这个标签中，前面的`pushl`是跳转到main函数，不过在细讲main函数之前，我们先看看`jmp setup_paging`，这是开启分页机制。
+
+```asm
+setup_paging:
+ movl $1024*5,%ecx  /* 5 pages - pg_dir+4 page tables */
+ xorl %eax,%eax
+ xorl %edi,%edi   /* pg_dir is at 0x000 */
+ cld;rep;stosl
+ movl $pg0+7,_pg_dir  /* set present bit/user r/w */
+ movl $pg1+7,_pg_dir+4  /*  --------- " " --------- */
+ movl $pg2+7,_pg_dir+8  /*  --------- " " --------- */
+ movl $pg3+7,_pg_dir+12  /*  --------- " " --------- */
+ movl $pg3+4092,%edi
+ movl $0xfff007,%eax  /*  16Mb - 4096 + 7 (r/w user,p) */
+ std
+1: stosl   /* fill pages backwards - more efficient :-) */
+ subl $0x1000,%eax
+ jge 1b
+ xorl %eax,%eax  /* pg_dir is at 0x0000 */
+ movl %eax,%cr3  /* cr3 - page directory start */
+ movl %cr0,%eax
+ orl $0x80000000,%eax
+ movl %eax,%cr0  /* set paging (PG) bit */
+ ret   /* this also flushes prefetch-queue */
+```
+
 ### 跳转到内核
