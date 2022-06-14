@@ -5,10 +5,6 @@ updated: 2022-05-12 20:14:00
 tags: [front-end, cors]
 ---
 
-# 浅谈开发中的 cors 限制
-
-## 前言
-
 最近有用 vue 然后调 face++的 api 做一个前端人脸识别的需求，其中使用了 axios 作为 http 请求库，配置浏览器 cors 限制时遇到了一些不太一样的问题，写篇博客记录一下。
 
 ## 什么是 cors
@@ -23,7 +19,7 @@ tags: [front-end, cors]
 
 主要是为了防 CSRF，有了 cors 之后，假设用户不小心点击了恶意站点，也无法从 B 向站点 A 发送请求，因为站点 A 不会配置对站点 B 的跨域，因此从 B 站点发起一个向 A 站点的请求是不被浏览器允许的，浏览器会检测到 A 站点接口的响应头中没有配置对 B 站点的跨域，从而拦截响应。
 
-![img](https://img2020.cnblogs.com/blog/2066571/202103/2066571-20210302105514134-1294820970.png)
+![图 1](https://s2.loli.net/2022/06/14/2VAzY3XZf6FlJ49.png)  
 
 ## 简单请求和非简单请求
 
@@ -63,8 +59,7 @@ CORS-preflight 就是这样一种机制，浏览器先单独请求一次，询�
 
 首先，跨域本身是一种安全措施，这种错误的跨域配置相当于跨域防 CSRF 防了个寂寞。
 
-其次，chromium 内核也对后端配置跨域错误时做出了很严格的限制，这也会导致你在开发时遇到诸多困难，比如后端的鉴权接口通过 set-cookie 响应头返回了 session，你想从请求头里面拿 session 但是你拿不到，然后一查发现如果想要从 set-cookie 里面拿 session 那就需要
-配置 Access-Control-Allow-Credentials 这个响应头，那么比如说你写前端你用 axios，有 with credential 这个属性可以开启，但是开启后由于后端错误配置跨域，你的请求会在 with credential 开启后被跨域拦截，原因是 chromium 发现后端错误配置了跨域，总之，错误配置跨域的本质问题是无法防御 CSRF 攻击，因此浏览器在请求错误配置跨域的接口后对响应头的字段做检查，并且拦截响应，也会导致开发上也很难继续工作。
+其次，chromium 内核也对后端配置跨域错误时做出了很严格的限制，这也会导致你在开发时遇到诸多困难，比如后端的鉴权接口通过 set-cookie 响应头返回了 session，你想从请求头里面拿 session 但是你拿不到，然后一查发现如果想要从 set-cookie 里面拿 session 那就需要配置 Access-Control-Allow-Credentials 这个响应头，那么比如说你写前端你用 axios，有 with credential 这个属性可以开启，但是开启后由于后端错误配置跨域，你的请求会在 with credential 开启后被跨域拦截，原因是 chromium 发现后端错误配置了跨域，总之，错误配置跨域的本质问题是无法防御 CSRF 攻击，因此浏览器在请求错误配置跨域的接口后对响应头的字段做检查，并且拦截响应，也会导致开发上也很难继续工作。
 
 ## CORS 的解决方案
 
@@ -107,6 +102,6 @@ devServer: {
 
 在本机调试下，webpack 帮你把脏活累活干了，那么打包之后，服务器上没有 webpack 了，代理怎么办呢？
 
-这时候可以使用 ngix，配置一下 server 就可以啦
+这时候可以使用 nginx，配置一下 server 就可以啦
 
-confnginx.conf 是 ngix 的配置文件，在其中 location /api 就是 ngnix 的代理。意思与测试环境的意思相同，我们就能成功解决开发和生产环境下的 cors 问题了。
+config.conf 是 nginx 的配置文件，在其中 location /api 就是 nginx 的代理。意思与测试环境的意思相同，我们就能成功解决开发和生产环境下的 cors 问题了。
