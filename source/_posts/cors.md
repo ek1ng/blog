@@ -1,8 +1,9 @@
 ---
-title: 浅谈开发中的cors限制
+title: 浅谈cors
 date: 2021-11-19 12:19:00
 updated: 2022-05-12 20:14:00
 tags: [front-end, cors]
+description: 聊一聊开发中的cors限制
 ---
 
 最近有用 vue 然后调 face++的 api 做一个前端人脸识别的需求，其中使用了 axios 作为 http 请求库，配置浏览器 cors 限制时遇到了一些不太一样的问题，写篇博客记录一下。
