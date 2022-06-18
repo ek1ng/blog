@@ -6,7 +6,7 @@ tags: [OS,linux]
 description: linux 0.11的源码阅读笔记(二)
 ---
 
-看完了进入内核前的工作后，我网络编程课的抄写作业自然是可以圆满完成啦，不过看了一部分后觉得确实很有意思，所以也是决定继续看下去，并且计划看完linux源码后跟着MIT6.s081写一个小的操作系统内核，希望我能够在6.29之前完成这个工作哈哈也就是我开始军训之前（，补军训确实是个令人苦恼的事情。
+看完了进入内核前的工作后，我网络编程课的抄写作业自然是可以圆满完成啦，不过看了一部分后觉得确实很有意思，所以也是决定继续看下去，并且计划看完linux源码后跟着MIT6.s081写一个小的操作系统内核，希望我能够在6.29之前完成这个工作哈哈也就是我开始军训之前，补军训确实是个令人苦恼的事情。
 
 ## 操作系统内核中的初始化工作
 
@@ -128,7 +128,7 @@ void main(void)  /* This really IS void, no error here. */
 }
 ```
 
-最后一部分是个死循环，当没有任何人物运行时，操作系统就会一直在这个死循环中。
+最后一部分是个死循环，当没有任何任务运行时，操作系统就会一直在这个死循环中。
 
 ```c
 void main(void)  /* This really IS void, no error here. */
@@ -144,10 +144,67 @@ void main(void)  /* This really IS void, no error here. */
 }
 ```
 
+main函数的大概内容就是这样啦，接下来我们逐句看看。
+
 ### 规划内存
 
+先看看前面这些参数的取值和计算，这里主要的作用就是规划内存。
 
-### mem_init
+```c
+ ROOT_DEV = ORIG_ROOT_DEV;
+ drive_info = DRIVE_INFO;
+```
+
+开头两句中，`ROOT_DEV`是系统的根文件设备号，`drive_info`是之前setup.s汇编程序获取并且存储在内存0x90000处的设备信息。
+
+```c
+ memory_end = (1<<20) + (EXT_MEM_K<<10);
+ memory_end &= 0xfffff000;
+ if (memory_end > 16*1024*1024)
+  memory_end = 16*1024*1024;
+ if (memory_end > 12*1024*1024) 
+  buffer_memory_end = 4*1024*1024;
+ else if (memory_end > 6*1024*1024)
+  buffer_memory_end = 2*1024*1024;
+ else
+  buffer_memory_end = 1*1024*1024;
+ main_memory_start = buffer_memory_end;
+```
+
+从这几句我们可以看出`memory_end`的值是1M+扩展内存大小，再和0xfffff000与运算，意思是舍去低3个16进制位，再之后的if语句根据`memory_end`的值也就是内存最大值控制缓冲区内存`buffer_memory_end`和`main_memory_start`的大小。
+
+我们举个例子来理解一下这个操作的作用，假设内存为8M大小，memory_end（单位为B）的值为8\*1024\*1024,那么就会走倒数第二个分支，`buffer_memory_end`为2\*1024\*1024,`main_memory_end`也为2\*1024\*1024，通过这样的操作完成了对内存的管理。
+
+![图 2](https://s2.loli.net/2022/06/18/XmJlCtpz4Sib5GA.png)  
+
+接下来执行的就是`mem_init(main_memory_start,memory_end);`这个函数了，我们在上面给传入的参数做了对应的赋值，`main_memory_start`表示主内存地址的开头，`memory_end`表示内存地址的末尾。接下来我们看一下`mem_init`这个函数做了啥。
+
+```c
+/* these are not to be changed without changing head.s etc */
+#define LOW_MEM 0x100000
+#define PAGING_MEMORY (15*1024*1024)
+#define PAGING_PAGES (PAGING_MEMORY>>12)
+#define MAP_NR(addr) (((addr)-LOW_MEM)>>12)
+#define USED 100
+
+static long HIGH_MEMORY = 0;
+
+static unsigned char mem_map [ PAGING_PAGES ] = {0,};
+
+void mem_init(long start_mem, long end_mem)
+{
+ int i;
+
+ HIGH_MEMORY = end_mem;
+ for (i=0 ; i<PAGING_PAGES ; i++)
+  mem_map[i] = USED;
+ i = MAP_NR(start_mem);
+ end_mem -= start_mem;
+ end_mem >>= 12;
+ while (end_mem-->0)
+  mem_map[i++]=0;
+}
+```
 
 ### trap_init
 
