@@ -12,7 +12,7 @@ description: linux 0.11的源码阅读笔记(二)
 
 ### 概览main函数
 
-现在我们已经进入操作系统内核啦，上篇文章我们说道，我们将main函数push到栈顶，而cs:eip是CPU执行下一条指令的地址，此时指向栈顶，所以接下来就开始执行main函数了，那我们先来看看代码
+现在我们已经进入操作系统内核啦，上篇文章我们说道，我们将main函数push到栈顶，而cs:eip是CPU执行下一条指令的地址，此时指向栈顶，所以接下来就开始执行main了，那我们先来概览一下main函数的代码。
 
 ```c
 void main(void)  /* This really IS void, no error here. */
