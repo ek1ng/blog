@@ -220,7 +220,91 @@ void mem_init(long start_mem, long end_mem)
 
 2M以上的内存空间就是主内存区域，而当前住内存没有任何程序在使用，因此我们现在全部初始化为0，也就是表示未被使用。
 
-### trap_init
+### 中断初始化
+
+在说如何让键盘可以被使用之前，我们需要先说说中断程序执行机制。
+
+操作系统数实质上是一个中断驱动的死循环，就像我们之前概览main函数里面看到的一样，最后是进入一个死循环，操作系统主要通过提前注册的中断机制和其对应的中断处理函数来进行一些事件的处理，比如说点击鼠标，按下键盘或者是执行程序。
+
+CPU提供了两种中断程序执行的机制，中断和异常。前一个中断是动词，而后一个中断指中断机制。中断机制是一个异步事件，通常由IO设备出发，比如鼠标键盘，而异常机制是一个同步事件，是CPU在执行指令时检测到的反常条件，比如缺页异常等等。
+
+中断和异常两种机制都会让CPU收到一个中断号，比如中断机制，按下键盘，然后CPU就会得到一个对应的中断号，异常机制呢，CPU自己执行指令时检测到某种反常情况，然后根据反常情况给自己一个对应的中断号。诶这个时候我们是不是又会想起来在`进入Linux内核前的准备`一文中提到过的`INT`指令，例如`INT 0x80`这个指令就是相当于直接告诉CPU中断号`0x80`。这一种告诉CPU中断号的方式叫做软件中断，而前面CPU提供的两种中断程序执行的机制中断和异常是硬件中断，这是三种给CPU提供中断号的方式。
+![图 4](https://s2.loli.net/2022/06/20/C8vNAcyGDSb5BtP.png)  
+
+那么收到中断后CPU就会去中断向量表中寻找对应的中断描述符，从中断描述符中找到段选择子和段内偏移地址（分段机制），然后段选择子去全局描述符表GDT中找段描述符取出段基址，通过段基址+段内偏移地址（分页机制），找到对应中断处理程序的地址，跳过去执行对应的中断程序。
+![图 5](https://s2.loli.net/2022/06/20/dZzhDNUnBuY8Rf4.png)  
+那至于这里提到的中断描述符表IDT,我们也在`进入Linux内核前的准备`一文中设置GDT这一段中提到过啦，IDT从idtr寄存器中可以找到，而idt这个表采用的是一个结构体数组的方式进行存储，对应的内容就是上面提到的段选择子和段内偏移地址啦。
+
+```c
+struct desc_struct idt_table[256] = { {0, 0}, };
+struct desc_struct {
+    unsigned long a,b;
+};
+```
+
+![图 6](https://s2.loli.net/2022/06/20/5Qw4CxJqRuEIhrN.png)  
+
+到这里我们应该把中断机制说清楚了，然后咱们再来看`trap_init()`这个函数的代码。
+
+```c
+void trap_init(void)
+{
+ int i;
+
+ set_trap_gate(0,&divide_error);
+ set_trap_gate(1,&debug);
+ set_trap_gate(2,&nmi);
+ set_system_gate(3,&int3); /* int3-5 can be called from all */
+ set_system_gate(4,&overflow);
+ set_system_gate(5,&bounds);
+ set_trap_gate(6,&invalid_op);
+ set_trap_gate(7,&device_not_available);
+ set_trap_gate(8,&double_fault);
+ set_trap_gate(9,&coprocessor_segment_overrun);
+ set_trap_gate(10,&invalid_TSS);
+ set_trap_gate(11,&segment_not_present);
+ set_trap_gate(12,&stack_segment);
+ set_trap_gate(13,&general_protection);
+ set_trap_gate(14,&page_fault);
+ set_trap_gate(15,&reserved);
+ set_trap_gate(16,&coprocessor_error);
+ for (i=17;i<48;i++)
+  set_trap_gate(i,&reserved);
+ set_trap_gate(45,&irq13);
+ outb_p(inb_p(0x21)&0xfb,0x21);
+ outb(inb_p(0xA1)&0xdf,0xA1);
+ set_trap_gate(39,&parallel_interrupt);
+}
+```
+
+很多但是又非常重复，有很多`set_trap_gate()和set_system_gate()`，先来看看这两个函数
+
+```c
+#define set_trap_gate(n,addr) \
+ _set_gate(&idt[n],15,0,addr)
+
+#define set_system_gate(n,addr) \
+ _set_gate(&idt[n],15,3,addr)
+
+#define _set_gate(gate_addr,type,dpl,addr) \
+__asm__ ("movw %%dx,%%ax\n\t" \
+ "movw %0,%%dx\n\t" \
+ "movl %%eax,%1\n\t" \
+ "movl %%edx,%2" \
+ : \
+ : "i" ((short) (0x8000+(dpl<<13)+(type<<8))), \
+ "o" (*((char *) (gate_addr))), \
+ "o" (*(4+(char *) (gate_addr))), \
+ "d" ((char *) (addr)),"a" (0x00080000))
+```
+
+这俩函数都是封装了`_set_gate()`函数，先看两个函数对`_set_gate()`传参上的差异，一个是给`_set_gate()`传参`(&idt[n],15,0,addr)`，另一个传参`(&idt[n],15,3,addr)`，那第三个参数不同，这里0和3对应的意义是0表示内核态，而3是用户态。
+
+而至于这个`_set_gate()`函数，这是使用的内联汇编实现的，简单来说它实现了在中断描述符表表IDT中插入中断描述符的效果。比如`set_trap_gate(0,&divide_error);`就是设置0号中断，给了`divide_error`这个除法异常处理程序的地址，这样当CPU执行一条除0的指令后，CPU会得到中断号0，之后去IDT找对应中断描述符，从而跳转执行`divide_error`这个中断程序。再比如`set_system_gate(5,&overflow);`，对应中断处理程序`overflow`是边界出错中断。
+
+讲完一大片的`set_trap_gate()和set_system_gate()`后，接下来是一个for循环，这个语句给17到48号中断设置为`reserved`这个中断程序，是暂时性的，后面对应的硬件初始化时会覆盖这个中断程序。
+
+![图 7](https://s2.loli.net/2022/06/20/av1bTnouPZsDdme.png)  
 
 ### blk_dev_init
 
