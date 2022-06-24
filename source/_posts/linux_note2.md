@@ -220,11 +220,11 @@ void mem_init(long start_mem, long end_mem)
 
 2M以上的内存空间就是主内存区域，而当前住内存没有任何程序在使用，因此我们现在全部初始化为0，也就是表示未被使用。
 
-### 中断初始化
+### 硬件中断向量初始化
 
-在说如何让键盘可以被使用之前，我们需要先说说中断程序执行机制。
+在说`trap_init()`做了什么之前，我们需要先说说中断程序执行机制。
 
-操作系统数实质上是一个中断驱动的死循环，就像我们之前概览main函数里面看到的一样，最后是进入一个死循环，操作系统主要通过提前注册的中断机制和其对应的中断处理函数来进行一些事件的处理，比如说点击鼠标，按下键盘或者是执行程序。
+操作系统实质上是一个中断驱动的死循环，就像我们之前概览main函数里面看到的一样，最后是进入一个死循环，操作系统主要通过提前注册的中断机制和其对应的中断处理函数来进行一些事件的处理，比如说点击鼠标，按下键盘或者是执行程序。
 
 CPU提供了两种中断程序执行的机制，中断和异常。前一个中断是动词，而后一个中断指中断机制。中断机制是一个异步事件，通常由IO设备出发，比如鼠标键盘，而异常机制是一个同步事件，是CPU在执行指令时检测到的反常条件，比如缺页异常等等。
 
@@ -244,7 +244,7 @@ struct desc_struct {
 
 ![图 6](https://s2.loli.net/2022/06/20/5Qw4CxJqRuEIhrN.png)  
 
-到这里我们应该把中断机制说清楚了，然后咱们再来看`trap_init()`这个函数的代码。
+到这里我们应该把中断机制说清楚了，然后咱们再来看`trap_init()`这个函数的代码，这个函数主要的作用是初始化硬件中断。
 
 ```c
 void trap_init(void)
@@ -277,7 +277,7 @@ void trap_init(void)
 }
 ```
 
-很多但是又非常重复，有很多`set_trap_gate()和set_system_gate()`，先来看看这两个函数
+很多但是又非常重复，有很多`set_trap_gate()和set_system_gate()`，先来看看这两个函数。
 
 ```c
 #define set_trap_gate(n,addr) \
@@ -306,9 +306,206 @@ __asm__ ("movw %%dx,%%ax\n\t" \
 
 ![图 7](https://s2.loli.net/2022/06/20/av1bTnouPZsDdme.png)  
 
-### blk_dev_init
+### 块设备初始化
+
+接下来是`blk_dev_init()`这个函数
+
+```c
+/*
+ * NR_REQUEST is the number of entries in the request-queue.
+ * NOTE that writes may use only the low 2/3 of these: reads
+ * take precedence.
+ *
+ * 32 seems to be a reasonable number: enough to get some benefit
+ * from the elevator-mechanism, but not so much as to lock a lot of
+ * buffers when they are in the queue. 64 seems to be too many (easily
+ * long pauses in reading when heavy writing/syncing is going on)
+ */
+#define NR_REQUEST 32
+/*
+ * Ok, this is an expanded form so that we can use the same
+ * request for paging requests when that is implemented. In
+ * paging, 'bh' is NULL, and 'waiting' is used to wait for
+ * read/write completion.
+ */
+struct request {
+ int dev;  /* -1 if no request */
+ int cmd;  /* READ or WRITE */
+ int errors;
+ unsigned long sector;
+ unsigned long nr_sectors;
+ char * buffer;
+ struct task_struct * waiting;
+ struct buffer_head * bh;
+ struct request * next;
+};
+
+/*
+ * The request-struct contains all necessary data
+ * to load a nr of sectors into memory
+ */
+struct request request[NR_REQUEST];
+
+void blk_dev_init(void)
+{
+ int i;
+
+ for (i=0 ; i<NR_REQUEST ; i++) {
+  request[i].dev = -1;
+  request[i].next = NULL;
+ }
+}
+```
+
+`blk_dev_init(void)`这个函数就是遍历结构体数组request,并且给dev成员变量赋值-1,给next成员变量赋值NULL,不过我们还不懂request结构体长什么样又表示什么对吧，所以还得看request。
+
+在request结构体中，结构体本身代表一次读写磁盘请求，其中dev表示设备号，-1就表示设备空闲，cmd表示命令，赋值READ/WRITE表示是读磁盘操作还是写磁盘操作，errors表示操作时产生的错误次数，sector表示起始扇区，nr_sectors表示扇区数，这俩变量表示了所要读取的块设备的哪几个扇区，buffer表示数据缓冲区，也就是读完磁盘之后数据放在内存中的位置，waiting是task_struct结构体变量，用于表示发起请求的进程，bh是缓冲区头指针，next指向下一个请求项。
+
+![图 8](https://s2.loli.net/2022/06/24/KLpdwnImTcHJFsX.png)  
+
+request结构体用于完整的描述一个读盘操作，在操作系统中我们用request数组进行存储。
+
+![图 9](https://s2.loli.net/2022/06/24/6AVhzRrlpuTWZGt.png)  
+
+所以`blk_dev_init()`这个函数主要做的就是初始化了用于描述读盘操作的request数组，作为之后块设备访问和内存缓冲区的桥梁。
+
+### 字符设备初始化
+
+接下来的`chr_dev_init()`看了看发现里面什么也没有执行，是个空的函数，网上搜了一下都说是字符设备初始化，应该是字符设备不需要做什么初始化操作，所以里面就什么也没有了
+
+```c
+void chr_dev_init(void)
+{
+}
+```
 
 ### tty_init
+
+再接下来的函数是`tty_init`，为什么叫tty呢，tty 是 Teletype 的缩写。通常使用 tty 来简称各种类型的终端设备。Teletype 是一种由 Teletype 公司生产的最早出现的终端设备，样子像是电传打字机。所以这里的tty是指两种字符设备，串行端口的串行终端设备和控制台设备（鼠标键盘），因此`tty_init`这个函数的作用就是初始化串行中断程序和串行接口1、2以及控制台终端。
+
+```c
+void tty_init(void)
+{
+ rs_init();
+ con_init();
+}
+```
+
+前面的`rs_init()`用于初始化串行中断程序和串行接口1、2后面的`con_init()`用于初始化控制台终端。
+
+先来看`rs_init()`
+
+```c
+void rs_init(void)
+{
+ set_intr_gate(0x24,rs1_interrupt);
+ set_intr_gate(0x23,rs2_interrupt);
+ init(tty_table[1].read_q.data);
+ init(tty_table[2].read_q.data);
+ outb(inb_p(0x21)&0xE7,0x21);
+}
+```
+
+这个方法是串行接口中断的开启，以及设置对应的串行接口终端程序。由于现在以及不怎么使用了，所以就不看了。
+
+接下来是`con_init()`
+
+```c
+/*
+ *  void con_init(void);
+ *
+ * This routine initalizes console interrupts, and does nothing
+ * else. If you want the screen to clear, call tty_write with
+ * the appropriate escape-sequece.
+ *
+ * Reads the information preserved by setup.s to determine the current display
+ * type and sets everything accordingly.
+ */
+void con_init(void)
+{
+ register unsigned char a;
+ char *display_desc = "????";
+ char *display_ptr;
+
+ video_num_columns = ORIG_VIDEO_COLS;
+ video_size_row = video_num_columns * 2;
+ video_num_lines = ORIG_VIDEO_LINES;
+ video_page = ORIG_VIDEO_PAGE;
+ video_erase_char = 0x0720;
+ 
+ if (ORIG_VIDEO_MODE == 7)   /* Is this a monochrome display? */
+ {
+  video_mem_start = 0xb0000;
+  video_port_reg = 0x3b4;
+  video_port_val = 0x3b5;
+  if ((ORIG_VIDEO_EGA_BX & 0xff) != 0x10)
+  {
+   video_type = VIDEO_TYPE_EGAM;
+   video_mem_end = 0xb8000;
+   display_desc = "EGAm";
+  }
+  else
+  {
+   video_type = VIDEO_TYPE_MDA;
+   video_mem_end = 0xb2000;
+   display_desc = "*MDA";
+  }
+ }
+ else        /* If not, it is color. */
+ {
+  video_mem_start = 0xb8000;
+  video_port_reg = 0x3d4;
+  video_port_val = 0x3d5;
+  if ((ORIG_VIDEO_EGA_BX & 0xff) != 0x10)
+  {
+   video_type = VIDEO_TYPE_EGAC;
+   video_mem_end = 0xbc000;
+   display_desc = "EGAc";
+  }
+  else
+  {
+   video_type = VIDEO_TYPE_CGA;
+   video_mem_end = 0xba000;
+   display_desc = "*CGA";
+  }
+ }
+
+ /* Let the user known what kind of display driver we are using */
+ 
+ display_ptr = ((char *)video_mem_start) + video_size_row - 8;
+ while (*display_desc)
+ {
+  *display_ptr++ = *display_desc++;
+  display_ptr++;
+ }
+ 
+ /* Initialize the variables used for scrolling (mostly EGA/VGA) */
+ 
+ origin = video_mem_start;
+ scr_end = video_mem_start + video_num_lines * video_size_row;
+ top = 0;
+ bottom = video_num_lines;
+
+ gotoxy(ORIG_X,ORIG_Y);
+ set_trap_gate(0x21,&keyboard_interrupt);
+ outb_p(inb_p(0x21)&0xfd,0x21);
+ a=inb_p(0x61);
+ outb_p(a|0x80,0x61);
+ outb(a,0x61);
+}
+```
+
+这里为了应对不同显示模式来分配不同的变量值，写了很多的分支，看起来就比较长。
+
+首先来说说字符是如何显示在屏幕上的
+
+![图 10](https://s2.loli.net/2022/06/24/1GoDxSd9mAOi3Eg.png)  
+
+内存中有一部分区域和显存映射，我们往这块区域上写数据就相当于写在显存中，而不管是独显像3060这种还是核显，都是有一块叫做显存的存储原件来存储这些图像信息，而显卡中的GPU能够将显存中的东西渲染到屏幕上，大概就是这样一个流程。
+
+如果我们像这样用汇编往这块与显存映射的内存区域写数据，`mov [0xB8000],0x68`，也就是往0xB8000上这个位置写了值0x68,对于ascii码为h,就能够在屏幕上输出h。
+
+![图 11](https://s2.loli.net/2022/06/24/PZyq1sEMIzbcpQL.png)  
 
 ### time_init
 
