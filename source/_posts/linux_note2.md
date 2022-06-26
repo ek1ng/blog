@@ -507,6 +507,7 @@ void con_init(void)
 
 ![图 11](https://s2.loli.net/2022/06/24/PZyq1sEMIzbcpQL.png)  
 
+具体来说，这片内存是每两个字节表示一个显示在牝牡上的字符，第一个是字符的编码，第二个是字符的颜色。
 ### time_init
 
 ### sched_init
