@@ -507,7 +507,56 @@ void con_init(void)
 
 ![图 11](https://s2.loli.net/2022/06/24/PZyq1sEMIzbcpQL.png)  
 
-具体来说，这片内存是每两个字节表示一个显示在牝牡上的字符，第一个是字符的编码，第二个是字符的颜色。
+具体来说，这片内存是每两个字节表示一个显示在屏幕上的字符，第一个是字符的编码，第二个是字符的颜色。
+所以对于这样的汇编代码，就可以在屏幕上显示出`hello`的字样。
+
+```asm
+mov [0xB8000],'h'
+mov [0xB8002],'e'
+mov [0xB8004],'l'
+mov [0xB8006],'l'
+mov [0xB8008],'o'
+```
+
+因此我们就可以把之前冗长的代码简化为这样。
+
+```c
+#define ORIG_X          (*(unsigned char *)0x90000)
+#define ORIG_Y          (*(unsigned char *)0x90001)
+void con_init(void) {
+    register unsigned char a;
+    // 第一部分 获取显示模式相关信息
+    video_num_columns = (((*(unsigned short *)0x90006) & 0xff00) >> 8);
+    video_size_row = video_num_columns * 2;
+    video_num_lines = 25;
+    video_page = (*(unsigned short *)0x90004);
+    video_erase_char = 0x0720;
+    // 第二部分 显存映射的内存区域 
+    video_mem_start = 0xb8000;
+    video_port_reg  = 0x3d4;
+    video_port_val  = 0x3d5;
+    video_mem_end = 0xba000;
+    // 第三部分 滚动屏幕操作时的信息
+    origin  = video_mem_start;
+    scr_end = video_mem_start + video_num_lines * video_size_row;
+    top = 0;
+    bottom  = video_num_lines;
+    // 第四部分 定位光标并开启键盘中断
+    gotoxy(ORIG_X, ORIG_Y);
+    set_trap_gate(0x21,&keyboard_interrupt);
+    outb_p(inb_p(0x21)&0xfd,0x21);
+    a=inb_p(0x61);
+    outb_p(a|0x80,0x61);
+    outb(a,0x61);
+}
+```
+
+![图 12](https://s2.loli.net/2022/06/27/ynv9CYWpZ4SbG5B.png)  
+结合我们之前setup.s这个汇编程度写入内存中的对应的值来看，第一部分代码从0x90006处取值，获取了显示模式等相关信息；第二部分是显存映射的内存范围，我们现在假设是CGA类型的文本模式，对应的显存映射的内存范围是0xB8000到0xBA000；第三部分是设置滚动屏幕时需要的参数，定义顶行和底行，这里顶行为第一行，底行为最后一行；第四部分是把光标定位保存到0x90000,也就是光标位置处对应的内存地址，并且开启键盘中断。
+
+开启键盘中断后，键盘上敲击按键会触发中断，中断程序就会读键盘码转换成ASCII码，然后写到光标处的内存地址，也就是对应的光标处的显存，使敲击的按键对应的字符显示在屏幕上。
+
+
 ### time_init
 
 ### sched_init
