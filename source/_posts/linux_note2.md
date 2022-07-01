@@ -379,9 +379,9 @@ void chr_dev_init(void)
 }
 ```
 
-### tty_init
+### 初始化终端设备
 
-再接下来的函数是`tty_init`，为什么叫tty呢，tty 是 Teletype 的缩写。通常使用 tty 来简称各种类型的终端设备。Teletype 是一种由 Teletype 公司生产的最早出现的终端设备，样子像是电传打字机。所以这里的tty是指两种字符设备，串行端口的串行终端设备和控制台设备（鼠标键盘），因此`tty_init`这个函数的作用就是初始化串行中断程序和串行接口1、2以及控制台终端。
+再接下来的函数是`tty_init`，为什么叫tty呢，tty 是 Teletype 的缩写。通常使用 tty 来简称各种类型的终端设备。终端设备是指人和计算机互动的设备，这里的tty指的是两种字符设备，串行端口的串行终端设备和控制台设备（鼠标键盘），`tty_init`这个函数的作用就是初始化串行中断程序和串行接口1、2以及控制台终端。
 
 ```c
 void tty_init(void)
@@ -408,7 +408,7 @@ void rs_init(void)
 
 这个方法是串行接口中断的开启，以及设置对应的串行接口终端程序。由于现在以及不怎么使用了，所以就不看了。
 
-接下来是`con_init()`
+接下来是`con_init()`，这个函数用于初始化控制台终端。
 
 ```c
 /*
@@ -556,10 +556,282 @@ void con_init(void) {
 
 开启键盘中断后，键盘上敲击按键会触发中断，中断程序就会读键盘码转换成ASCII码，然后写到光标处的内存地址，也就是对应的光标处的显存，使敲击的按键对应的字符显示在屏幕上。
 
+接下来看一下第四部分的代码，也就是定位光标并且开启键盘中断的这一部分。
 
-### time_init
+先来看`gotoxy(ORIG_X, ORIG_Y)`,这个函数用于定位光标。
 
-### sched_init
+```c
+/* NOTE! gotoxy thinks x==video_num_columns is ok */
+static inline void gotoxy(unsigned int new_x,unsigned int new_y)
+{
+ if (new_x > video_num_columns || new_y >= video_num_lines)
+  return;
+ x=new_x;
+ y=new_y;
+ pos=origin + y*video_size_row + (x<<1);
+}
+```
+
+这个函数给x，y，pos三个参数赋值，x表示光标在哪列，y表示光标在哪行，pos表示根据列号和行号计算出来的内存指针，也就是我们往pos指向的这块内存地址写数据就相当于往控制台的x列y行写入数据。
+
+接下来的`set_trap_gate(0x21,&keyboard_interrupt)`，我们也在前面讲中断的时候提到过了，就是初始化中断程序用的，那么这里就是初始化了键盘对应的中断程序。
+
+我们初始化光标的位置后，能够用x，y,pos对光标位置进行描述，之后就可以根据一些基本的计算，来实现比如说回车、换行、删除、滚屏、清屏这样的基本操作，这些基本操作都在console.c这个文件中实现了，这里就不再细说，顺带粗略看一下实现了哪些方法。
+
+```c
+// 定位光标
+static inline void gotoxy(unsigned int new_x, unsigned int new_y){}
+// 滚屏，即内容向上滚动一行
+static void scrup(void){}
+// 光标同列位置下移一行
+static void lf(int currcons){}
+// 光标回到第一列
+static void cr(void){}
+...
+// 删除一行
+static void delete_line(void){}
+```
+
+整个console.c里面内容差不多就这些，这个文件代码量很大，主要都是用于处理键盘的不同按键，需要很多switch case,但是没什么展开去讲的必要。
+
+到这里我们就讲完了`tty_init`，和此后，我们就可以方便地在控制台输出字符了。
+
+### 初始化时间
+
+接下来是`time_init()`，这个函数主要用于初始化时间。
+
+```c
+/*
+ * Yeah, yeah, it's ugly, but I cannot find how to do this correctly
+ * and this seems to work. I anybody has more info on the real-time
+ * clock I'd be interested. Most of this was trial and error, and some
+ * bios-listing reading. Urghh.
+ */
+
+#define CMOS_READ(addr) ({ \
+outb_p(0x80|addr,0x70); \
+inb_p(0x71); \
+})
+
+#define BCD_TO_BIN(val) ((val)=((val)&15) + ((val)>>4)*10)
+
+static void time_init(void)
+{
+ struct tm time;
+
+ do {
+  time.tm_sec = CMOS_READ(0);
+  time.tm_min = CMOS_READ(2);
+  time.tm_hour = CMOS_READ(4);
+  time.tm_mday = CMOS_READ(7);
+  time.tm_mon = CMOS_READ(8);
+  time.tm_year = CMOS_READ(9);
+ } while (time.tm_sec != CMOS_READ(0));
+ BCD_TO_BIN(time.tm_sec);
+ BCD_TO_BIN(time.tm_min);
+ BCD_TO_BIN(time.tm_hour);
+ BCD_TO_BIN(time.tm_mday);
+ BCD_TO_BIN(time.tm_mon);
+ BCD_TO_BIN(time.tm_year);
+ time.tm_mon--;
+ startup_time = kernel_mktime(&time);
+}
+```
+
+先说`CMOS_READ`和`BCD_TO_BIN`是什么。
+
+首先是`CMOS_READ`，从代码中可以看出就是对一个端口先out写一次，再in读一下，这是CPU与其他设备交互的方式，CPU与其他设备交互通过端口进行，往某个端口写值表示需要这个设备做什么，从端口读值表示接收设备的反馈。CMOS是主板上一个可读写的RAM芯片，前面几个赋值语句`CMOS_READ`通过读写CMOS上的指定端口，获得年月日时分秒等信息。
+
+然后是`BCD_TO_BIN`，看函数名字就知道，这是用于将BCD转换成BIN,因为从CMOS上读取的年月日信息都是BCD码，就写了这个函数来转换成二进制数进行存储。
+
+最后是kernel_mktime这个函数，我们将拿到的时间存放在变量time中，然后利用这个函数将1970年1月1日0时到开机这个时刻的时间，存储在`startup_time`这个变量中。至于这个变量有什么用后面再说。
+
+```c
+long kernel_mktime(struct tm * tm)
+{
+ long res;
+ int year;
+
+ year = tm->tm_year - 70;
+/* magic offsets (y+1) needed to get leapyears right.*/
+ res = YEAR*year + DAY*((year+1)/4);
+ res += month[tm->tm_mon];
+/* and (y+2) here. If it wasn't a leap-year, we have to adjust */
+ if (tm->tm_mon>1 && ((year+2)%4))
+  res -= DAY;
+ res += DAY*(tm->tm_mday-1);
+ res += HOUR*tm->tm_hour;
+ res += MINUTE*tm->tm_min;
+ res += tm->tm_sec;
+ return res;
+}
+```
+
+`time_init()`这个函数也就讲完了，函数主要是通过CMOS这个设备读取了时间信息并且存在对应的变量中，完成了初始化时间的工作。
+
+### 初始化进程调度
+
+接下来是`sched_init()`，这个函数主要用于初始化进程调度。
+
+```c
+void sched_init(void)
+{
+ int i;
+ struct desc_struct * p;
+
+ if (sizeof(struct sigaction) != 16)
+  panic("Struct sigaction MUST be 16 bytes");
+ set_tss_desc(gdt+FIRST_TSS_ENTRY,&(init_task.task.tss));
+ set_ldt_desc(gdt+FIRST_LDT_ENTRY,&(init_task.task.ldt));
+ p = gdt+2+FIRST_TSS_ENTRY;
+ for(i=1;i<NR_TASKS;i++) {
+  task[i] = NULL;
+  p->a=p->b=0;
+  p++;
+  p->a=p->b=0;
+  p++;
+ }
+/* Clear NT, so that we won't have troubles with that later on */
+ __asm__("pushfl ; andl $0xffffbfff,(%esp) ; popfl");
+ ltr(0);
+ lldt(0);
+ outb_p(0x36,0x43);  /* binary, mode 3, LSB/MSB, ch 0 */
+ outb_p(LATCH & 0xff , 0x40); /* LSB */
+ outb(LATCH >> 8 , 0x40); /* MSB */
+ set_intr_gate(0x20,&timer_interrupt);
+ outb(inb_p(0x21)&~0x01,0x21);
+ set_system_gate(0x80,&system_call);
+}
+```
+
+首先这两行初始化了变量i和指向`desc_struct`结构体的指针变量，然后一个panic异常处理，接下来两行代码给GDT表添加了TSS和LDT，初始化了一组TSS和LDT。
+
+```c
+ set_tss_desc(gdt+FIRST_TSS_ENTRY,&(init_task.task.tss));
+ set_ldt_desc(gdt+FIRST_LDT_ENTRY,&(init_task.task.ldt));
+ ```
+
+![图 13](https://s2.loli.net/2022/06/30/7CzeJjUIOldBEQk.png)  
+TSS和LDT是全局描述符表GDT中的两项。TSS叫任务状态段，是保存和恢复进程上下文的，上下文是指各个寄存器的信息。
+
+```c
+struct tss_struct {
+ long back_link; /* 16 high bits zero */
+ long esp0;
+ long ss0;  /* 16 high bits zero */
+ long esp1;
+ long ss1;  /* 16 high bits zero */
+ long esp2;
+ long ss2;  /* 16 high bits zero */
+ long cr3;
+ long eip;
+ long eflags;
+ long eax,ecx,edx,ebx;
+ long esp;
+ long ebp;
+ long esi;
+ long edi;
+ long es;  /* 16 high bits zero */
+ long cs;  /* 16 high bits zero */
+ long ss;  /* 16 high bits zero */
+ long ds;  /* 16 high bits zero */
+ long fs;  /* 16 high bits zero */
+ long gs;  /* 16 high bits zero */
+ long ldt;  /* 16 high bits zero */
+ long trace_bitmap; /* bits: trace 0, bitmap 16-31 */
+ struct i387_struct i387;
+};
+```
+
+从tss的数据结构也可以看出来这点。
+
+而LDT叫局部描述符表，与GDT相对应，内核态的代码用GDT里的数据段和代码段，而用户进程的代码用每个用户进程自己的LDT里的数据段和代码段。
+
+接着往下看是个for循环，循环做了两件事情。
+
+```c
+ int i;
+ struct desc_struct * p;
+ p = gdt+2+FIRST_TSS_ENTRY;
+ for(i=1;i<NR_TASKS;i++) {
+  task[i] = NULL;
+  p->a=p->b=0;
+  p++;
+  p->a=p->b=0;
+  p++;
+ }
+ ```
+
+一是给一个长度为64,结构为`task_struct`的数组task初始化，`task_struct`这个结构表示进程的信息。
+![图 14](https://s2.loli.net/2022/06/30/Lf8aMgQ3eHKzoyj.png)  
+
+```c
+struct task_struct {
+/* these are hardcoded - don't touch */
+ long state; /* -1 unrunnable, 0 runnable, >0 stopped */
+ long counter;
+ long priority;
+ long signal;
+ struct sigaction sigaction[32];
+ long blocked; /* bitmap of masked signals */
+/* various fields */
+ int exit_code;
+ unsigned long start_code,end_code,end_data,brk,start_stack;
+ long pid,father,pgrp,session,leader;
+ unsigned short uid,euid,suid;
+ unsigned short gid,egid,sgid;
+ long alarm;
+ long utime,stime,cutime,cstime,start_time;
+ unsigned short used_math;
+/* file system info */
+ int tty;  /* -1 if no tty, so it must be signed */
+ unsigned short umask;
+ struct m_inode * pwd;
+ struct m_inode * root;
+ struct m_inode * executable;
+ unsigned long close_on_exec;
+ struct file * filp[NR_OPEN];
+/* ldt for this task 0 - zero 1 - cs 2 - ds&ss */
+ struct desc_struct ldt[3];
+/* tss for this task */
+ struct tss_struct tss;
+};
+```
+
+另一个是给GDT剩下的位置都填0,也就是把留给TSS和LDT的位置都先初始化为0。
+![图 15](https://s2.loli.net/2022/06/30/rALlVHC3YWMvzNa.png)  
+以后每创建新进程，就会添加一组TSS和LDT表示这个进程的任务状态段以及局部描述符表信息。
+
+到这里我们就能解释为什么我们要先初始化一组TSS和LDT，因为虽然我们现在没有建立起进程调度的机制，但是我们目前正在运行的代码未来会成为一个进程的指令流，也就是现在运行的代码以后会是进程0,所以我们需要给进程0提前建立一组TSS和LDT。
+
+再接下来是两个函数`lrt(0)`和`lldt(0)`的调用，就像我们之前说的`lidt`和`lgdt`这两条指令一样，它们一个是给idtr寄存器赋值，告诉CPU中断描述符表idt在内存的位置，一个是给hdtr寄存器赋值，告诉CPU全局描述符表GDT在内存的位置。那么这两个也是类似，`ltr`是给tr寄存器赋值，告诉CPU任务状态段TSS在内存的位置，`lldt`是给ldt寄存器赋值，告诉CPU局部描述符LDT在内存的位置。
+
+```c
+/* Clear NT, so that we won't have troubles with that later on */
+ __asm__("pushfl ; andl $0xffffbfff,(%esp) ; popfl");
+ ltr(0);
+ lldt(0);
+```
+
+![图 16](https://s2.loli.net/2022/06/30/hkyOm8ISDTUZaEn.png)  
+这样CPU就能通过tr和ldt找到当前进程的人物状态信息和局部描述符表信息了。
+
+再接下来是一些我们之前提到过的`outb_p()`和`set_intr_gate()`函数，四行`outb_p()`用于从端口读写，两行`set_intr_gate()`设置系统中断。
+
+```c
+ outb_p(0x36,0x43);  /* binary, mode 3, LSB/MSB, ch 0 */
+ outb_p(LATCH & 0xff , 0x40); /* LSB */
+ outb(LATCH >> 8 , 0x40); /* MSB */
+ set_intr_gate(0x20,&timer_interrupt);
+ outb(inb_p(0x21)&~0x01,0x21);
+ set_system_gate(0x80,&system_call);
+```
+
+先说这四句端口读写，端口读写我们之前说过是CPU和设备交互的方式，前面初始化时间的时候CPU从CMOS获取时间，这里是端口读写是一个可编程定时器芯片，通过这四行开启定时器，此后这个定时器会持续以固定频率向CPU发出中断信号。
+
+然后是这里设置的两个中断，第一个是时钟中断，中断号为`0x20`，中断程序为`timer_interrupt`，每次定时器向CPU发出中断后便会执行这个函数。定时器和时钟中断函数是操作系统主导进程调度的关键，操作系统进行进程管理很多时候就需要这样的外部信号出发中断，来对进程进行控制。
+
+第二个中断叫**系统调用`system_call`**，中断号为`0x80`，系统调用是用户态程序掉想要调用内核方法的途径。比如java的一些文件io的实现，是依赖操作系统底层的`sys_read`方法的，在操作系统层面java的文件流io的代码会通过运行汇编指令`int 0x80`去调用系统调用这个中断，从而执行操作系统内核态的方法`sys_read`，所以我们说`system_call`是用户态程序想要调用内核方法的途径。
 
 ### buffer_init
 
