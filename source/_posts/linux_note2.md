@@ -833,6 +833,90 @@ struct task_struct {
 
 第二个中断叫**系统调用`system_call`**，中断号为`0x80`，系统调用是用户态程序掉想要调用内核方法的途径。比如java的一些文件io的实现，是依赖操作系统底层的`sys_read`方法的，在操作系统层面java的文件流io的代码会通过运行汇编指令`int 0x80`去调用系统调用这个中断，从而执行操作系统内核态的方法`sys_read`，所以我们说`system_call`是用户态程序想要调用内核方法的途径。
 
-### buffer_init
+### 缓冲区初始化
+
+main函数中接下来就是缓冲区初始化`buffer_init(buffer_memory_end)`。
+
+首先第一眼看到会传入的参数`buffer_memory_end`是我们之前在将内存管理中提到过的。并且呢当时在内存管理中，我们用`mem_init()`初始化了主内存的管理结构`mem_map`，以此来对内存进行管理。
+从图中也可以看出，内存划分为内核程序、缓冲区、主内存三部分，因为先前我们将主内存进行了管理，那么缓冲区`buffer_memory`的部分也肯定是需要管理的。
+![图 1](https://s2.loli.net/2022/07/17/962ktsoTRIegiUO.png)  
+
+接下来我们看看`buffer_init(buffer_memory_end)`这部分的代码。
+
+```C
+extern int end;
+struct buffer_head * start_buffer = (struct buffer_head *) &end;
+
+void buffer_init(long buffer_end)
+{
+ struct buffer_head * h = start_buffer;
+ void * b;
+ int i;
+
+ if (buffer_end == 1<<20)
+  b = (void *) (640*1024);
+ else
+  b = (void *) buffer_end;
+ while ( (b -= BLOCK_SIZE) >= ((void *) (h+1)) ) {
+  h->b_dev = 0;
+  h->b_dirt = 0;
+  h->b_count = 0;
+  h->b_lock = 0;
+  h->b_uptodate = 0;
+  h->b_wait = NULL;
+  h->b_next = NULL;
+  h->b_prev = NULL;
+  h->b_data = (char *) b;
+  h->b_prev_free = h-1;
+  h->b_next_free = h+1;
+  h++;
+  NR_BUFFERS++;
+  if (b == (void *) 0x100000)
+   b = (void *) 0xA0000;
+ }
+ h--;
+ free_list = start_buffer;
+ free_list->b_prev_free = h;
+ h->b_next_free = free_list;
+ for (i=0;i<NR_HASH;i++)
+  hash_table[i]=NULL;
+} 
+```
+
+我们仍然假设内存是8M。
+
+```c
+extern int end;
+void buffer_init(long buffer_end) {
+    struct buffer_head * start_buffer = (struct buffer_head *) &end;
+    ...
+}
+```
+
+在这一部分代码中，传入`end`变量作为缓冲区开始位置`start_buffer`的值。`end`是链接器ld在链接整个程序时设置的一个外部变量，计算好了内核代码的末尾地址，也就是缓冲区的开始位置。
+
+![图 1](https://s2.loli.net/2022/07/17/vMw3pf7rGABzDiu.png)  
+
+```C
+void buffer_init(long buffer_end) {
+    struct buffer_head * h = start_buffer;
+    void * b = (void *) buffer_end;
+    while ( (b -= 1024) >= ((void *) (h+1)) ) {
+        ...
+        h->b_data = (char *) b;
+        h->b_prev_free = h-1;
+        h->b_next_free = h+1;
+        h++;
+    }
+    ...
+}
+```
+
+接下来这部分代码中主要是涉及`h`和`b`两个变量。
+
+h是指向`buffer_head`结构的指针,代表缓冲头，指针值是`start_buffer`，表示缓冲区起始位置。
+
+b是一个通用指针（泛指针），代表缓冲块，指针值是`buffer_end`，也就是图中的2M，表示缓冲区末尾。
+
 
 ### hd_init

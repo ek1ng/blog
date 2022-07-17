@@ -1,7 +1,7 @@
 ---
 title: 蓝帽杯 2022 web/misc writeup
 date: 2022-07-10 09:50:00
-updated: 2022-07-11 12:10:00
+updated: 2022-07-14 18:13:00
 tags: [ctf,security]
 description: 蓝帽杯赛后复现
 ---
