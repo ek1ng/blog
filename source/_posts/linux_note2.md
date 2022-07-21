@@ -917,5 +917,4 @@ void buffer_init(long buffer_end) {
 h是指向`buffer_head`结构的指针,代表缓冲头，指针值是`start_buffer`，表示缓冲区起始位置。
 
 b是一个通用指针（泛指针），代表缓冲块，指针值是`buffer_end`，也就是图中的2M，表示缓冲区末尾。
-
 ### hd_init
