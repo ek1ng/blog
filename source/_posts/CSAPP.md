@@ -4,7 +4,7 @@ date: 2022-03-21 20:59:00
 updated: 2022-03-21 20:59:00
 tags: [CSAPP,计算机组成原理]
 description: CMU 15-213 lab
-pin: true
+pin: false
 archive: true
 ---
 

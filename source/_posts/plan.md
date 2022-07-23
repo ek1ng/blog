@@ -4,7 +4,7 @@ date: 2022-03-21 20:59:00
 updated: 2022-03-21 20:59:00
 tags: 计划表
 description: 这篇文章记录了我最近想做的事
-pin: true
+pin: false
 archive: false
 ---
 
