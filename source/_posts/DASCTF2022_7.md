@@ -1,5 +1,5 @@
 ---
-title: DASCTF 2022 7月附能赛 writeup
+title: DASCTF 2022 7月赋能赛 writeup
 date: 2022-07-24 18:34:00
 updated: 2022-07-24 18:34:00
 tags: [ctf,security]
