@@ -189,3 +189,6 @@ gzip poc.phar
 
 复盘题目的过程中，在phpinfo中甚至可以找到从环境变量里面读进来的flag？？就离谱
 ![图 2](https://s2.loli.net/2022/07/24/uXbpDEMWyP7UhvC.png)  
+
+??????不会出题建议是别出
+![图 3](https://s2.loli.net/2022/07/24/VudLM3Oqe4DiHFt.png)  
