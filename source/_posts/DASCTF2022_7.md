@@ -198,9 +198,11 @@ gzip poc.phar
 
 ### Harddisk
 
-一道SSTI模板注入的题，有非常恶心的过滤，感觉就没什么意思，为了出题而出题（，做题的方法就是先手动Fuzz一下过滤的字符，`{{}}`过滤用`{% if ("".__class__) %>aa<%endif%>`绕过，` `过滤用%0d，也就是回车(CR)来绕过，`.`用`|attr`绕过，`_`用unicode编码绕过,`[]`用__getitem__`结合`attr()`使用，题目中eval没有过滤，可以弹shell到服务器上。
+一道SSTI模板注入的题，有非常恶心的过滤，感觉就没什么意思，为了出题而出题（，做题的方法就是先手动Fuzz一下过滤的字符，`{{}}`过滤用``绕过，` `过滤用%0d，也就是回车(CR)来绕过，`.`用`|attr`绕过，`_`用unicode编码绕过,`[]`用__getitem__`结合`attr()`使用，题目中eval没有过滤，可以弹shell到服务器上。
 
 ```python
+{%if("".__class__)%>aa<%endif%> # {{}}
+
 {%if(""|attr("\u005f\u005f\u0063\u006c\u0061\u0073\u0073\u005f\u005f"))%}success{%endif%}    # {%if("".__class__)%}success{%endif%}
 ```
 
