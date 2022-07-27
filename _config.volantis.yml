@@ -565,8 +565,7 @@ tag_plugins:
 site_footer:
   # layout of footer: [aplayer, social, license, info, copyright]
   layout: [aplayer, social, copyright]
-  copyright: '[Copyright © 2020-2022](https://github.com/ek1ng/) [浙ICP备2021038365号-2
-](https://beian.miit.gov.cn/)'
+  copyright: '[Copyright © 2020-2022](https://github.com/ek1ng/) [浙ICP备2021038365号-2](https://beian.miit.gov.cn/)'
   # site source
   source: https://github.com/ek1ng/blog
   social:
