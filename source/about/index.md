@@ -6,7 +6,7 @@ cover: true
 sidebar: [blogger, lastupdate, tagcloud, webinfo]
 ---
 ## About me
-HDU 计科大二在读 
+HDU 计科大三在读 
 Focus on security and web development
 Vidar-team成员 CTFer
 校男篮成员
