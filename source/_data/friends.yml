@@ -1,6 +1,6 @@
-- group: Vidar-team # 分组标题
+- group: Vidar-Team # 分组标题
   items:
-    - title: Vidar-team
+    - title: Vidar-Team
       url: https://vidar.club/
       avatar: https://vidar.club/favicon.ico
     - title: chuj # 名称
