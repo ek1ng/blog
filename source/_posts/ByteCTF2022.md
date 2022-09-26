@@ -9,6 +9,7 @@ description: ByteCTF2022 第9名 打的还不错的一场比赛
 比赛时主要是做了ctf_cloud和typing_game两个题目，其中typing_game还是非预期解了，整体Web只差datamanager就AK了，不过`microservices`这道题目是大佬们出的，自己其实也没有去复现过。正好比赛结束还可以开靶机，可以抽空复现一下难题。
 
 ## easy_grafana
+> You must have seen it, so you can hack it
 
 之前也遇到过类似的题目，考的是grafana的CVE-2021-43798目录穿越漏洞。
 
