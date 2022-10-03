@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
 看bottle的源码发现是cookie_decode的时候会用pickle.loads,而pickle.loads会将反序列化得到的字符串当作命令执行，因此可以实现RCE。
 
-pickle反序列化可以参考文章<https://ucasers.cn/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B8%8E%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/>
+> pickle反序列化可以参考文章`<https://ucasers.cn/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B8%8E%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/>`
 
 EXP:
 
@@ -166,7 +166,7 @@ if(isset($_GET['sekai_game.run'])){
 
 所以第一步是找到如何能够输入变量`sekai_game.run`。
 
-参考文章<https://www.freebuf.com/articles/web/213359.html>和<https://blog.csdn.net/solitudi/article/details/120502141>
+> 参考文章`<https://www.freebuf.com/articles/web/213359.html>`和`<https://blog.csdn.net/solitudi/article/details/120502141>`
 
 原因是PHP的parse_str函数通常被自动应用于get、post请求和cookie中。如果你的Web服务器接受带有特殊字符的参数名，那么也会发生类似的情况。
 
