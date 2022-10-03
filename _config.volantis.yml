@@ -77,7 +77,7 @@ navbar:
   logo: # choose [img] or [icon + title]
     img: ""
     icon:
-    title: ek1ng's blog
+    title: Hidden Gems
   search: 想找些什么~ # Search bar placeholder
   menu:
     - name: 首页
@@ -117,7 +117,7 @@ cover:
   # background: https://bing.ioliu.cn/v1/rand?w=1920&h=1200
   logo: # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-Cover@3x.png
   title: ek1ng's blog
-  subtitle: Foucs on security and web development
+  subtitle: 
   features:
     - name: 首页
       icon: fa-solid fa-rss
@@ -433,7 +433,7 @@ sidebar:
       shape: circle # circle, rectangle
       url: /about/
       title: ek1ng
-      subtitle: Vidar-Team | Web Security🚩
+      subtitle: Vidar-Team | Web Security 🚩
       jinrishici: false # Poetry Today. You can set a string, and it will be displayed when loading fails.
       social:
         - icon: fa-solid fa-rss
