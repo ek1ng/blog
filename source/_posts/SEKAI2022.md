@@ -1,5 +1,5 @@
 ---
-title: SEKAICTF Web Writeup
+title: SEKAICTF 2022 Web Writeup
 date: 2022-10-03 22:46:00
 updated: 2022-10-03 22:46:00
 tags: [ctf,security]
