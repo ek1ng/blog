@@ -290,3 +290,152 @@ eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImlzc3VlciI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9s
 带token请求`/api/flag` -> 通过`valid_issuer_domain`的域名校验和Token的公钥校验 -> 拿到flag
 
 ![图 6](https://s2.loli.net/2022/10/02/qfheQzRv7rjusWl.png)  
+
+## Crab Commodities
+
+赛后复现出来的，一道Rust的逻辑漏洞题。
+
+注册账号登陆后会有`$30000`，并且有贷款，增加库存，增加商店，捐款，购买Flag，睡觉和在市场里消费这样一些功能，而时间仅有7天贷款只能一次，因此正常玩是不可能买下Flag的，需要的钱太多了。
+
+![图 1](https://s2.loli.net/2022/10/04/R9ZVK4gIPCUAOyF.png)  
+
+题目是给出了源代码的，看到`api.rs`在`/upgrade`接口中，增加库存和增加商店的逻辑处理这部分。
+
+```rust
+
+#[post("/upgrade")]
+async fn upgrade(user: User, body: web::Form<ItemPayload>) -> Json<APIResult> {
+    if user.game.is_over() {
+        return web::Json(APIResult {
+            success: false,
+            message: "The game is over",
+        });
+    }
+
+    if body.quantity <= 0 || body.quantity > 32767 {
+        return web::Json(APIResult {
+            success: false,
+            message: "Invalid quantity",
+        });
+    }
+
+    // upgrades
+    if let Some(item) = crate::game::UPGRADES.iter().find(|u| u.name == body.name) {
+        let mut price = item.price;
+
+        // quantity matters for donate and storage
+        if item.name == "Donate to charity" || item.name == "Storage Upgrade" {
+            price *= body.quantity;
+        }
+
+        // upgrade checks
+        if user.game.has_upgrade("Loan") && item.name == "Loan" {
+            return web::Json(APIResult {
+                success: false,
+                message: "You can't take out another loan",
+            });
+        }
+        if user.game.has_upgrade("More Commodities") && item.name == "More Commodities" {
+            return web::Json(APIResult {
+                success: false,
+                message: "You already have access to all commodities",
+            });
+        }
+
+        if user.game.money.get() < price as i64 {
+            return web::Json(APIResult {
+                success: false,
+                message: "Not enough money",
+            });
+        }
+
+        let mut upgrades = user.game.upgrades.get();
+        upgrades.extend(vec![item].repeat(body.quantity as usize));
+        if upgrades.len() > 32767 {
+            return web::Json(APIResult {
+                success: false,
+                message: "Too many upgrades purchased",
+            });
+        }
+        user.game.upgrades.set(upgrades);
+
+        if price != 0 {
+            user.game.money.set(user.game.money.get() - price as i64);
+        }
+
+        if item.name == "Storage Upgrade" {
+            return web::Json(APIResult {
+                success: true,
+                message: "Enjoy your new storage",
+            });
+        } else if item.name == "More Commodities" {
+            let mut market = user.game.market.get();
+            market.extend(crate::game::EXTENDED_ITEMS);
+            user.game.market.set(market);
+            user.game.market.set(user.game.randomize_market());
+            return web::Json(APIResult {
+                success: true,
+                message: "Enjoy your new selection",
+            });
+        } else if item.name == "Flag" {
+            return web::Json(APIResult {
+                success: true,
+                message: "Hacker...",
+            });
+        } else if item.name == "Loan" {
+            user.game.debt.set(user.game.debt.get() - item.price as i64); // since item.price is negative for loan
+            return web::Json(APIResult {
+                success: true,
+                message: "Make sure to pay it back...",
+            });
+        } else if item.name == "Donate to charity" {
+            return web::Json(APIResult {
+                success: true,
+                message: "What a nice gesture :)",
+            });
+        } else if item.name == "Sleep" {
+            user.game.day.set(user.game.day.get() + 1);
+            user.game.market.set(user.game.randomize_market());
+
+            return web::Json(APIResult {
+                success: true,
+                message: "Have a nice rest...",
+            });
+        }
+    }
+    web::Json(APIResult {
+        success: false,
+        message: "No upgrade found with that name",
+    })
+}
+```
+
+在这一部分中
+
+```rust
+        // quantity matters for donate and storage
+        if item.name == "Donate to charity" || item.name == "Storage Upgrade" {
+            price *= body.quantity;
+        }
+```
+
+我们可以看到因为需要进行单价乘以数量等于总量的计算，因此有`price *= body.quantity`，这看起来是很合理的。
+
+```rust
+#[derive(Debug, Copy, Clone, Serialize)]
+pub struct Item {
+    pub name: &'static str,
+    pub price: i32,
+    pub volatility: f64,
+}
+```
+
+而我们再看到`game.rs`中是如何定义`price`变量，这里`price`是一个有符号的32位整数，也就是漏洞产生的原因，当`price`溢出时进行价格的计算，就会不减反加，而且贷款等功能也是通过一个负数价格来进行增加的，总之这里的设计导致了会产生漏洞，在这里传入的`body.quantity`当比较大时，计算出的`price`会溢出成一个负数，而这时候进行付款计算，我们的钱就会增加，当然我们需要恰好溢出一些使其成为一个比较大的负数，来刚好能买下flag。
+
+购买`22000`个增加库存。
+
+![图 2](https://s2.loli.net/2022/10/04/ntjwCzOGBbhf6c1.png)  
+
+![图 3](https://s2.loli.net/2022/10/04/nhKstz4aAHbYXlO.png)  
+
+`SEKAI{rust_is_pretty_s4fe_but_n0t_safe_enough!!}`
