@@ -7,9 +7,7 @@ sidebar: [blogger, lastupdate, tagcloud, webinfo]
 ---
 ## About me
 HDU 计科大三在读 
-Focus on security and web development
-Vidar-Team成员 CTFer
-校男篮成员
+Vidar-Team | Web Security Researcher | CTF enthusiast
 {% ghcard ek1ng %}
 
 ## Blog Timeline
