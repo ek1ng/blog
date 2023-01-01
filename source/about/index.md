@@ -11,7 +11,6 @@ Vidar-Team | Web Security Researcher | CTF enthusiast
 {% ghcard ek1ng %}
 
 ## Blog Timeline
-
 {% timeline %}
 
 {% timenode 2022-04-08 %}
