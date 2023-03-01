@@ -1584,11 +1584,11 @@ hexo-log@^2.0.0:
   dependencies:
     chalk "^4.0.0"
 
-hexo-log@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/hexo-log/-/hexo-log-3.0.0.tgz"
+hexo-log@^3.0.0, hexo-log@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/hexo-log/-/hexo-log-3.2.0.tgz#958c8ea681f7575afcd554f39c8e09f46461d317"
   dependencies:
-    nanocolors "^0.2.12"
+    picocolors "^1.0.0"
 
 hexo-neat@^1.0.9:
   version "1.0.9"
@@ -1674,7 +1674,20 @@ hexo-util@^0.6.3:
     html-entities "^1.2.0"
     striptags "^2.1.1"
 
-hexo-util@^2.0.0, hexo-util@^2.1.0, hexo-util@^2.5.0, hexo-util@^2.6.0, hexo-util@latest:
+hexo-util@^2.0.0, hexo-util@^2.1.0, hexo-util@^2.5.0, hexo-util@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/hexo-util/-/hexo-util-2.7.0.tgz#13d09292e79d260db35399710b3e19f3995443a3"
+  dependencies:
+    bluebird "^3.5.2"
+    camel-case "^4.0.0"
+    cross-spawn "^7.0.0"
+    deepmerge "^4.2.2"
+    highlight.js "^11.0.1"
+    htmlparser2 "^7.0.0"
+    prismjs "^1.17.1"
+    strip-indent "^3.0.0"
+
+hexo-util@latest:
   version "2.6.0"
   resolved "https://registry.npmjs.org/hexo-util/-/hexo-util-2.6.0.tgz"
   dependencies:
@@ -1723,9 +1736,9 @@ hexo@^3.0.0:
     titlecase "^1.1.2"
     warehouse "^2.2.0"
 
-hexo@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/hexo/-/hexo-6.1.0.tgz#627d44997172235f22de13e05786281753fa2fe6"
+hexo@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/hexo/-/hexo-6.3.0.tgz#10c940aaf86e2fbaf8a0db7cb79fc1fe4d6e1180"
   dependencies:
     abbrev "^1.1.1"
     archy "^1.0.0"
@@ -1734,8 +1747,8 @@ hexo@^6.1.0:
     hexo-front-matter "^3.0.0"
     hexo-fs "^3.1.0"
     hexo-i18n "^1.0.0"
-    hexo-log "^3.0.0"
-    hexo-util "^2.6.0"
+    hexo-log "^3.2.0"
+    hexo-util "^2.7.0"
     js-yaml "^4.1.0"
     js-yaml-js-types "^1.0.0"
     micromatch "^4.0.4"
@@ -1750,7 +1763,7 @@ hexo@^6.1.0:
     text-table "^0.2.0"
     tildify "^2.0.0"
     titlecase "^1.1.3"
-    warehouse "^4.0.0"
+    warehouse "^4.0.2"
 
 highlight.js@^11.0.1:
   version "11.5.1"
@@ -2159,7 +2172,7 @@ json-stringify-safe@~5.0.0, json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz"
 
-jsonparse@^1.2.0:
+jsonparse@^1.2.0, jsonparse@^1.3.1:
   version "1.3.1"
   resolved "https://registry.npmjs.org/jsonparse/-/jsonparse-1.3.1.tgz"
 
@@ -2526,10 +2539,6 @@ nan@^2.12.1:
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.16.0.tgz#664f43e45460fb98faf00edca0bb0d7b8dce7916"
 
-nanocolors@^0.2.12:
-  version "0.2.13"
-  resolved "https://registry.npmjs.org/nanocolors/-/nanocolors-0.2.13.tgz"
-
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.npmjs.org/nanomatch/-/nanomatch-1.2.13.tgz"
@@ -2839,6 +2848,14 @@ randomatic@^3.0.0:
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
+
+readable-stream@3:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.1.tgz#f9f9b5f536920253b3d26e7660e7da4ccff9bb62"
+  dependencies:
+    inherits "^2.0.3"
+    string_decoder "^1.1.1"
+    util-deprecate "^1.0.1"
 
 readable-stream@^2.0.2:
   version "2.3.7"
@@ -3330,6 +3347,12 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz"
 
+through2@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/through2/-/through2-4.0.2.tgz#a7ce3ac2a7a8b0b966c80e7c49f0484c3b239764"
+  dependencies:
+    readable-stream "3"
+
 "through@>=2.2.7 <3":
   version "2.3.8"
   resolved "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
@@ -3543,17 +3566,18 @@ warehouse@^2.2.0:
     is-plain-object "^2.0.1"
     lodash "^4.2.1"
 
-warehouse@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/warehouse/-/warehouse-4.0.1.tgz"
+warehouse@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/warehouse/-/warehouse-4.0.2.tgz#5ea59381c59e2187bcd77d25d8a628b1e1ffc53d"
   dependencies:
-    JSONStream "^1.0.7"
     bluebird "^3.2.2"
     cuid "^2.1.4"
     graceful-fs "^4.1.3"
     hexo-log "^3.0.0"
     is-plain-object "^5.0.0"
+    jsonparse "^1.3.1"
     rfdc "^1.1.4"
+    through2 "^4.0.2"
 
 wcwidth@^1.0.0:
   version "1.0.1"
