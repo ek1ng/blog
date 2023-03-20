@@ -3,7 +3,7 @@ title: 安全测试工具（AST）学习笔记
 date: 2023-03-20 20:10:00
 updated: 2023-03-20 20:10:00
 tags: security
-description:  
+description: 粗浅介绍SAST、DAST、IAST
 ---
 
 > **主要参考了土爷的博客文章以及一些搜到的其他文章进行的学习**
