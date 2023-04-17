@@ -34,50 +34,30 @@ archive: true
 简单查阅别的学习经验后，大多数人的分享都说看书再多遍也不如做lab学到的多，lab是课程的精髓，我已经粗略的学过编译原理，计算机组成原理和操作系统，所以我会比较快速的过一遍网课然后开始lab，目标3个月完成大多数的lab（也许有一些实在不感兴趣的lab会跳过）
 
 ## Timeline
-{% timeline %}
-{% timenode 2022-03-30 %}
+2022-03-30
 
 完成[Datalab](https://ek1ng.com/2022/03/30/CSAPPlab1/)
 
-{% endtimenode %}
-
-{% timenode 2022-03-28 %}
+2022-03-28
 
 完成[实验环境搭建](https://ek1ng.com/2022/03/28/CSAPPlab0/)
 
-{% endtimenode %}
-
-{% timenode 2022-03-27 %}
+2022-03-27
 
 完成lecture04 floats，主要内容是浮点数，包括IEEE754的浮点数表示方法和设计原理，浮点数的运算，舍入方法，C语言对浮点数的设计，大概这些内容，到这里信息表示与处理这一章节就学完了，接下来会开始做data lab。
 
-{% endtimenode %}
-
-{% timenode 2022-03-25 %}
+2022-03-25
 
 完成lecture03 Bits Bytes and integer，主要内容是整数运算和信息存储，包括机器字长，大小端，整数加减乘除运算与溢出等内容，感觉课堂习题的例子非常不错，对整数运算与溢出有了更深刻的了解。
 
-{% endtimenode %}
-
-{% timenode 2022-03-24 %}
+2022-03-24
 
 完成lecture02 Bits Bytes and integer，主要内容是信息存储和整数表示，包括C语言的有无符号数转化，符号位扩展，截断等
 
-{% endtimenode %}
-
-{% timenode 2022-03-19 %}
+2022-03-19
 
 完成lecture01 cource overview
 
-{% endtimenode %}
-
-{% timenode 2022-03-16 %}
+2022-03-16
 
 决定开始学习并且简单的编写README
-
-{% endtimenode %}
-
-{% endtimeline %}
-
-
-
