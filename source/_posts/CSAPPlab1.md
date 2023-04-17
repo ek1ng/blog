@@ -8,8 +8,9 @@ archive: true
 ---
 
 # CSAPP Lab1 DataLab
-{% ghcard ek1ng/CSAPPlab %}
->
+
+https://github.com/ek1ng/CSAPP
+
 >
 >参考:
 >

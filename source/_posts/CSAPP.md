@@ -9,8 +9,8 @@ archive: true
 ---
 
 # CSAPP学习过程
-这篇文章主要记录CSAPP书和lab的学习过程，具体某个lab的踩坑过程会分别附单独链接，本文主要是记录漫长的学习过程以及方便想学但是尚未开始学习的同学参考，以下是github的lab代码仓库。
-{% ghcard ek1ng/CSAPPlab %}
+这篇文章主要记录CSAPP书和lab的学习过程，具体某个lab的踩坑过程会分别附单独链接，本文主要是记录漫长的学习过程以及方便想学但是尚未开始学习的同学参考，以下是github的lab[代码仓库](https://github.com/ek1ng/CSAPP)。
+
 
 ## Todo
 - [x] Bilibili翻译课程 lecture 1-4
