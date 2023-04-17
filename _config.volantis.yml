@@ -1316,10 +1316,10 @@ custom_css:
       style: normal
     codefont:
       fontfamily: 'Menlo, UbuntuMono, Monaco'
-      name: 'Monaco'
-      url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts/Monaco/Monaco.ttf
-      weight: normal
-      style: normal
+      # name: 'Monaco'
+      # url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts/Monaco/Monaco.ttf
+      # weight: normal
+      # style: normal
 ############################### Custom css ############################### > end
 
 ############################### Analytics ############################### > start

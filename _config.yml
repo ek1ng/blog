@@ -15,7 +15,7 @@ favicon: img/default/avatar.ico
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://www.ek1ng.com
-permalink: :title.html
+permalink: /:title.html
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -98,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: volantis
+theme: Chic
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -113,8 +113,8 @@ baidusitemap:
 
 #RSS订阅
 # Extensions
-plugins:
-  hexo-generator-feed
+# plugins:
+#   hexo-generator-feed
 #Feed Atom
 feed:
   type: atom
