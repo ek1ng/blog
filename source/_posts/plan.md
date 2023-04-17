@@ -15,7 +15,7 @@ archive: false
 
 ### 近期比赛
 
-{% checkbox checked:: 虎符CTF 2022 3.19 - 3.20%}
+<!-- {% checkbox checked:: 虎符CTF 2022 3.19 - 3.20%}
 {% checkbox checked:: DASCTF Mar X SU 2022 3.26 %}
 {% checkbox checked:: picoCTF 2022 3.15 - 3.29 %}
 {% checkbox checked:: plaidCTF 2022 4.9 - 4.11 %}
@@ -24,4 +24,4 @@ archive: false
 {% checkbox checked:: ångstromCTF 2022 4.30 - 5.05 %}
 {% checkbox checked:: Mini LCTF 2022 4.30 - 5.07 %}
 {% checkbox checked:: cyber-apocalypse 2022 5.14 - 5.20 %}
-{% checkbox DASCTF x May 2022 5.21 %}
+{% checkbox DASCTF x May 2022 5.21 %} -->
