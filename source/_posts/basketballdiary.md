@@ -3,7 +3,7 @@ title: 校队集训日记
 date: 2021-08-31 22:06:00
 updated: 2021-09-30 22:06:00
 tags: Campus
-category: Campus
+# category: Campus
 ---
 
 ## 集训日记1：闲谈 2021-8-31

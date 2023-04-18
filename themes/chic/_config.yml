@@ -46,7 +46,7 @@ links:
   # Instagram:
   # Reddit:
   # YouTube:
-  QQ: NzYxMDQyMTgy
+  QQ: javascript:alert(NzYxMDQyMTgy)
   # Email：ek1ng@qq.com
   # Weibo:
   # WeChat:
@@ -66,11 +66,11 @@ post_category_enable: true
 ## Post copyright
 post_copyright_enable: true
 
-post_copyright_author_enable: true
-post_copyright_permalink_enable: true
-post_copyright_license_enable: true
+post_copyright_author_enable: false
+post_copyright_permalink_enable: false
+post_copyright_license_enable: false
 post_copyright_license_text: Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE
-post_copyright_slogan_enable: true
+post_copyright_slogan_enable: false
 post_copyright_slogan_text: Do you believe in <strong>DESTINY</strong>?
 ## toc
 post_toc_enable: true
@@ -105,3 +105,14 @@ mathjax:
   import: demand # global or demand
   ## global: all pages will load mathjax,this will degrade performance and some grammers may be parsed wrong.
   ## demand: Recommend option,if your post need fomula, you can declare 'mathjax: true' in Front-matter
+
+# 字数统计
+post_wordcount_enable: true
+post_min2read_enable: true
+
+# 访问量统计P
+visit_counter:   
+  site_uv: true # 访客数量  
+  site_pv: true # 浏览次数
+
+

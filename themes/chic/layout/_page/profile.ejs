@@ -8,7 +8,7 @@
         <div class="links">
             <% if (theme.links !== undefined) { %>
                 <% for (var key in theme.links){ %>
-                    <a class="link-item" title="<%- key %>" href="<%= theme.links[key] %>">
+                    <a class="link-item" title="<%- key %>" href="<%= theme.links[key] %>" >
                         <% if(theme.links_text_enable) { %>
                             <%= key %>
                         <%}%>

@@ -11,7 +11,7 @@
             <% if(theme.post_meta_enable){ %>
                 <div class="post-meta">
                     <% if(theme.post_author_enable && config.author){ %>
-                        Author: <a itemprop="author" rel="author" href="/"><%- config.author %></a>
+                        Author: <a itemprop="author" rel="author" href="https://github.com/ek1ng"><%- config.author %></a>
                     <% } %>
 
                     <% if(page.date && theme.post_date_enable){ %>
@@ -25,6 +25,18 @@
                             <% page.categories.forEach(item=>{ %>
                                 <a href="<%- url_for(item.path) %>"><%- item.name %></a>
                             <% }) %>
+                        </span>
+                    <% } %>
+                    <% if(theme.post_wordcount_enable){ %>
+                        <span class="post-count">
+                    Words:
+                        <a href=""><%= wordcount(page.content) %></a>  
+                        </span>
+                    <% } %>
+                    <% if(theme.post_min2read_enable){ %>
+                        <span class="post-count">
+                    Time:
+                        <a href=""><%= min2read(post.content) %>min</a>  
                         </span>
                     <% } %>
                 </div>
