@@ -4,6 +4,7 @@ date: 2022-06-01 22:49:00
 updated: 2022-06-13 22:20:00
 tags: [OS,linux]
 description: linux 0.11的源码阅读笔记(一)
+category: Computer Science
 ---
 
 最近看到这个github仓库[flash-linux0.11-talk](https://github.com/sunym1993/flash-linux0.11-talk),觉得还算是蛮有意思的，加上网络编程的课程又有抄写一段tcp协议实现代码或者交一篇linux内核源码阅读的笔记，还是比较讨厌这种低效率的抄写的所以就想写篇文章记录一下粗浅阅读源码后的大概了解，这个github仓库作者的文章我觉得写的还是不错的对于我这类小白而言，也比较有看得下去的动力。

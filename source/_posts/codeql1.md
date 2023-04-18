@@ -4,6 +4,7 @@ date: 2022-12-20 20:10:00
 updated: 2022-12-20 20:10:00
 tags: security
 description: CodeQL的环境搭建与规则编写
+category: Security
 ---
 
 > 参考文章：https://www.freebuf.com/articles/web/283795.html

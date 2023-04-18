@@ -4,6 +4,7 @@ date: 2021-10-08 15:55:00
 updated: 2021-10-08 15:55:00
 tags: [front-end,Svelte]
 description: 浅谈svelte框架
+category: Develop
 ---
 
 # 从Todolist入门Svelte框架

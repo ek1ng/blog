@@ -4,6 +4,7 @@ date: 2022-09-21 17:51:00
 updated: 2022-09-21 20:45:00
 tags: [ctf, security, sql]
 description: 一些笔记
+category: Security
 ---
 
 > 参考了Liki4学长的文章<https://vidar-team.feishu.cn/docx/doxcnlBu6zBZWkzfRcX78hv8DNS>

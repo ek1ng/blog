@@ -4,6 +4,7 @@ date: 2022-09-17 22:46:00
 updated: 2022-09-17 22:46:00
 tags: [ctf,security]
 description: 记录省赛预赛两道没做出的Web题
+category: CTF
 ---
 
 ## 买买买01

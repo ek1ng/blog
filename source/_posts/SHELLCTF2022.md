@@ -4,6 +4,7 @@ date: 2022-08-13 17:51:00
 updated: 2022-08-14 20:45:00
 tags: [ctf, security]
 description: 一场题目比较脑洞的练手赛
+category: CTF
 ---
 
 ## Choosy

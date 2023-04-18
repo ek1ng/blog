@@ -4,6 +4,7 @@ date: 2022-09-26 19:20:00
 updated: 2022-09-26 20:45:00
 tags: [ctf, security]
 description: ByteCTF2022 第9名 打的还不错的一场比赛
+category: CTF
 ---
 
 比赛时主要是做了ctf_cloud和typing_game两个题目，其中typing_game还是非预期解了，整体Web只差datamanager就AK了，不过`microservices`这道题目是学长们解出的，自己其实也没有去复现过。正好比赛结束还可以开靶机，可以抽空复现一下难题。

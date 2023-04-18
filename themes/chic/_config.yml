@@ -4,8 +4,8 @@ navname: Hidden Gems
 # navigatior items
 nav:
   Posts: /archives
-  # Categories: /category
-  # Tags: /tag
+  Categories: /category
+  Tags: /tag
   About: /about
 
 # favicon
@@ -36,7 +36,7 @@ links:
   # ZhiHu: https://www.zhihu.com/people/sirice
   # LinkedIn:
   # FaceBook:
-  Twitter:
+  Twitter: https://twitter.com/k1nge3
   # Skype:
   # CodeSandBox:
   # CodePen:

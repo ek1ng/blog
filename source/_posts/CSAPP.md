@@ -6,6 +6,7 @@ tags: [CSAPP,计算机组成原理]
 description: CMU 15-213 lab
 pin: false
 archive: true
+category: Computer Science
 ---
 
 # CSAPP学习过程

@@ -3,6 +3,7 @@ title: PlaidCTF 2022 Amongst Ourselves：Shipmate writeup
 date: 2022-04-10 14:12:00
 updated: 2022-04-10 14:14:00
 tags: [ctf,security]
+category: CTF
 description: Plaid CTF 2022 Amongst Ourselves：Shipmate writeup 题解
 ---
 

@@ -4,6 +4,7 @@ date: 2022-07-10 09:50:00
 updated: 2022-07-14 18:13:00
 tags: [ctf,security]
 description: 蓝帽杯赛后复现
+category: CTF
 ---
 最近打的一场线上比赛，感觉题目质量一般，甚至有点阴间，取证大赛hhh
 

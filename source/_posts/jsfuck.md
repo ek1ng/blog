@@ -2,8 +2,9 @@
 title: 浅谈jsfuck编码
 date: 2022-04-28 19:49:00
 updated: 2022-04-28 22:46:00
-tags: [javascript,security,ctf]
+tags: [JS,security,ctf]
 description: 基于隐式类型转换的jsfuck编码
+category: Security
 ---
 
 >参考:

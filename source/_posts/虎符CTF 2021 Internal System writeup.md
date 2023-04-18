@@ -3,7 +3,7 @@ title: HFCTF 2021 Internal System writeup
 date: 2022-03-09 22:11:00
 updated: 2022-03-09 22:11:00
 tags: [ctf,security]
-cover: https://w.wallhaven.cc/full/z8/wallhaven-z839rg.jpg
+category: CTF
 top_img: false
 ---
 # 虎符CTF 2021 Internal System writeup

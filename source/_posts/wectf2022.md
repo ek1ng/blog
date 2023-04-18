@@ -4,6 +4,7 @@ date: 2022-10-25 22:28:00
 updated: 2022-10-27 13:36:00
 tags: [ctf, security]
 description: 只有Web的CTF比赛，复盘看看题目
+category: CTF
 ---
 
 ## DinoRun

@@ -3,7 +3,8 @@ title: N1BOOK writeup
 date: 2022-04-11 14:34:00
 updated: 2022-04-16 18:48:00
 tags: [ctf,security]
-description: <<从0到1：CTFer成长之路>>配套题目 web相关题目的做题记录 
+description: <<从0到1：CTFer成长之路>>配套题目 web相关题目的做题记录
+category: CTF
 ---
 
 Nu1L Team写的\<\<[从0到1：CTFer成长之路](https://book.nu1l.com/tasks/)\>\>的题目在BUUOJ上都有了复现环境，简单看了看发现WEB的题目wp和环境都比较齐全，决定做一下并且写博客记录一下。

@@ -4,6 +4,7 @@ date: 2022-11-25 15:30:00
 updated: 2022-11-25 15:30:00
 tags: [ctf, security]
 description: 有趣的工控环境渗透
+category: Security
 ---
 
 ## Brief

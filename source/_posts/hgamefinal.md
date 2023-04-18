@@ -3,6 +3,7 @@ title: HGAME 2022 Final writeup
 date: 2022-03-12 20:10:00
 updated: 2022-03-12 20:10:00
 tags: [ctf,security]
+category: CTF
 ---
 
 # HGAME 2022 Final writeup by ek1ng

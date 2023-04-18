@@ -3,6 +3,7 @@ title: HGAME 2022 Final Pokemon v2 writeup
 date: 2022-03-16 15:58:00
 updated: 2022-03-16 15:58:00
 tags: [ctf,security]
+category: CTF
 ---
 
 # Hgame final Pokemon v2 writeup

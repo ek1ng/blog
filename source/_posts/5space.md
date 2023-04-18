@@ -3,6 +3,7 @@ title: 5space 2022 web writeup
 date: 2022-09-19 17:51:00
 updated: 2022-09-19 20:45:00
 tags: [ctf, security]
+category: CTF
 description: 记录
 ---
 

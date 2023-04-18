@@ -2,9 +2,9 @@
 title: js混淆与反混淆
 date: 2023-02-05 11:36:00
 updated: 2023-02-05 18:15:00
-tags: [ctf,security]
+tags: [JS,security]
 description: js的混淆与反混淆
-
+category: Security
 ---
 
 ### 为什么要进行混淆

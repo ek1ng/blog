@@ -3,6 +3,7 @@ title: HCTF 2018 WarmUP writeup
 date: 2022-03-7 22:47:00
 updated: 2022-03-7 22:47:00
 tags: [ctf,security]
+category: CTF
 ---
 # HCTF 2018 WarmUp writeup
 

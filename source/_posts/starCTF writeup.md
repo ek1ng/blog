@@ -4,6 +4,7 @@ date: 2022-04-19 22:28:00
 updated: 2022-04-19 22:28:00
 tags: [ctf, security]
 description: 在协会参加的第一场XCTF分站赛，0输出，复盘题目学习学习
+category: CTF
 ---
 
 # \*CTF 2022 writeup

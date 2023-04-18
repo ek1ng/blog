@@ -11,6 +11,10 @@ Vidar-Team | Web Security Researcher | CTF enthusiast
 
 ## Blog Timeline
 
+2023-04-18
+
+增加Categories和Tags，会尽快恢复评论和友链功能
+
 2023-04-17
 
 博客主题切换至Chic，简约风的主题更利用表达文章核心内容。博客主题官方不支持评论功能，因此只能暂时不设置评论。

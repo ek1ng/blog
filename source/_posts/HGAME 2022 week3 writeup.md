@@ -2,7 +2,8 @@
 title: HGAME 2022 Week3 writeup
 date: 2022-02-11 20:00:00
 updated: 2022-02-11 20:00:00
-tags: ctf
+tags: [ctf,security]
+category: CTF
 ---
 # HGAME 2022 Week3 writeup by ek1ng
 

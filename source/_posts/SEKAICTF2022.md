@@ -4,6 +4,7 @@ date: 2022-10-03 22:46:00
 updated: 2022-10-03 22:46:00
 tags: [ctf,security]
 description: 一场国外练手赛，题目质量挺高
+category: CTF
 ---
 
 ## Bottle Poem
