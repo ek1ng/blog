@@ -1,7 +1,7 @@
 ---
 title: Mysql是如何存储用户账号密码
-date: 2022-04-11 14:34:00
-updated: 2022-04-16 18:48:00
+date: 2023-05-06 14:34:00
+updated: 2023-05-06 18:48:00
 tags: [security]
 description: 介绍Mysql不同版本如何存储Mysql用户账号密码
 ---
@@ -60,7 +60,7 @@ EXPOSE 3306/tcp
 | %         | root          | mysql_native_password | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
 | localhost | root          | mysql_native_password | *94BDCEBE19083CE2A1F959FD02F964C7AF4CFC29 |
 
-mysql5.7的**系统表**使用MyIASM存储，因此主要就是要解决MyIASM的文件格式如何去解析的问题，这里呢我发现了仓库https://github.com/feix/mysqld_user_myd，这是一个用python写的用于从user.MYD文件中解获取host,name,password的脚本，这里我就稍加改动，写成了一版go的。具体的实现可以参看这个PR：https://github.com/chaitin/veinmind-tools/pull/234。
+mysql5.7的**系统表**使用MyIASM存储，因此主要就是要解决MyIASM的文件格式如何去解析的问题，这里呢我发现了仓库`https://github.com/feix/mysqld_user_myd`，这是一个用`python`写的用于从`user.MYD`文件中解获取`host`,`name`,`password`的脚本，这里我就稍加改动，写成了一版`go`的。具体的实现可以参看这个PR：`https://github.com/chaitin/veinmind-tools/pull/234`。
 
 ### mysql8
 
