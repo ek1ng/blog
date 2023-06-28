@@ -346,8 +346,6 @@ cat /proc/<pid>/cgroup
 capsh --decode=<CapEff>
 ```
 
-### 案例分享
-
 ## 防守方视角：检测攻击行为和后渗透行为
 
 ### 传统主机安全场景
