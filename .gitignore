@@ -7,3 +7,5 @@ public/
 .deploy*/
 _multiconfig.yml
 *.drawio
+source/_posts/.obsidian/
+source/tmp/

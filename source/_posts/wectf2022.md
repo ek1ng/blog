@@ -151,46 +151,46 @@ Flag is located at /flag
 
 ```golang
 type Log struct {
-	// The AccessLog instance this Log was created of.
-	Logger *AccessLog `json:"-" yaml:"-" toml:"-"`
+    // The AccessLog instance this Log was created of.
+    Logger *AccessLog `json:"-" yaml:"-" toml:"-"`
 
-	// The time the log is created.
-	Now time.Time `json:"-" yaml:"-" toml:"-"`
-	// TimeFormat selected to print the Time as string,
-	// useful on Template Formatter.
-	TimeFormat string `json:"-" yaml:"-" toml:"-"`
-	// Timestamp the Now's unix timestamp (milliseconds).
-	Timestamp int64 `json:"timestamp" csv:"timestamp"`
+    // The time the log is created.
+    Now time.Time `json:"-" yaml:"-" toml:"-"`
+    // TimeFormat selected to print the Time as string,
+    // useful on Template Formatter.
+    TimeFormat string `json:"-" yaml:"-" toml:"-"`
+    // Timestamp the Now's unix timestamp (milliseconds).
+    Timestamp int64 `json:"timestamp" csv:"timestamp"`
 
-	// Request-Response latency.
-	Latency time.Duration `json:"latency" csv:"latency"`
-	// The response status code.
-	Code int `json:"code" csv:"code"`
-	// Init request's Method and Path.
-	Method string `json:"method" csv:"method"`
-	Path   string `json:"path" csv:"path"`
-	// The Remote Address.
-	IP string `json:"ip,omitempty" csv:"ip,omitempty"`
-	// Sorted URL Query arguments.
-	Query []memstore.StringEntry `json:"query,omitempty" csv:"query,omitempty"`
-	// Dynamic path parameters.
-	PathParams memstore.Store `json:"params,omitempty" csv:"params,omitempty"`
-	// Fields any data information useful to represent this Log.
-	Fields memstore.Store `json:"fields,omitempty" csv:"fields,omitempty"`
-	// The Request and Response raw bodies.
-	// If they are escaped (e.g. JSON),
-	// A third-party software can read it through:
-	// data, _ := strconv.Unquote(log.Request)
-	// err := json.Unmarshal([]byte(data), &customStruct)
-	Request  string `json:"request,omitempty" csv:"request,omitempty"`
-	Response string `json:"response,omitempty" csv:"response,omitempty"`
-	//  The actual number of bytes received and sent on the network (headers + body or body only).
-	BytesReceived int `json:"bytes_received,omitempty" csv:"bytes_received,omitempty"`
-	BytesSent     int `json:"bytes_sent,omitempty" csv:"bytes_sent,omitempty"`
+    // Request-Response latency.
+    Latency time.Duration `json:"latency" csv:"latency"`
+    // The response status code.
+    Code int `json:"code" csv:"code"`
+    // Init request's Method and Path.
+    Method string `json:"method" csv:"method"`
+    Path   string `json:"path" csv:"path"`
+    // The Remote Address.
+    IP string `json:"ip,omitempty" csv:"ip,omitempty"`
+    // Sorted URL Query arguments.
+    Query []memstore.StringEntry `json:"query,omitempty" csv:"query,omitempty"`
+    // Dynamic path parameters.
+    PathParams memstore.Store `json:"params,omitempty" csv:"params,omitempty"`
+    // Fields any data information useful to represent this Log.
+    Fields memstore.Store `json:"fields,omitempty" csv:"fields,omitempty"`
+    // The Request and Response raw bodies.
+    // If they are escaped (e.g. JSON),
+    // A third-party software can read it through:
+    // data, _ := strconv.Unquote(log.Request)
+    // err := json.Unmarshal([]byte(data), &customStruct)
+    Request  string `json:"request,omitempty" csv:"request,omitempty"`
+    Response string `json:"response,omitempty" csv:"response,omitempty"`
+    //  The actual number of bytes received and sent on the network (headers + body or body only).
+    BytesReceived int `json:"bytes_received,omitempty" csv:"bytes_received,omitempty"`
+    BytesSent     int `json:"bytes_sent,omitempty" csv:"bytes_sent,omitempty"`
 
-	// A copy of the Request's Context when Async is true (safe to use concurrently),
-	// otherwise it's the current Context (not safe for concurrent access).
-	Ctx *context.Context `json:"-" yaml:"-" toml:"-"`
+    // A copy of the Request's Context when Async is true (safe to use concurrently),
+    // otherwise it's the current Context (not safe for concurrent access).
+    Ctx *context.Context `json:"-" yaml:"-" toml:"-"`
 }
 ```
 
@@ -212,40 +212,40 @@ type Log struct {
 // Note that compression can be registered
 // through `ctx.CompressWriter(true)` or `app.Use(iris.Compression)`.
 func (ctx *Context) ServeFile(filename string) error {
-	return ctx.ServeFileWithRate(filename, 0, 0)
+    return ctx.ServeFileWithRate(filename, 0, 0)
 }
 
 // ServeFileWithRate same as `ServeFile` but it can throttle the speed of reading
 // and though writing the file to the client.
 func (ctx *Context) ServeFileWithRate(filename string, limit float64, burst int) error {
-	f, err := os.Open(filename)
-	if err != nil {
-		ctx.StatusCode(http.StatusNotFound)
-		return err
-	}
-	defer f.Close()
+    f, err := os.Open(filename)
+    if err != nil {
+        ctx.StatusCode(http.StatusNotFound)
+        return err
+    }
+    defer f.Close()
 
-	st, err := f.Stat()
-	if err != nil {
-		code := http.StatusInternalServerError
-		if os.IsNotExist(err) {
-			code = http.StatusNotFound
-		}
+    st, err := f.Stat()
+    if err != nil {
+        code := http.StatusInternalServerError
+        if os.IsNotExist(err) {
+            code = http.StatusNotFound
+        }
 
-		if os.IsPermission(err) {
-			code = http.StatusForbidden
-		}
+        if os.IsPermission(err) {
+            code = http.StatusForbidden
+        }
 
-		ctx.StatusCode(code)
-		return err
-	}
+        ctx.StatusCode(code)
+        return err
+    }
 
-	if st.IsDir() {
-		return ctx.ServeFile(path.Join(filename, "index.html"))
-	}
+    if st.IsDir() {
+        return ctx.ServeFile(path.Join(filename, "index.html"))
+    }
 
-	ctx.ServeContentWithRate(f, st.Name(), st.ModTime(), limit, burst)
-	return nil
+    ctx.ServeContentWithRate(f, st.Name(), st.ModTime(), limit, burst)
+    return nil
 }
 ```
 

@@ -8,11 +8,11 @@ category: Security
 ---
 
 > 作者仅是云原生安全相关和opa相关生态的初学者，在此分享一些学习笔记和经验总结，以下是参考文章：
->
+> 
 > http://blog.newbmiao.com/2020/03/13/opa-quick-start.html
->
+> 
 > https://github.com/NewbMiao/opa-koans
->
+> 
 > https://moelove.info/2021/12/06/Open-Policy-Agent-OPA-%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5/
 
 ## Rego和OPA
@@ -36,7 +36,7 @@ Rego 是一种声明式、功能强大的策略语言，由 Open Policy Agent（
 ### 语法
 
 > 也许您只是想浏览一下文章大意，那么可以略过语法这一部分。
->
+> 
 > 如果想尝试一下，可以使用在线[运行网站](https://play.openpolicyagent.org/p/ZXkIlAEPCY)或者安装opa的命令行工具又或者是vsc，jetbrains的opa插件。
 
 有几个比较抽象的概念，这里简单介绍一下，但是还是建议看[官方文档](https://www.openpolicyagent.org/docs/latest/policy-language/)，学语法二手资料实在看起来折磨...
@@ -88,15 +88,15 @@ v if "hello" == "world" //表达式为真则v为真
 
 ```
 is_config_file(str) {
-	contains(str, ".yaml")
+    contains(str, ".yaml")
 }
 
 is_config_file(str) {
-	contains(str, ".yml")
+    contains(str, ".yml")
 }
 
 is_config_file(str) [
-	contains(str, ".json")
+    contains(str, ".json")
 ]
 ```
 
@@ -135,20 +135,20 @@ package builtin.dockerfile.DS005
 import data.lib.docker
 
 get_add[output] {
-	add := docker.add[_]
-	args := concat(" ", add.Value)
+    add := docker.add[_]
+    args := concat(" ", add.Value)
 
-	not contains(args, ".tar")
-	output := {
-		"args": args,
-		"cmd": add,
-	}
+    not contains(args, ".tar")
+    output := {
+        "args": args,
+        "cmd": add,
+    }
 }
 
 deny[res] {
-	output := get_add[_]
-	msg := sprintf("Consider using 'COPY %s' command instead of 'ADD %s'", [output.args, output.args])
-	res := result.new(msg, output.cmd)
+    output := get_add[_]
+    msg := sprintf("Consider using 'COPY %s' command instead of 'ADD %s'", [output.args, output.args])
+    res := result.new(msg, output.cmd)
 }
 ```
 
@@ -158,8 +158,8 @@ https://github.com/aquasecurity/defsec/blob/master/rules/docker/lib/docker.rego
 
 ```
 add[instruction] {
-	instruction := input.Stages[_].Commands[_]
-	instruction.Cmd == "add"
+    instruction := input.Stages[_].Commands[_]
+    instruction.Cmd == "add"
 }
 ```
 
@@ -168,4 +168,3 @@ add[instruction] {
 `get_add`函数做的就是获取`Dockerfile`中`ADD`命令所对应的内容，检测是否包含`.tar`。
 
 `deny`函数做的是调用`get_add`，如果有对应的`output`，那么就会触发`deny`，往`result`中添加结果。
-
