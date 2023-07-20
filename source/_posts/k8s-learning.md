@@ -1,5 +1,5 @@
 ---
-title: Kubernetes 入门学习
+title: Kubernetes 入门学习笔记
 date: 2023-04-25 11:36:00
 updated: 2023-04-26 18:15:00
 tags: [Cloud Security]
