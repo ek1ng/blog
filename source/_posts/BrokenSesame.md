@@ -1,5 +1,5 @@
 ---
-title: 阿里云 BrokenSesame RCE漏洞分析
+title: 阿里云 BrokenSesame RCE 漏洞分析
 date: 2023-05-12 20:10:00
 updated: 2023-05-12 20:10:00
 tags: security
@@ -7,7 +7,8 @@ description: 涉及一系列云原生安全相关漏洞利用方法，非常有�
 category: Security
 ---
 
-> 学习了Wiz团队发表的文章 https://www.wiz.io/blog/brokensesame-accidental-write-permissions-to-private-registry-allowed-potential-r，有很多巧妙的利用方法可以学习
+> Wiz团队发表的漏洞分析文章 : https://www.wiz.io/blog/brokensesame-accidental-write-permissions-to-private-registry-allowed-potential-r
+> 有很多巧妙的利用思路可以学习
 
 Wiz Research在文章中披露了被命名为BrokenSesame的一系列阿里云数据库服务漏洞，会导致未授权访问阿里云客户的PostgreSQL数据库，并且可以通过在阿里巴巴的数据库服务上执行供应链攻击，从而完成RCE。
 

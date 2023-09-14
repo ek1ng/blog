@@ -1,5 +1,5 @@
 ---
-title: 渗透基本思路总结
+title: 渗透测试思路总结
 date: 2023-08-29 22:28:00
 updated: 2023-08-29 22:28:00
 tags: [pentest, security]
