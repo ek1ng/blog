@@ -1,5 +1,5 @@
 ---
-title: Markdown Editor CVE  - Marktext
+title: Markdown editor CVE of Marktext
 date: 2023-09-13 09:50:00
 updated: 2023-09-13 18:13:00
 tags: [security]

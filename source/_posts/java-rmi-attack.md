@@ -1,7 +1,7 @@
 ---
 title: Java RMI 攻击梳理总结
-date: 2023-07-26 20:48:00
-updated: 2023-07-27 17:56:00
+date: 2023-04-26 20:48:00
+updated: 2023-04-27 17:56:00
 tags: ["security","java security"]
 category: Security
 ---
@@ -235,7 +235,7 @@ new RMIClient().lookup();
 
  
  > 参考文章：
- > 《Java安全漫谈》
+ > Java安全漫谈
  > https://su18.org/post/rmi-attack/
  > https://paper.seebug.org/1091/#jndi_1
  > http://wjlshare.com/archives/1522
