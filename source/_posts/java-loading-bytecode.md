@@ -1,5 +1,5 @@
 ---
-title: Java 动态加载字节码
+title: Java 动态加载字节码机制
 date: 2023-06-15 20:48:00
 updated: 2023-06-18 20:10:00
 tags: ["security","java security"]
