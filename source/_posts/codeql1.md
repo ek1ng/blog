@@ -1,7 +1,7 @@
 ---
 title: CodeQL学习笔记（一）
-date: 2022-12-20 20:10:00
-updated: 2022-12-20 20:10:00
+date: 2023-03-20 20:10:00
+updated: 2023-03-20 20:10:00
 tags: security
 description: CodeQL的环境搭建与规则编写
 category: Security
