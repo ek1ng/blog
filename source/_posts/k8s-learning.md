@@ -4,7 +4,7 @@ date: 2023-04-25 11:36:00
 updated: 2023-04-26 18:15:00
 tags: [Cloud Security]
 description: k8s的一些学习笔记
-category: Operations
+category: Cloud
 ---
 
 仅为学习笔记，建议参考如下文档

@@ -3,7 +3,7 @@ title: 云原生安全入门分享
 date: 2023-06-28 19:20:00
 updated: 2023-06-28 20:45:00
 tags: ["Cloud Security"]
-category: Security
+category: Cloud
 ---
 
 > 这是一篇用于给协会小学弟们分享的文章，粗略从各个角度讲了一讲，有任何问题都欢迎联系我交流，email：ek1ng@qq.com。

@@ -4,7 +4,7 @@ date: 2023-05-12 20:10:00
 updated: 2023-05-12 20:10:00
 tags: security
 description: 涉及一系列云原生安全相关漏洞利用方法，非常有意思
-category: Security
+category: Cloud
 ---
 
 > Wiz团队发表的漏洞分析文章 : https://www.wiz.io/blog/brokensesame-accidental-write-permissions-to-private-registry-allowed-potential-r

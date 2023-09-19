@@ -4,7 +4,7 @@ date: 2023-04-19 11:36:00
 updated: 2023-04-19 18:15:00
 tags: ["Cloud Security"]
 description: 主要学习了Trivy是如何使用Rego做iac配置检测的
-category: Security
+category: Cloud
 ---
 
 > 作者仅是云原生安全相关和opa相关生态的初学者，在此分享一些学习笔记和经验总结，以下是参考文章：
