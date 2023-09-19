@@ -3,7 +3,7 @@ title: Markdown editor CVE of Marktext
 date: 2023-09-13 09:50:00
 updated: 2023-09-13 18:13:00
 tags: [security]
-category: security
+category: Security
 ---
 
 #### 无CVE编号 XSS2RCE

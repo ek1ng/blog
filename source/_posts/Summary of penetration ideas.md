@@ -3,7 +3,7 @@ title: 渗透测试思路总结
 date: 2023-08-29 22:28:00
 updated: 2023-08-29 22:28:00
 tags: [pentest, security]
-category: security
+category: Security
 ---
 > 最近做了一阵子攻防相关的事，正好最近国护结束，做个总结，简单写一下渗透的基本思路（Check List）。
 > 
