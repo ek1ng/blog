@@ -1,7 +1,7 @@
 ---
 title: SAST工具入门（一）—— Codeql环境搭建与基础语法
-date: 2023-03-20 20:10:00
-updated: 2023-03-20 20:10:00
+date: 2023-03-21 20:10:00
+updated: 2023-03-21 20:10:00
 tags: ["security","sast"]
 description: CodeQL的环境搭建与规则编写
 category: Security
