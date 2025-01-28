@@ -133,7 +133,7 @@ category: Life
 
 ![image-20250129005441582](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129005441582.png)
 
-一起散步![image-20250128220159655](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220159655.png)
+一起散步🚶![image-20250128220159655](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220159655.png)
 
 一起喝酒🍺
 
