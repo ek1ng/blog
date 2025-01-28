@@ -45,7 +45,7 @@ category: Life
 
 ![image-20250128214944880](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128214944880.png)
 
-![image-20250128213954451](/home/ek1ng/.config/Typora/typora-user-images/image-20250128215045927.png)
+![image-20250128213954451](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128215045927.png)
 
 ### 毕业旅行
 
