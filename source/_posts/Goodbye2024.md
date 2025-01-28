@@ -197,11 +197,9 @@ category: Life
 
 ![image-20250128233734625](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128233734625.png)
 
-工作之余也不要忘记记录生活中的美好
-
 ![image-20250128231738050](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128231738050.png)
 
-代表字节SRC对外做了一次议题分享
+第一次演讲议题，代表ByteSRC对外做了议题分享《抖音电商的漏洞发现和治理实践》。
 
 ![image-20250128232550265](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232550265.png)
 
@@ -209,27 +207,21 @@ category: Life
 
 ![image-20250128232146878](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232146878.png)
 
-专门请了一天假去上海听了GeekCon，不得不说有一些议题很酷，比如说通过天线可以近距离劫持手机短信，还有如何在Spring上利用tomcat 请求走私那个洞等等，还是印象很深刻的。当然还是有一些不太听得懂的，比如说全程英语的Android漏洞挖掘，完全天书😴
+专门请了一天假去上海听了GeekCon，不得不说有些议题很酷，比如通过天线可以近距离劫持手机短信，还有如何在Spring上利用tomcat 请求走私那个洞等等，还是印象很深刻的。当然还是有一些不太听得懂的，比如说全程英语的Android漏洞挖掘，完全天书😴
 
 ![image-20250128232220308](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232220308.png)
 
 正式入职后大部分的精力都放在正式工作中，产出了不少很有意思的漏洞，不过可惜做的是对内的漏洞挖掘，因此除了代表部门对外讲一些议题，其他时候就很难具体的分享挖到的漏洞了，因此也可以看到这一年，我就没有在博客写一些漏洞挖掘的经历。
 
-当然虽然成为社畜，但还是要好好生活，放假了会抽空和朋友一起出去玩，在下半年去了柳州、沈阳、南昌这三个城市，吃吃喝喝，算是不错的体验。
+当然虽然成为社畜，但还是要认真生活，放假了会抽空和朋友一起出去玩，在下半年去了柳州、沈阳、南昌这三个城市，吃吃喝喝，算是不错的体验。
 
-和朋友一起外出露营
+外出露营
 
 ![image-20250128232119453](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232119453.png)
 
-柳州螺蛳粉
-
 ![image-20250128232109379](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232109379.png)
 
-南昌拌粉
-
 ![image-20250128232155772](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232155772.png)
-
-东北菜
 
 ![image-20250128235108747](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128235108747.png)
 
@@ -237,4 +229,11 @@ category: Life
 
 ![image-20250128232206353](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128232206353.png)
 
-24年是幸运且美好的一年，新的一年希望自己能够继续保持对技术的热情，想尝试入门Rust和Solidity，以及更深入的分析和挖一些有趣的漏洞，和女朋友的感情长长久久，同时自己要注意身体健康！
+我想今年，我不仅捡起了曾今对技术的那份热爱，还拥有了一个我喜欢也喜欢我的女朋友，是幸运且美好的一年。
+
+**新的一年想做的事**
+
+- [ ] 入门Rust和Solidity
+- [ ] 多挖一些有意思的洞
+- [ ] 和女友感情长长久久
+- [ ] 保持身体健康
