@@ -173,6 +173,8 @@ category: Life
 
 还是和以往入职一样，在余杭租房，入职，并且全心全意的投入到工作中。
 
+![image-20250129004059316](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129004059316.png)
+
 ![image-20250128233734625](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128233734625.png)
 
 工作之余也不要忘记记录生活中的美好
