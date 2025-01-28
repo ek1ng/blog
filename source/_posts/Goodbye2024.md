@@ -99,29 +99,49 @@ category: Life
 
 恰好在这校园生活的尾声，我认识了我的女朋友，她很温柔，很懂事，很可爱。这一年我们一起体验了很多有趣的事情，认识她是一件真的很幸运的事。
 
-一起去图书馆
+一起去图书馆📚
 
 ![photo_2025-01-28_23-03-57](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/photo_2025-01-28_23-03-57.jpg)
 
-一起自习
+陪她画画🎨
 
 ![image-20250128225819102](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128225819102.png)
+
+![image-20250129010153849](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129010153849.png)
 
 手工店的猫咪🐱
 
 ![image-20250128220127594](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220127594.png)
 
-一起散步![image-20250128220159655](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220159655.png)
+一起吃传媒门口的鸡公煲🍚![image-20250128220147848](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220147848.png)
 
-一起吃传媒门口的鸡公煲![image-20250128220147848](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220147848.png)
-
-一起在月雅湖比心
+一起在月雅湖比心♥️
 
 ![image-20250128230505094](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128230505094.png)
 
-一起去月老庙
+一起去月老庙👴
 
 ![image-20250128231220279](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128231220279.png)
+
+一起吃夜宵🥘![image-20250129010110517](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129010110517.png)
+
+一起用线条小狗挂件🐶
+
+![image-20250129010117623](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129010117623.png)
+
+一起骑车🚴
+
+![image-20250129005441582](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129005441582.png)
+
+一起散步![image-20250128220159655](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250128220159655.png)
+
+一起喝酒🍺
+
+![image-20250129004627608](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129004627608.png)
+
+一起看日落🌇
+
+![image-20250129005319401](https://ek1ng-typora.oss-cn-hangzhou.aliyuncs.com/img/image-20250129005319401.png)
 
 一起看海🌊
 
